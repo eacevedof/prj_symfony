@@ -1,0 +1,19 @@
+{
+    "name": "Theframework Console",
+    "description": "Shell symfony scripts for routine operations",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Eduardo A. F"
+        }
+    ],
+    "require": {
+        "symfony/console": "^4.1"
+    },
+    "autoload":{
+        "psr-4":{
+            "App\\Command\\":"./src/Command"
+        }
+    }
+}
