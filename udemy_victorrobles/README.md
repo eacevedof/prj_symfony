@@ -40,6 +40,7 @@ return $this->render('home/index.html.twig', [
 {% endblock %}
 ```
 - Las rutas las trabajeremos en **symsite\config\routes.yaml**
+
 ### [414. Rutas y acciones 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11988578#questions)
 - Vamos a: `symsite\config\routes.yaml`
 ```yaml
@@ -64,9 +65,27 @@ public function animales()
     <h1>{{ title }}!</h1>
 </div>
 ```
+
 ### [415. Parámetros opcionales 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11988588#questions)
--
+- Parametros opcionales en ruta con valor por defecto
+```yml
+animales:
+  path: /animales/{nombre}
+  controller: App\Controller\HomeController::animales
+  defaults: {nombre: "Sin Nombre"}
+```
 ```php
+public function animales($nombre)
+{
+    $vars = [
+        "title"=>"Bienvenido a la página de animáles",
+        "nombre"=>$nombre
+```
+```tpl
+<div class="example-wrapper">
+    <h1>{{ title }}</h1>
+    <h2>Tu nombre es: {{ nombre }}</h2>
+</div>
 ```
 ### [416. Rutas avanzadas 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11990012#questions)
 -
