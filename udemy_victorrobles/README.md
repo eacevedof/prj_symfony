@@ -269,7 +269,8 @@ $aves = [
     </ul>
   {% endif %}
   
-  {% for i in 0..10 %}
+  //{% for i in 0..10 %} 
+  {% for i in 0..animales|length %}
     {{i}}<br/>
   {% endfor %}
 
