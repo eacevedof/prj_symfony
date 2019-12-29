@@ -40,19 +40,19 @@ return $this->render('home/index.html.twig', [
 {% endblock %}
 ```
 - Las rutas las trabajeremos en routes.yml 
-### [414. Rutas y acciones 5 min]()
+### [414. Rutas y acciones 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11988578#questions)
 -
 ```php
 ```
-### [415. Parámetros opcionales 4 min]()
+### [415. Parámetros opcionales 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11988588#questions)
 -
 ```php
 ```
-### [416. Rutas avanzadas 5 min]()
+### [416. Rutas avanzadas 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11990012#questions)
 -
 ```php
 ```
-### [417. Redirecciones]()
+### [417. Redirecciones](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11990082#questions)
 -
 ```php
 ```
