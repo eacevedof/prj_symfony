@@ -348,7 +348,56 @@ $aves = [
 {{ email }}
 ```
 ### [427. Crear extensiones 10 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12052868#questions)
+- Usamos **bin/console** para crear una extensión de Twig
+- `php bin/console make:twig-extension Mifiltro`
 ```php
+//Twig/MifiltroExtension.php
+namespace App\Twig;
+
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
+
+class MifiltroExtension extends AbstractExtension
+{
+  public function getFilters(): array
+  {
+    return [
+      // If your filter generates SAFE HTML, you should add a third
+      // parameter: ['is_safe' => ['html']]
+      // Reference: https://twig.symfony.com/doc/2.x/advanced.html#automatic-escaping
+      new TwigFilter('multiplicar', [$this, 'multiplicar']),
+    ];
+  }
+
+  public function getFunctions(): array
+  {
+    return [
+      new TwigFunction('multiplicar', [$this, 'multiplicar']),
+    ];
+  }
+
+  public function multiplicar($numero)
+  {
+    $tabla = "<h1>Tabla del $numero</h1>";
+    for($i=0; $i<=10; $i++){
+      $tabla .= "$i x $numero = ".($i * $numero)."<br/>";
+    }
+    return $tabla;
+  }
+
+}//MifiltroExtension
+
+//services.yaml
+App\Twig\:
+    resource: '../src/Twig'
+    tags: ['twig.extension']
+
+//funciones.twig
+<h1>Extensiones Personalizadas</h1>
+{{ multiplicar(2)|raw }}  //imprime la tabla del 2 (funcion)
+
+{{ 12|multiplicar|raw}}   //imprime la tabla del 12 (filtro)
 ```
 ### [428. Listar rutas 2 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12052870#questions)
 ```php
