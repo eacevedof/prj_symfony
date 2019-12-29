@@ -87,9 +87,36 @@ public function animales($nombre)
     <h2>Tu nombre es: {{ nombre }}</h2>
 </div>
 ```
+
 ### [416. Rutas avanzadas 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11990012#questions)
 -
+```yml
+animales:
+  path: /animales/{nombre}/{apellidos}
+  controller: App\Controller\HomeController::animales
+  defaults: {nombre: "Sin Nombre", apellidos: "Sin apellidos"}
+  methods: [POST,GET]
+  requirements:
+    nombre: "[A-Z,a-z]+"  # solo letras
+    apellidos: "[0-9]+"   # solo numeros
+```
 ```php
+  public function animales($nombre,$apellidos)
+    {
+        $vars = [
+            "title"=>"Bienvenido a la página de animáles",
+            "nombre"=>$nombre,
+            "apellidos"=>$apellidos
+        ];
+        return $this->render('home/animales.html.twig',$vars);
+    }
+```
+```tpl
+<div class="example-wrapper">
+    <h1>{{ title }}</h1>
+    <h2>Tu nombre es: {{ nombre }}</h2>
+    <h2>Tus apellidos: {{ apellidos }}</h2>
+</div>
 ```
 ### [417. Redirecciones](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11990082#questions)
 -
