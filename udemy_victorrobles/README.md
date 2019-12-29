@@ -39,10 +39,30 @@ return $this->render('home/index.html.twig', [
 </div>
 {% endblock %}
 ```
-- Las rutas las trabajeremos en routes.yml 
+- Las rutas las trabajeremos en **symsite\config\routes.yaml**
 ### [414. Rutas y acciones 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11988578#questions)
--
+- Vamos a: `symsite\config\routes.yaml`
+```yaml
+index:
+  path: /
+  controller: App\Controller\HomeController::index
+animales:
+  path: /animales
+  controller: App\Controller\HomeController::animales
+```
 ```php
+public function animales()
+{
+    $vars = [
+        "title"=>"Bienvenido a la página de animáles"
+    ];
+    return $this->render('home/animales.html.twig',$vars);
+}
+```
+```tpl
+<div class="example-wrapper">
+    <h1>{{ title }}!</h1>
+</div>
 ```
 ### [415. Parámetros opcionales 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11988588#questions)
 -
