@@ -332,7 +332,20 @@ $aves = [
 {% endblock %}
 ```
 ### [426. Filtros por defecto 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12047380#questions)
+- Son tuberias que nos permiten modificar una variable
+- Aplicar filtros en cadena
+- Concatenar filtros con tuberia
+- Multiples filtros para limpiar texto, trim, upper, lower
 ```php
+//funciones.twig
+<h1>Filtros</h1>
+{{ animales|length }}
+
+{% set email = "  email@email.com    " %}
+
+{{ dump(email|trim|upper|lower) }}
+
+{{ email }}
 ```
 ### [427. Crear extensiones 10 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12052868#questions)
 ```php
