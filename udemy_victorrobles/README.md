@@ -15,3 +15,4 @@
 	Next: Open your new controller class and add some pages!
 	```
 	- ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/705x280/4e4cd19fa9028a448184abfe031037b7/image.png)
+- Twig es más estricto que Blade no deja usar sintaxis de php
