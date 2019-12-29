@@ -153,8 +153,60 @@ public function redirigir()
 - Veremos estructuras de control dentro de Twig
 
 ### [419. Plantillas y bloques 11 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11990134#questions)
+- creamos una nueva carpeta dentro de templates (symsite\templates) llamada **layouts**
 ```php
+<!--master.html.twig-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title> {% block blktitulo %} Inicio {% endblock %} - Master en PHP de VR</title>
+  </head>
+  <body>
+    <div id="header">
+      {% block blkcabecera %}
+        <h1>Cabecera de la plantilla</h1>
+      {% endblock %}
+    </div>
+    <section id="content">
+      {% block blkcontenido %}
+        <p>Contenido por defcto</p>
+      {% endblock %}
+    </section>
+    <footer>
+      eduardoaf.com
+    </footer>
+  </body>
+</html>
+
+<!--animales.html.twig -->
+{% extends "layouts/master.html.twig" %}
+
+//remplaza el titulo
+{% block blktitulo %} Animales {% endblock %}
+
+//remplaza cabecera
+{% block blkcabecera %}
+  {{parent()}} //hereda y agrega a lo que ya tiene el padre
+  <h1>Animales</h1>
+{% endblock %}
+
+//remplaza contenido
+{% block blkcontenido %}
+  <div class="example-wrapper">
+    <h1>{{ title }}</h1>
+    <h2>Tu nombre es: {{ nombre }}</h2>
+    <h2>Tus apellidos: {{ apellidos }}</h2>
+  </div>
+{% endblock %}
 ```
+- Los bloques son trozos dinámicos de contenido que pueden ir cambiando si la "tpl" del controlador lo rescribe
+```s
+A template that extends another one cannot include content outside Twig blocks.
+Did you forget to put the content inside a {% block %} tag?
+```
+- El error pasa porque he definido bloques en el el master layout que no estoy rescribiendo en animales
+
 ### [420. Comentarios y variables 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11990184#questions)
 ```php
 ```
