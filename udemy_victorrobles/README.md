@@ -208,7 +208,22 @@ Did you forget to put the content inside a {% block %} tag?
 - El error pasa porque he definido bloques en el el master layout que no estoy rescribiendo en animales
 
 ### [420. Comentarios y variables 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11990184#questions)
+- comentarios: {##}
+- definir variables: `{% set <mivariable> = <valor> %}`
 ```php
+{% block blkcontenido %}
+  {# 
+  <!--animales.html.twig blkcontenido-->
+  <div class="example-wrapper">
+    <h1>{{ title }}</h1>
+    <h2>Tu nombre es: {{ nombre }}</h2>
+    <h2>Tus apellidos: {{ apellidos }}</h2>
+  </div> 
+  #}
+  {# crear variable #}
+  {% set perro = "pastor aleman" %}
+  <h4>{{ perro }}</h4>
+{% endblock %}
 ```
 ### [421. Definir y mostrar arrays 6 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11990190#questions)
 ```php
