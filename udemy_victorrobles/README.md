@@ -289,7 +289,21 @@ $aves = [
 {% endif %}
 ```
 ### [424. Funciones predefinidas Twig 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12041194#questions)
+- [twig.symfony.com/doc/3.x](https://twig.symfony.com/doc/3.x/)
+- obtener el minimo
+- obtener el maximo
+- item aleatorio
+- rango de n en n, rango con saltos, imprimir con saltos entre numeros
 ```php
+<h1>Funciones</h1>
+{# funciones predefinidas #}
+{{ min([9,11,6,99,2]) }}
+{{ max([9,11,6,99,2]) }}
+{{ random(animales) }}
+
+{% for i in range(0,100,5) %}
+  {{i}} <br/>
+{% endfor %}
 ```
 ### [425. Includes 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12047378#questions)
 ```php
