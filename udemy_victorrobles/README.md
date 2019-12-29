@@ -89,7 +89,8 @@ public function animales($nombre)
 ```
 
 ### [416. Rutas avanzadas 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11990012#questions)
--
+- Aplicando expresiones regulares a las rutas
+- Definiendo metodos http 
 ```yml
 animales:
   path: /animales/{nombre}/{apellidos}
@@ -101,15 +102,15 @@ animales:
     apellidos: "[0-9]+"   # solo numeros
 ```
 ```php
-  public function animales($nombre,$apellidos)
-    {
-        $vars = [
-            "title"=>"Bienvenido a la página de animáles",
-            "nombre"=>$nombre,
-            "apellidos"=>$apellidos
-        ];
-        return $this->render('home/animales.html.twig',$vars);
-    }
+public function animales($nombre,$apellidos)
+{
+  $vars = [
+      "title"=>"Bienvenido a la página de animáles",
+      "nombre"=>$nombre,
+      "apellidos"=>$apellidos
+  ];
+  return $this->render('home/animales.html.twig',$vars);
+}
 ```
 ```tpl
 <div class="example-wrapper">
@@ -119,6 +120,28 @@ animales:
 </div>
 ```
 ### [417. Redirecciones](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11990082#questions)
--
+- Varios tipos de redirecciones
+- Se puede hacer una redirección con paso de variables
+```yml
+...
+  requirements:
+    nombre: "[A-Z,a-z ]+"     # se puede incluir un espacio
+    apellidos: "[A-Z,a-z ]+"  # lo interpreta como un caracter más
+redirigir:
+  path: /redirigir
+  controller: App\Controller\HomeController::redirigir    
+```
 ```php
+public function redirigir()
+{
+  return $this->redirectToRoute("index");
+
+  //esto para seo puede ser conveniente para evitar su indexación
+  return $this->redirectToRoute("index",[],301);
+
+  //cuidado con la cache
+  return $this->redirectToRoute("animales",["nombre"=>"Juan Pedro","apellidos"=>"Lopez"]);
+
+  return $this->redirect("http://eduardoaf.com");
+}
 ```
