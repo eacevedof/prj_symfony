@@ -423,3 +423,26 @@ index                      ANY        ANY      ANY    /inicio
 animales                   POST|GET   ANY      ANY    /animales/{nombre}/{apellidos}
 redirigir                  ANY        ANY      ANY    /redirigir
 -------------------------- ---------- -------- ------ -----------------------------------
+```
+
+## Sección 98: Bases de datos y Doctrine 1 / 18|1 h 27 min
+
+### [429. Conexión a la base de datos en Symfony 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12052872#questions)
+### [430. Generar entidades desde la base de datos 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12063202#questions)
+### [431. Generar entidades con Symfony 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12063204#questions)
+### [432. Generar tablas desde entidades 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12063206#questions)
+### [433. Hacer cambios en entidades 7 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12080892#questions)
+### [434. Guardar en la base de datos 10 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12083792#questions)
+### [435. Comando SQL 1 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12083794#questions)
+### [436. Find 6 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12084102#questions)
+### [437. Find all 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12086624#questions)
+### [438. Tipos de Find 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12086630#questions)
+### [439. Conseguir objeto automático 1 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12086638#questions)
+### [440. Actualizar registros 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12086644#questions)
+### [441. Borrar elementos de la base de datos 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12086650#questions)
+### [442. Query Builder 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12088422#questions)
+### [443. DQL 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12088424#questions)
+### [444. SQL en Symfony 4 y Symfony 5 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12088426#questions)
+### [445. Crear repositorios 7 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12088428#questions)
+### [446. Métodos en repositorios](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12088432#questions)
+
