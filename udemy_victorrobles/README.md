@@ -306,7 +306,30 @@ $aves = [
 {% endfor %}
 ```
 ### [425. Includes 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12047378#questions)
+- Supongamos que deseamos separar todo lo que hay en animales.html.twig
+- Sirve para incluir archivos e incluso pasarle valores
 ```php
+//fichero: partials/funciones.twig
+<h1>Funciones</h1>
+<h3> del include: {{nombre}}</h3>
+{# funciones predefinidas #}
+{{ min([9,11,6,99,2]) }}
+{{ max([9,11,6,99,2]) }}
+{{ random(animales) }}
+
+{% for i in range(0,100,5) %}
+  {{i}} <br/>
+{% endfor %}
+
+//fichero: animales.html.twig
+  {% if aves.color ends with "su" %}
+    <h1>Termina en su</h1>
+  {% endif %}
+
+  <hr/>
+  //aqui se hace el include pasando a funciones.twig el nombre
+  {{ include("partials/funciones.twig", {"nombre":"Eduardo A.F."}) }}
+{% endblock %}
 ```
 ### [426. Filtros por defecto 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12047380#questions)
 ```php
