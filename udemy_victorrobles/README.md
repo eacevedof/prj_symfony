@@ -230,6 +230,15 @@ Did you forget to put the content inside a {% block %} tag?
 - depuracion de variables 
 - impresion de arrays por indice
 ```php
+$animales = ["perro","gato","paloma","rata"];
+$aves = [
+    "tipo" => "palomo",
+    "color" => "gris",
+    "edad" => 4,
+    "raza" => "colillano"
+];
+```
+```php
 {# trabjar con arrays #}
   
 {{ dump(animales) }}
