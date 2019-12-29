@@ -230,13 +230,13 @@ Did you forget to put the content inside a {% block %} tag?
 - depuracion de variables 
 - impresion de arrays por indice
 ```php
-  {# trabjar con arrays #}
-   
-  {{ dump(animales) }}
+{# trabjar con arrays #}
+  
+{{ dump(animales) }}
 
-  {{ animales[0] }}
+{{ animales[0] }}
 
-  {{ aves.tipo ~ " - " ~ aves.raza}}
+{{ aves.tipo ~ " - " ~ aves.raza}}
 ```
 ### [422. Estructuras de control en Twig 6 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11990200#questions)
 ```php
