@@ -140,6 +140,7 @@ public function redirigir()
   return $this->redirectToRoute("index",[],301);
 
   //cuidado con la cache
+  //va a: http://localhost:1000/animales/Juan%20Pedro/Lopez
   return $this->redirectToRoute("animales",["nombre"=>"Juan Pedro","apellidos"=>"Lopez"]);
 
   return $this->redirect("http://eduardoaf.com");
