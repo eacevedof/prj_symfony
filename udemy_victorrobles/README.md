@@ -248,8 +248,32 @@ $aves = [
 {{ aves.tipo ~ " - " ~ aves.raza}}
 ```
 ### [422. Estructuras de control en Twig 6 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11990200#questions)
+- bucles
+- filtros
+- condicionales
+- longitud
 ```php
+ {# condicional #}
+  {% if aves.tipo == "palomo" %}
+    <h1>Cuidado un palomo volador</h1>
+  {% else %}
+    <h2>No hay palomos a la vista</h2>
+  {% endif %}
+  
+  {# bucle con filtro #}
+  {% if animales|length >= 0  %}
+    <ul>
+      {% for animal in animales %}
+        <li>{{animal}}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  
+  {% for i in 0..10 %}
+    {{i}}<br/>
+  {% endfor %}
 
+{% endblock %}
 ```
 ### [423. Starts Ends 2 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11990202#questions)
 ```php
