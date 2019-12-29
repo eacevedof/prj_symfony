@@ -277,7 +277,16 @@ $aves = [
 {% endblock %}
 ```
 ### [423. Starts Ends 2 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11990202#questions)
+- Comprobaciones de cadenas
+- condicionales con: Empieza por o acaba en
 ```php
+{% if aves.color starts with "g" %}
+  <h1>Empieza por G</h1>
+{% endif %}
+
+{% if aves.color ends with "su" %}
+  <h1>Termina en su</h1>
+{% endif %}
 ```
 ### [424. Funciones predefinidas Twig 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12041194#questions)
 ```php
