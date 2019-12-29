@@ -1,5 +1,6 @@
 ## Curso symfony udemy
 
+## Sección 96: Controladores y rutas en Symfony
 ## [413. Crear controladores](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11988574#questions)
 - Dentro de: `/symsite/bin`
 - `php console help`
@@ -39,4 +40,19 @@ return $this->render('home/index.html.twig', [
 {% endblock %}
 ```
 - Las rutas las trabajeremos en routes.yml 
-## []()
+### [414. Rutas y acciones 5 min]()
+-
+```php
+```
+### [415. Parámetros opcionales 4 min]()
+-
+```php
+```
+### [416. Rutas avanzadas 5 min]()
+-
+```php
+```
+### [417. Redirecciones]()
+-
+```php
+```
