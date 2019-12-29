@@ -400,5 +400,26 @@ App\Twig\:
 {{ 12|multiplicar|raw}}   //imprime la tabla del 12 (filtro)
 ```
 ### [428. Listar rutas 2 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12052870#questions)
-```php
-```
+```s
+$ php bin/console debug:router
+-------------------------- ---------- -------- ------ -----------------------------------
+Name                       Method     Scheme   Host   Path
+-------------------------- ---------- -------- ------ -----------------------------------
+_preview_error             ANY        ANY      ANY    /_error/{code}.{_format}
+_wdt                       ANY        ANY      ANY    /_wdt/{token}
+//el profiler es el debugger
+_profiler_home             ANY        ANY      ANY    /_profiler/
+_profiler_search           ANY        ANY      ANY    /_profiler/search
+_profiler_search_bar       ANY        ANY      ANY    /_profiler/search_bar
+_profiler_phpinfo          ANY        ANY      ANY    /_profiler/phpinfo
+_profiler_search_results   ANY        ANY      ANY    /_profiler/{token}/search/results
+_profiler_open_file        ANY        ANY      ANY    /_profiler/open
+_profiler                  ANY        ANY      ANY    /_profiler/{token}
+_profiler_router           ANY        ANY      ANY    /_profiler/{token}/router
+_profiler_exception        ANY        ANY      ANY    /_profiler/{token}/exception
+_profiler_exception_css    ANY        ANY      ANY    /_profiler/{token}/exception.css
+home                       ANY        ANY      ANY    /home
+index                      ANY        ANY      ANY    /inicio
+animales                   POST|GET   ANY      ANY    /animales/{nombre}/{apellidos}
+redirigir                  ANY        ANY      ANY    /redirigir
+-------------------------- ---------- -------- ------ -----------------------------------
