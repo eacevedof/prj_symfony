@@ -16,3 +16,27 @@
 	```
 	- ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/705x280/4e4cd19fa9028a448184abfe031037b7/image.png)
 - Twig es más estricto que Blade no deja usar sintaxis de php
+```php
+return $this->render('home/index.html.twig', [
+    'controller_name' => 'HomeController',
+    "hello" => "Hola mundo"
+]);
+```
+```tpl
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>{{ hello }}!</h1>
+</div>
+{% endblock %}
+```
+- Las rutas las trabajeremos en routes.yml 
+## []()
