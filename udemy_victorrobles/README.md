@@ -149,8 +149,9 @@ public function redirigir()
 
 ## Sección 97: Vistas, plantillas y Twig
 ### [418. Introducción a twig 2 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11990086#questions)
-```php
-```
+- Incluye sistema de herencia y bloques
+- Veremos estructuras de control dentro de Twig
+
 ### [419. Plantillas y bloques 11 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11990134#questions)
 ```php
 ```
