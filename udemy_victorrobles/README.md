@@ -428,6 +428,7 @@ redirigir                  ANY        ANY      ANY    /redirigir
 ## Sección 98: Bases de datos y Doctrine 1 / 18|1 h 27 min
 
 ### [429. Conexión a la base de datos en Symfony 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12052872#questions)
+- Configurar base de datos en: 
 ```php
 ```
 ### [430. Generar entidades desde la base de datos 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12063202#questions)
