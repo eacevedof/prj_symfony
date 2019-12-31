@@ -818,10 +818,63 @@ public function save()
 - ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/766x263/4b71c670ccda19e0c9aac653912584e8/image.png)
 
 ### [436. Find 6 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12084102#questions)
+- Vamos a obtener un registro de la bd
 ```php
+//routes.yml
+animal_detail:
+  path: /animal/{id}
+  controller: App\Controller\AnimalController::animal
+
+//http://localhost:1000/animal/2
+public function animal($id)
+{
+  //cargar repositorio
+  $repanimal = $this->getDoctrine()->getRepository(Animal::class);
+  //consulta
+  $animal = $repanimal->find($id);
+  
+  if(!$animal)
+  {
+    $message = "El animal no existe";
+  }
+  else
+  {
+    $message = "Tu animal elegido es: {$animal->getTipo()} - {$animal->getRaza()}";
+  }
+  return new Response($message);
+}//animal(id)
 ```
 ### [437. Find all 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12086624#questions)
 ```php
+//symsite\src\Controller\AnimalController.php
+public function index()
+{
+  $repanimal = $this->getDoctrine()->getRepository(Animal::class);
+  $animales = $repanimal->findAll();
+  
+  return $this->render('animal/index.html.twig', [
+      'controller_name' => 'AnimalController',
+      "animales" => $animales
+  ]);
+}
+
+//symsite\templates\animal\index.html.twig
+<div class="example-wrapper">
+  <h1>Hello {{ controller_name }}! ✅</h1>
+  {# {{dump(animales)}} #}
+  <ul>
+  {% for animal in animales %}
+    <li>
+      <ul>
+        <li>{{animal.id}}</li>
+        <li>{{animal.tipo}}</li>
+        <li>{{animal.color}}</li>
+        <li>{{animal.raza}}</li>
+      </ul>
+    </li>
+  {% endfor %}
+  </ul>
+</div>
 ```
 ### [438. Tipos de Find 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12086630#questions)
 ```php
