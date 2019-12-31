@@ -925,9 +925,68 @@ public function animal(Animal $animal)
 
 ### [440. Actualizar registros 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12086644#questions)
 ```php
+//yaml
+animal_update:
+  path: /animal/update/{id}
+  controller: App\Controller\AnimalController::update
+
+//http://localhost:1000/animal/update/3
+public function update($id)
+{
+  //cargar doctrine
+  $doctrine = $this->getDoctrine();
+  //cargar em
+  $em = $doctrine->getManager();
+  //cargar repo animal
+  $repanimal = $em->getRepository(Animal::class);
+  //find para conseguir objeto
+  $animal = $repanimal->find($id);
+  //comprobar si el objeto me llega
+  if(!$id)
+  {
+    $message = "El animal no existe en la bbdd";
+  }
+  else
+  {
+    //asignarle los valores al objeto
+    $animal->setTipo("Perro $id");
+    $animal->setColor("rojo");
+  }
+
+  //persistir en doctrine
+  $em->persist($animal);
+  //hacer el flush
+  $em->flush();
+
+  $message = "El animal {$animal->getId()} se ha actualizado";
+  //respuesta
+  return new Response($message);
+}
 ```
+
 ### [441. Borrar elementos de la base de datos 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12086650#questions)
 ```php
+//routes.yml
+animal_delete:
+  path: /animal/delete/{id}
+  controller: App\Controller\AnimalController::delete  
+
+//http://localhost:1000/animal/delete/5
+public function delete(Animal $animal)
+{
+  if($animal && is_object($animal))
+  {
+    $em = $this->getDoctrine()->getManager();
+    $em->remove($animal);
+    $em->flush();
+    $message="Animal borrado correctamente {$animal->getId()}";
+  }
+  else
+  {
+    $message="Animal no encontrado";
+  }
+  return new Response($message);
+}//delete
 ```
 ### [442. Query Builder 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12088422#questions)
 ```php
