@@ -502,8 +502,141 @@ DATABASE_URL=mysql://root:1234@172.30.0.2:3306/db_symf2?serverVersion=mariadb-10
     - ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/645x114/7b66bf254be1545b99e48012dfcd5d9d/image.png)
 
 ### [430. Generar entidades desde la base de datos 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12063202#questions)
-```php
-```
+- Pasar de tabla a entidad
+  - La ventaja de tener los datos en yml es que se separa la definición (meta datos) de la clase 
+  - **comando:** `php bin/console doctrine:mapping:convert --from-database yml ./src/Entity`
+  - ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/887x94/b1326390b1ae6a0d208b361657bd2b46/image.png)
+  ```yml
+  # symsite\src\Entity\Animales.orm.yml
+  Animales:
+    type: entity
+    table: animales
+    id:
+      id:
+        type: integer
+        nullable: false
+        options:
+            unsigned: false
+        id: true
+        generator:
+            strategy: IDENTITY
+    fields:
+      tipo:
+        type: string
+        nullable: true
+        length: 255
+        options:
+            fixed: false
+      color:
+        type: string
+        ...
+      raza:
+        type: string
+        ...
+    lifecycleCallbacks: {  }
+  ```
+  - **comando:** `php bin/console doctrine:mapping:import App\\Entity yml --path=src/Entity`
+  - Al yml anterior le agrega esta linea al principio: `App\Entity\Animales:`
+  - ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/886x75/7959ab0bdb6477fdc261d947ea7ca75b/image.png)
+  - **comando:** `php bin/console doctrine:mapping:import App\\Entity annotation --path=src/Entity`
+  - ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/933x79/2a46140921deb6dd0ffc648dcde6fa0c/image.png)
+  - Crea la clase entidad sin getters ni setters
+  ```php
+  namespace App\Entity;
+  use Doctrine\ORM\Mapping as ORM;
+
+  /**
+  * Animales
+  * @ORM\Table(name="animales")
+  * @ORM\Entity
+  */
+  class Animales
+  {
+    /**
+    * @var int
+    * @ORM\Column(name="id", type="integer", nullable=false)
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="IDENTITY")
+    */
+    private $id;
+
+    /**
+    * @var string|null
+    * @ORM\Column(name="tipo", type="string", length=255, nullable=true)
+    */
+    private $tipo;
+
+    /**
+    * @var string|null
+    * @ORM\Column(name="color", type="string", length=255, nullable=true)
+    */
+    private $color;
+
+    /**
+    * @var string|null
+    * @ORM\Column(name="raza", type="string", length=255, nullable=true)
+    */
+    private $raza;
+  }
+  ```
+  - **comando:** `php bin/console make:entity --regenerate App`
+  - ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/635x143/86e254441da45acd9d9c3d989574d00d/image.png)
+  - Agrega getters y setters a la clase Animales
+  ```php
+  //fichero:symsite\src\Entity\Animales.php
+  ...
+    /**
+    * @var string|null
+    *
+    * @ORM\Column(name="raza", type="string", length=255, nullable=true)
+    */
+    private $raza;
+
+    public function getId(): ?int
+    {
+      return $this->id;
+    }
+
+    public function getTipo(): ?string
+    {
+      return $this->tipo;
+    }
+
+    public function setTipo(?string $tipo): self
+    {
+      $this->tipo = $tipo;
+      return $this;
+    }
+
+    public function getColor(): ?string
+    {
+      return $this->color;
+    }
+
+    public function setColor(?string $color): self
+    {
+      $this->color = $color;
+      return $this;
+    }
+
+    public function getRaza(): ?string
+    {
+      return $this->raza;
+    }
+
+    public function setRaza(?string $raza): self
+    {
+      $this->raza = $raza;
+      return $this;
+    }
+  }
+  ```
+  - En este punto ya tenemos la entidad configurada pero esta en formato anotación por legibilidad es mejor llevar las anotaciones a YML
+  - Quitamos las anotaciones, más adelante las usaremos por practicidad
+  - Vamos a generar la metadata (el YML)
+  - **comando** `php bin/console doctrine:mapping:import App\\Entity yml --path=src/Entity`
+  - ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/882x58/9394c9f3e182cde46677ed89924528f6/image.png)
+- Cambiamos en nombre, el plural a singular ya que una entidad se refiere a un único registro.
 ### [431. Generar entidades con Symfony 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12063204#questions)
 ```php
 ```
