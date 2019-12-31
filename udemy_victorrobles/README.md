@@ -877,7 +877,23 @@ public function index()
 </div>
 ```
 ### [438. Tipos de Find 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12086630#questions)
+- 
 ```php
+public function index()
+{
+  $repanimal = $this->getDoctrine()->getRepository(Animal::class);
+  $animales = $repanimal->findAll();
+  $animal = $repanimal->findOneBy(
+      ["raza"=>"africana"], //where or and
+      ["id"=>"ASC"] //order by 
+  );
+  dump($animal);die;
+
+  return $this->render('animal/index.html.twig', [
+  'controller_name' => 'AnimalController',
+  "animales" => $animales
+  ]);
+}
 ```
 ### [439. Conseguir objeto automático 1 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12086638#questions)
 ```php
