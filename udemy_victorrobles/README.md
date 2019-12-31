@@ -438,6 +438,8 @@ APP_SECRET=721e4e44d545fb60603f1aa4f8e8d070
 //configurar la bd
 DATABASE_URL=mysql://root:db_password@172.30.0.2:3306/db_symf?serverVersion=5.7
 ```
+- Podemos crear la bd "db_symf" manualmente en el motor o tambien existe un comando que nos creara la bd.
+  - 
 ### [430. Generar entidades desde la base de datos 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12063202#questions)
 ```php
 
