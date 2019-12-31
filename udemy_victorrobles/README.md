@@ -428,11 +428,19 @@ redirigir                  ANY        ANY      ANY    /redirigir
 ## Sección 98: Bases de datos y Doctrine 1 / 18|1 h 27 min
 
 ### [429. Conexión a la base de datos en Symfony 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12052872#questions)
-- Configurar base de datos en: 
-```php
+- Archivo **.env**
+- Configurar base de datos en: **symsite/.env**
+```js
+//se le puede configurar el entorno
+APP_ENV=dev //o prod
+APP_SECRET=721e4e44d545fb60603f1aa4f8e8d070
+
+//configurar la bd
+DATABASE_URL=mysql://root:db_password@172.30.0.2:3306/db_symf?serverVersion=5.7
 ```
 ### [430. Generar entidades desde la base de datos 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12063202#questions)
 ```php
+
 ```
 ### [431. Generar entidades con Symfony 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12063204#questions)
 ```php
