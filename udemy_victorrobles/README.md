@@ -894,9 +894,35 @@ public function index()
   ]);
 }
 ```
+
 ### [439. Conseguir objeto automático 1 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12086638#questions)
+- Atajo con inyección de dependencias para el **find($id)**
+- Hay que usar el "type hinting"
 ```php
+animal_detail:
+  path: /animal/{id}
+  controller: App\Controller\AnimalController::animal  
+
+public function animal(Animal $animal)
+{
+  /*
+  //cargar repositorio
+  $repanimal = $this->getDoctrine()->getRepository(Animal::class);
+  //consulta
+  $animal = $repanimal->find($id);
+  */
+  if(!$animal)
+  {
+    $message = "El animal no existe";
+  }
+  else
+  {
+    $message = "Tu animal elegido es: {$animal->getTipo()} - {$animal->getRaza()}";
+  }
+  return new Response($message);
+}//animal(id)
 ```
+
 ### [440. Actualizar registros 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12086644#questions)
 ```php
 ```
