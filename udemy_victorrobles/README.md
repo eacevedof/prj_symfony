@@ -437,6 +437,8 @@ APP_SECRET=721e4e44d545fb60603f1aa4f8e8d070
 
 //configurar la bd
 DATABASE_URL=mysql://root:db_password@172.30.0.2:3306/db_symf?serverVersion=5.7
+//funciona tambien sin serverVersion con doctrine, queda finalmente así:
+DATABASE_URL=mysql://root:1234@172.30.0.2:3306/db_symf2?serverVersion=mariadb-10.4.11
 ```
 - Podemos crear la bd "db_symf" manualmente en el motor o tambien existe un comando que nos creara la bd.
   - Y como no, dará un error ¬¬!
@@ -494,6 +496,10 @@ DATABASE_URL=mysql://root:db_password@172.30.0.2:3306/db_symf?serverVersion=5.7
       }
   }//test_mysql()
   ```
+  - Esta entrando por aqui: `symsite\vendor\doctrine\dbal\lib\Doctrine\DBAL\Driver\PDOMySql\Driver.php`
+  - El problema era que estaba ejecutando el comando desde la consola de windows y claro, ese php no tiene acceso al contenedor.
+  - La solución pasa por lanzar ese comando en el contenedor de php, así:
+    - ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/645x114/7b66bf254be1545b99e48012dfcd5d9d/image.png)
 
 ### [430. Generar entidades desde la base de datos 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12063202#questions)
 ```php
