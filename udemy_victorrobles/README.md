@@ -503,7 +503,6 @@ DATABASE_URL=mysql://root:1234@172.30.0.2:3306/db_symf2?serverVersion=mariadb-10
 
 ### [430. Generar entidades desde la base de datos 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12063202#questions)
 ```php
-
 ```
 ### [431. Generar entidades con Symfony 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12063204#questions)
 ```php
