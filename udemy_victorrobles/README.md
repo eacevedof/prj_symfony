@@ -717,9 +717,20 @@ class UsuarioRepository extends ServiceEntityRepository
   - Ha creado la tabla pero ha eliminado **animales** ^^
   - Al no tener ninguna migración de **animales** no la ha creado pq siempre borra toda la bd.
   - Quitamos los restos de animales.
+
 ### [433. Hacer cambios en entidades 7 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12080892#questions)
-```php
-```
+- **comando** `php bin/console doctrine:mapping:import App\\Entity annotation --path=src/Entity`
+  - ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/945x112/2b72ef98452e0fecd8c4cb2b606bff8e/image.png)
+  - ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/969x204/844b31a92314b1f95bd53393c1b16bb2/image.png)
+- Regeneramos los metodos que puedan faltar
+  - **comando** `php bin/console make:entity --regenerate App`
+    - ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/650x172/ec020d60ea3991b3ef91365d7d026edd/image.png)
+- Si quisieramos regenerar una entidad en concreto lo hariamos así:
+  - **comando** `php bin/console make:entity --regenerate App\\Entity\\<MiEntidad>`
+- Volvemos a cambiar de Animales a Animal
+- Vamos a replicar cambios de la entidad a la bd. Modificamos la config de campos de Animal 
+  - `php bin/console doctrine:migrations:diff` Generamos el archivo **Migrations/Version<>.php**
+  - `php bin/console doctrine:migrations:migrate` Replicamos los cambios en la bd
 ### [434. Guardar en la base de datos 10 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12083792#questions)
 ```php
 ```
