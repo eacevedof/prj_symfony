@@ -813,8 +813,10 @@ public function save()
 ```
 
 ### [435. Comando SQL 1 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12083794#questions)
-```php
-```
+- Para comprobar si se hemos añadido los regs a la bd por consola podriamos comprobarlo
+- **comando** `php bin/console doctrine:query:sql "SELECT * FROM animales"`
+- ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/766x263/4b71c670ccda19e0c9aac653912584e8/image.png)
+
 ### [436. Find 6 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12084102#questions)
 ```php
 ```
