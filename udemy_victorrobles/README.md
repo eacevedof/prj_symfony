@@ -731,9 +731,87 @@ class UsuarioRepository extends ServiceEntityRepository
 - Vamos a replicar cambios de la entidad a la bd. Modificamos la config de campos de Animal 
   - `php bin/console doctrine:migrations:diff` Generamos el archivo **Migrations/Version<>.php**
   - `php bin/console doctrine:migrations:migrate` Replicamos los cambios en la bd
+
 ### [434. Guardar en la base de datos 10 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12083792#questions)
-```php
+- Creamos un nuevo contolador
+```s
+root@hphp01:/var/www/html/symsite# php bin/console make:controller AnimalController
+created: src/Controller/AnimalController.php
+created: templates/animal/index.html.twig
+Next: Open your new controller class and add some pages!
+Success!
 ```
+```php
+class AnimalController extends AbstractController
+{
+  /**
+  * @Route("/animal", name="animal")
+  */
+  public function index()
+  {
+    return $this->render('animal/index.html.twig', [
+      'controller_name' => 'AnimalController',
+    ]);
+  }
+}
+
+//symsite\templates\animal\index.html.twig
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AnimalController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Hello {{ controller_name }}! ✅</h1>
+
+    This friendly message is coming from:
+    <ul>
+        <li>Your controller at 
+          <code><a href="{{ '/var/www/html/symsite/src/Controller/AnimalController.php'|file_link(0) }}">src/Controller/AnimalController.php</a>
+          </code>
+        </li>
+        <li>Your template at 
+          <code><a href="{{ '/var/www/html/symsite/templates/animal/index.html.twig'|file_link(0) }}">templates/animal/index.html.twig</a>
+          </code>
+        </li>
+    </ul>
+</div>
+{% endblock %}
+```
+- Creamos la ruta en **routes.yml**
+```yml
+animal_index:
+  path: /animal/index
+  controller: App\Controller\AnimalController::index  
+```
+- ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/783x274/c7117f30b7af0b018f4c92d647acdcce/image.png)
+- importamos la clase response `use Symfony\Component\HttpFoundation\Response;`
+- Doctrine tiene una memoria temporal que actua como un pool de datos que se van almacenando ahi para que despues se guarden en una sola ejecución
+- Insertar un registro en la bd
+```php
+public function save()
+{
+  //cargo el entity manager
+  $em = $this->getDoctrine()->getManager();
+  //creo el objeto y le doy valores
+  $animal = new Animal();
+  $animal->setTipo("Avestruz");
+  $animal->setColor("verde");
+  $animal->setRaza("africana");
+  //persist indica la accion futura que se ejecutará con flush
+  $em->persist($animal);
+  //volcar datos en la tabla
+  $em->flush();
+  
+  return new Response("El animal guardado tiene el id: ".$animal->getId());
+}
+```
+
 ### [435. Comando SQL 1 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12083794#questions)
 ```php
 ```
