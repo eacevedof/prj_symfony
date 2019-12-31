@@ -439,7 +439,17 @@ APP_SECRET=721e4e44d545fb60603f1aa4f8e8d070
 DATABASE_URL=mysql://root:db_password@172.30.0.2:3306/db_symf?serverVersion=5.7
 ```
 - Podemos crear la bd "db_symf" manualmente en el motor o tambien existe un comando que nos creara la bd.
-  - 
+  - Y como no, dará un error ¬¬!
+  ```s
+  $ php bin/console doctrine:database:create
+  In AbstractMySQLDriver.php line 106:
+    An exception occurred in driver: could not find driver
+  In PDOConnection.php line 31:
+    could not find driver
+  In PDOConnection.php line 27:
+    could not find driver
+  doctrine:database:create [--shard SHARD] [--connection [CONNECTION]] [--if-not-exists] [-h|--help] [-q|--quiet] [-v|vv|vvv|--verbose] [-V|--version] [--ansi] [--no-ansi] [-n|--no-interaction] [-e|--env ENV] [--no-debug] [--] <command>
+  ```
 ### [430. Generar entidades desde la base de datos 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12063202#questions)
 ```php
 
