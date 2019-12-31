@@ -877,7 +877,6 @@ public function index()
 </div>
 ```
 ### [438. Tipos de Find 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12086630#questions)
-- 
 ```php
 public function index()
 {
