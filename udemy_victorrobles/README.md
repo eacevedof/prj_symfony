@@ -989,7 +989,31 @@ public function delete(Animal $animal)
 }//delete
 ```
 ### [442. Query Builder 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12088422#questions)
+- Nos permite hacer consultas complejas basandonos en el repositorio
 ```php
+public function index()
+{
+  $repanimal = $this->getDoctrine()->getRepository(Animal::class);
+  $animales = $repanimal->findAll();
+  $animal = $repanimal->findOneBy(
+        ["raza"=>"africana"], //where or and
+        ["id"=>"ASC"] //order by 
+    );
+  //dump($animal);die;
+  $qb = $repanimal->createQueryBuilder("a")
+        //->andWhere("a.raza = 'africana' ")
+        ->andWhere("a.raza = :raza")
+        ->setParameter("raza","africana")
+        ->orderBy("a.id","DESC")
+        ->getQuery();
+  $result = $qb->execute();
+  var_dump($result);
+
+  return $this->render('animal/index.html.twig', [
+    'controller_name' => 'AnimalController',
+    "animales" => $animales
+  ]);
+}//index
 ```
 ### [443. DQL 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12088424#questions)
 ```php
