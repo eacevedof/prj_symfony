@@ -450,6 +450,51 @@ DATABASE_URL=mysql://root:db_password@172.30.0.2:3306/db_symf?serverVersion=5.7
     could not find driver
   doctrine:database:create [--shard SHARD] [--connection [CONNECTION]] [--if-not-exists] [-h|--help] [-q|--quiet] [-v|vv|vvv|--verbose] [-V|--version] [--ansi] [--no-ansi] [-n|--no-interaction] [-e|--env ENV] [--no-debug] [--] <command>
   ```
+  - Version mariadb:
+  ```s
+  root@hmari01:/# mariadb -V
+  mariadb  Ver 15.1 Distrib 10.4.11-MariaDB, for debian-linux-gnu (x86_64) using readline 5.2
+  ```
+  - >[If you are running a MariaDB database, you must prefix the server_version value with mariadb- (e.g. server_version: mariadb-10.2.12).](https://symfony.com/doc/current/reference/configuration/doctrine.html)
+  ```php
+  //con esto conecta
+  function test_mysql()
+  {
+      //$host = "127.0.0.1";
+      $host = "cmari01"; //nombre del contenedor (docker ps -> NAMES)
+      $host = "172.30.0.2";
+      $db   = "mysql";
+      $user = "root";
+      $pass = "1234";
+      $charset = "utf8";
+      $options = [
+          \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
+          \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+          \PDO::ATTR_EMULATE_PREPARES   => false,
+      ];
+      $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+      echo "<pre>";
+      echo "$dsn\n";
+      try 
+      {
+          $pdo = new \PDO($dsn, $user, $pass, $options);
+          $sql = "SELECT * FROM help_topic WHERE 1 LIMIT 2";
+          echo "<b>$sql</b>\n";
+          $stmt = $pdo->query($sql);
+          while ($row = $stmt->fetch()) 
+          {
+              print_r($row);
+              die;
+          }
+          echo "</pre>";
+      } 
+      catch (\PDOException $e) 
+      {
+          throw new \PDOException($e->getMessage(), (int)$e->getCode());
+      }
+  }//test_mysql()
+  ```
+
 ### [430. Generar entidades desde la base de datos 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12063202#questions)
 ```php
 
