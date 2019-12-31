@@ -876,6 +876,25 @@ public function index()
   </ul>
 </div>
 ```
+```
+array(5) { 
+[0]=> object(App\Entity\Animal)#770 (4) 
+{ 
+  ["id":"App\Entity\Animal":private]=> int(1) 
+  ["tipo":"App\Entity\Animal":private]=> string(8) "Avestruz" 
+  ["color":"App\Entity\Animal":private]=> string(5) "verde" 
+  ["raza":"App\Entity\Animal":private]=> string(8) "africana" 
+} 
+[1]=> object(App\Entity\Animal)#772 (4) 
+{ 
+  ["id":"App\Entity\Animal":private]=> int(2) 
+  ["tipo":"App\Entity\Animal":private]=> string(8) "Avestruz" 
+  ["color":"App\Entity\Animal":private]=> string(5) "verde" 
+  ["raza":"App\Entity\Animal":private]=> string(8) "africana" 
+}
+... 
+}
+```
 ### [438. Tipos de Find 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12086630#questions)
 ```php
 public function index()
@@ -1016,7 +1035,30 @@ public function index()
 }//index
 ```
 ### [443. DQL 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12088424#questions)
+- Doctrine Query Language
 ```php
+$em = $this->getDoctrine()->getManager();
+$dql = "SELECT a FROM App\Entity\Animal a WHERE a.raza='africana' ORDER BY a.id DESC";
+$query = $em->createQuery($dql);
+$result= $query->execute();
+var_dump($result);
+```
+```
+array(4) { 
+  [0]=> object(App\Entity\Animal)#775 (4) { 
+    ["id":"App\Entity\Animal":private]=> int(7) 
+    ["tipo":"App\Entity\Animal":private]=> string(8) "Avestruz" 
+    ["color":"App\Entity\Animal":private]=> string(5) "verde" 
+    ["raza":"App\Entity\Animal":private]=> string(8) "africana" 
+  } 
+  [1]=> object(App\Entity\Animal)#773 (4) { 
+    ["id":"App\Entity\Animal":private]=> int(3) 
+    ["tipo":"App\Entity\Animal":private]=> string(7) "Perro 3" 
+    ["color":"App\Entity\Animal":private]=> string(4) "rojo" 
+    ["raza":"App\Entity\Animal":private]=> string(8) "africana" 
+  } 
+  ...
+}
 ```
 ### [444. SQL en Symfony 4 y Symfony 5 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12088426#questions)
 ```php
