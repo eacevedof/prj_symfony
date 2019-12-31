@@ -638,9 +638,69 @@ DATABASE_URL=mysql://root:1234@172.30.0.2:3306/db_symf2?serverVersion=mariadb-10
   - ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/882x58/9394c9f3e182cde46677ed89924528f6/image.png)
 - Cambiamos en nombre, el plural a singular ya que una entidad se refiere a un único registro.
 ### [431. Generar entidades con Symfony 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12063204#questions)
+- Generar la entidad "Usuario" de forma común. (sin tabla)
+- **comando** `php bin/console make:entity Usuario`
+  - Crea la entidad y un repositorio en *sr/Repository*, esta es una clase donde podemos guardar las distintas consultas
+- ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/637x163/50823c1782f58724aa298c3490d077aa/image.png)
 ```php
+namespace App\Repository;
 
+use App\Entity\Usuario;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
+
+/**
+ * @method Usuario|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Usuario|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Usuario[]    findAll()
+ * @method Usuario[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+class UsuarioRepository extends ServiceEntityRepository
+{
+  public function __construct(ManagerRegistry $registry)
+  {
+    parent::__construct($registry, Usuario::class);
+  }
+
+  // /**
+  //  * @return Usuario[] Returns an array of Usuario objects
+  //  */
+  /*
+  public function findByExampleField($value)
+  {
+    return $this->createQueryBuilder('u')
+      ->andWhere('u.exampleField = :val')
+      ->setParameter('val', $value)
+      ->orderBy('u.id', 'ASC')
+      ->setMaxResults(10)
+      ->getQuery()
+      ->getResult()
+    ;
+  }
+  */
+
+  /*
+  public function findOneBySomeField($value): ?Usuario
+  {
+    return $this->createQueryBuilder('u')
+      ->andWhere('u.exampleField = :val')
+      ->setParameter('val', $value)
+      ->getQuery()
+      ->getOneOrNullResult()
+    ;
+  }
+  */
+}//class UsuarioRepository
 ```
+- En la entidad Usuario.php vamos a trabajar con las anotaciones
+- `@ORM\GeneratedValue()` indica que es incremental
+- Vamos a crear nuevos campos, usamos anotaciones ya que al parecer estan dejando de lado los YML con estas
+- Despues de configurar los campos hay que regenerar todo
+- **comando** `php bin/console make:entity --regenerate`
+- ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/924x216/796fa6415245d21257f510c1c01b68be/image.png)
+- Ha creado el resto de anotaciones, los getters y setters
+
+
 ### [432. Generar tablas desde entidades 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12063206#questions)
 ```php
 ```
