@@ -699,11 +699,24 @@ class UsuarioRepository extends ServiceEntityRepository
 - **comando** `php bin/console make:entity --regenerate`
 - ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/924x216/796fa6415245d21257f510c1c01b68be/image.png)
 - Ha creado el resto de anotaciones, los getters y setters
-
+- ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/581x384/2bebcce564674838f88cf6bc2a9c9f46/image.png)
 
 ### [432. Generar tablas desde entidades 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12063206#questions)
-```php
-```
+- Vamos a crear las tabla a partir de la entidad Usuario
+- **comando** `php bin/console doctrine:migrations:diff`
+- ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/812x111/2ecfd5d16dfcd386ce90be0b49c8b706/image.png)
+- Vera las diferencias entre la entidad y la tabla si hay algo extra en la entidad se creará
+- Ha creado el fichero: **Version20191231193326**
+  - ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/257x213/09ad2862d0006c524e36184eff75afdd/image.png)
+  - ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/1028x480/f57eb5c0d9fb1e9735c5a96a70746a1d/image.png)
+- Según la opinion de Victor es más sencillo crear toda la bd y despues pasarla a entidades
+- Con los ficheros de migración creados hay que lanzar la migración para que se escriba en la bd
+- **comando** `php bin/console doctrine:migrations:migrate`
+  - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e08af454987ac63c8dd78d7/f1139c7d409dc4185f86989ba8833ec7/image.png)
+  - ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/599x360/4dac7600aaed5f60a49526a0ac07e1a4/image.png)
+  - Ha creado la tabla pero ha eliminado **animales** ^^
+  - Al no tener ninguna migración de **animales** no la ha creado pq siempre borra toda la bd.
+  - Quitamos los restos de animales.
 ### [433. Hacer cambios en entidades 7 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12080892#questions)
 ```php
 ```
