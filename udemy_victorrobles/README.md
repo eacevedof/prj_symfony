@@ -1248,3 +1248,20 @@ public function index()
 ```
 - ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/557x193/ab23c9f11553ea9b732f37d9d6b05a8b/image.png)
 
+### Sección 99: Formularios en Symfony 0 / 8|39 min
+### [447. Introducción a los formularios en Symfony4 2 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12088436#questions/8965684)
+- 
+### [448. Crear formularios 7 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12094830#questions/8965684)
+- 
+### [449. Personalizar atributos 2 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12096908#questions/8965684)
+- 
+### [450. Recibir datos del formulario 11 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098910#questions/8965684)
+- 
+### [451. Validar formulario 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098912#questions/8965684)
+- 
+### [452. Personalizar mensajes 1 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098914#questions/8965684)
+- 
+### [453. Formularios separados en clases 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098916#questions/8965684)
+- 
+### [454. Validar datos aislados 7 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098920#questions/8965684)
+- 
