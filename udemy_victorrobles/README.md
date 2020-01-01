@@ -1109,7 +1109,40 @@ array(5) {
 }
 ```
 ### [445. Crear repositorios 7 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12088428#questions)
+- Si deseamos hacer cualquier tipo de consulta muy compleja y muy larga
+- Lo ideal es moverla del controlador y llevarla al repositorio
+- El repositorio forma parte del modelo
+- El modelo esta formado por las entidades y el repositorio
+- Hay una diferencia entre symf 4 y symf 5
+- **symfony 4**
+  - ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/1179x596/b88af61cc489cac90b7e59fdcaf6b6f3/image.png)
+- **symfony 5**
 ```php
+//symfony 5
+//symsite\src\Repository\UsuarioRepository.php
+namespace App\Repository;
+
+use App\Entity\Usuario;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry; //v4 Symfony\Bridge\Doctrine\RegistryInterface;
+
+/**
+ * @method Usuario|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Usuario|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Usuario[]    findAll()
+ * @method Usuario[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+class UsuarioRepository extends ServiceEntityRepository
+{
+  //v4 public function __construct(RegistryInterface $registry)
+  public function __construct(ManagerRegistry $registry)
+  {
+    parent::__construct($registry, Usuario::class);
+  }
+```
+- Creo el repositorio Animal
+```php
+
 ```
 ### [446. Métodos en repositorios](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12088432#questions)
 ```php
