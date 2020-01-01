@@ -1306,7 +1306,19 @@ class AnimalController extends AbstractController
 - ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/334x190/b44f38dc82784b29eb275d5501689455/image.png)
 
 ### [449. Personalizar atributos 2 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12096908#questions/8965684)
-- 
+```php
+->add("raza", TextType::class)
+->add("submit", SubmitType::class, [
+    "label"=>"Crear Animal",
+    "attr"=>[
+        "class"=>"btn"
+    ]
+])
+->getForm()
+;
+```
+- ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/914x168/3ab49c602f56a3d9dc54f1e100a80710/image.png)
+
 ### [450. Recibir datos del formulario 11 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098910#questions/8965684)
 - 
 ### [451. Validar formulario 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098912#questions/8965684)
