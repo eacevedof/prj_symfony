@@ -1472,4 +1472,28 @@ class AnimalController extends AbstractController
 ```
 
 ### [454. Validar datos aislados 7 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098920#questions/8965684)
-- 
+- **comando** `php bin/console cache:clear -e dev` limpiar cache
+- [Symfony constraints](https://symfony.com/doc/current/reference/constraints.html)
+```php
+//symsite\src\Controller\AnimalController.php
+public function validarEmail($email)
+{
+    $validator = Validation::createValidator();
+    $errores = $validator->validate($email,[
+        new Email()
+    ]);
+    if(count($errores)!=0)
+    {
+        echo "El email NO se ha validado correctamente";
+        foreach($errores as $error)
+        {
+            echo $error->getMessage()."<br/>";
+        }
+    }
+    else
+    {
+        echo "El email ha sido validado correctametne";
+    }
+    die;
+}//validarEmail
+```
