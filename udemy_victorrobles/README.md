@@ -1199,6 +1199,52 @@ array(1) {
   }
 ```
 ### [446. Métodos en repositorios](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12088432#questions)
+- Vincular la clase entity con su repositorio. Sirve para obligar a que el repositorio busque los métodos (con cualquier nombre) en su cuerpo antes de "autocrearlos" usando los atributos de la entidad (los metodos findBy,findCount,etc)
+- Por defecto tenemos la clase Animal así:
 ```php
+//symsite\src\Entity\Animal.php
+namespace App\Entity;
+use Doctrine\ORM\Mapping as ORM;
+/**
+ * Animales
+ * @ORM\Table(name="animales")
+ * @ORM\Entity
+ */
+class Animal
+{
+  ...
 ```
+- Interesante. Si defino y método **`public function findByRazax($raza)`** en el repositorio, obtendría un error:
+```s
+Entity 'App\Entity\Animal' has no field 'razax'. You can therefore not call 'findByRazax' on the entities' repository
+```
+- Esto quiere decir que los métodos **findBy** deben tener esta sintaxis: **findBy<nombre-campo>**
+- Si intento ejecutar el método del repositorio `findByRaza()` me daría un error *falta argumento* ya que por defecto el repositorio busca el atributo Raza de la entidad que tiene configurada y le asigna el valor del argumento. La entidad se configura en `parent::__construct($registry, Animal::class);` para forzar que el repositorio busque un método en su cuerpo (y no lo asuma como parte de la entidad) hay que indicar en la entidad asociada cual es su **repositoryClass**
+- Vamos con el refactor:
+```php
+//symsite\src\Entity\Animal.php
+/**
+ * Animales
+ * @ORM\Table(name="animales")
+ * @ORM\Entity(repositoryClass="App\Repository\AnimalRepository")
+ */
+class Animal
+```
+- Ahora en el controlador, la llamada a los siguientes metodos ya no daria error:
+```php
+//symsite\src\Controller\AnimalController.php
+public function index()
+{
+  $repanimal = $this->getDoctrine()->getRepository(Animal::class);
+  ...
+  $result = $repanimal->findAllAnimals(); //error: BadMethodCallException in vendor/doctrine/orm/lib/Doctrine/ORM/EntityRepository.php (line 235)
+  var_dump($result);
+  echo "<hr/>";
+  $result = $repanimal->findByRaza();
+  var_dump($result);
+  die;
+  ...
+}//index
+```
+- ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/557x193/ab23c9f11553ea9b732f37d9d6b05a8b/image.png)
 
