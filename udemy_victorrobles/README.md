@@ -1062,6 +1062,51 @@ array(4) {
 ```
 ### [444. SQL en Symfony 4 y Symfony 5 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12088426#questions)
 ```php
+//symsite\src\Controller\AnimalController.php
+public function index()
+{
+  ...
+  //sql
+  $conx = $this->getDoctrine()->getConnection();
+  $sql = "SELECT * FROM animales ORDER BY id DESC";
+  $objprepare = $conx->prepare($sql);
+  $result = $objprepare->execute();
+  var_dump($result);//boolean true | false
+  echo "<br/>";
+  $result = $objprepare->fetchAll();
+  var_dump($result);
+  
+  return $this->render('animal/index.html.twig', [
+      'controller_name' => 'AnimalController',
+      "animales" => $animales
+  ]);
+}//index
+```
+```s
+#$result = $objprepare->execute();
+bool(true)
+
+#$result = $objprepare->fetchAll();
+array(5) { 
+  [0]=> array(4) { 
+    ["id"]=> string(1) "7" 
+    ["tipo"]=> string(8) "Avestruz" 
+    ["color"]=> string(5) "verde" 
+    ["raza"]=> string(8) "africana" 
+  } 
+  [1]=> array(4) { 
+    ["id"]=> string(1) "4" 
+    ["tipo"]=> string(4) "Vaca" 
+    ["color"]=> string(7) "purpura" 
+    ["raza"]=> string(6) "danesa" 
+  } 
+  [2]=> array(4) { 
+    ["id"]=> string(1) "3" 
+    ["tipo"]=> string(7) "Perro 3" 
+    ["color"]=> string(4) "rojo" 
+    ["raza"]=> string(8) "africana" 
+  } 
+}
 ```
 ### [445. Crear repositorios 7 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12088428#questions)
 ```php
