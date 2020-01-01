@@ -1456,6 +1456,8 @@ class AnimalType extends AbstractType
 }//AnimalType
 
 //symsite\src\Controller\AnimalController.php
+use App\Form\AnimalType;
+
 class AnimalController extends AbstractController
 {
     public function crearAnimal(Request $request)
