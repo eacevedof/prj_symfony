@@ -1497,3 +1497,68 @@ public function validarEmail($email)
     die;
 }//validarEmail
 ```
+- Me da un error:
+  - >Not Found The requested resource /validar-email/xxagua.a.com was not found on this server.
+  - ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/632x169/5046f8a27ae1e3110e668e018badab6b/image.png)
+
+## Sección 100: Empezando el proyecto completo de Symfony 0 / 2|4 min
+### [455. Introducción al proyecto de Symfony 1 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098926#questions)
+-
+### [456. Instalar Symfony para el proyecto completo 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098928#questions)
+-
+## Sección 101: La base de datos del proyecto 0 / 3|10 min
+### [457. Diseñar la base de datos 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12109360#questions)
+-
+### [458. Crear la base de datos 6 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12109362#questions)
+-
+### [459. Conectar a la base de datos 1 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12109888#questions)
+-
+### Sección 102: Modelos y entidades 0 / 4|22 min
+### [460. Generar entidades 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12109892#questions)
+-
+### [461. Relaciones ORM 6 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12110678#questions)
+-
+### [462. Rellenar la base de datos 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12110766#questions)
+-
+### [463. Probando entidades relacionadas 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12129072#questions)
+-
+## Sección 103: Registro de usuarios con Symfony 0 / 6|47 min
+### [464. Formulario de Registro 10 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12139616#questions)
+-
+### [465. Guardar el usuario registrado 13 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12140094#questions)
+-
+### [466. Validar formulario de registro 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12140098#questions)
+-
+### [467. Cargar estilos 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12141124#questions)
+-
+### [468. Maquetar formulario 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12141126#questions)
+-
+### [469. Maquetar la cabecera y el menú 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12142262#questions)
+-
+## Sección 104: Login en Symfony 0 / 2|21 min
+### [470. Login de usuarios 14 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12143718#questions)
+-
+### [471. Cerrar sesión (logout symfony) 7 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12143720#questions)
+-
+## Sección 105: Gestión de tareas 0 / 9|1 h 7 min
+### [472. Listado de tareas 9 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12143726#questions)
+-
+### [473. Mejoras en el listado 6 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12144738#questions)
+-
+### [474. Detalle de la tarea 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12144740#questions)
+-
+### [475. Método crear tareas 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12144842#questions)
+-
+### [476. Crear tareas 14 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150698#questions)
+-
+### [477. Mejorar estilos 1 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150704#questions)
+-
+### [478. Mis tareas 9 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150706#questions)
+-
+### [479. Edición de tareas 9 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150710#questions)
+-
+### [480. Borrado de tareas 6 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150712#questions)
+-
+## Sección 106: Control de Acceso 0 / 1|5 min
+### [481. Control de acceso 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150720#questions)
+-
