@@ -1142,7 +1142,61 @@ class UsuarioRepository extends ServiceEntityRepository
 ```
 - Creo el repositorio Animal
 ```php
+//symsite\src\Repository\AnimalRepository.php
+class AnimalRepository extends ServiceEntityRepository
+{
+  public function __construct(ManagerRegistry $registry)
+  {
+    parent::__construct($registry, Animal::class);
+  }
 
+  public function findByRaza($raza)
+  {
+    $qb = $this->createQueryBuilder("a")
+            ->andWhere("a.raza",$raza)
+            ->orderBy("a.id","DESC")
+            ->getQuery();
+    $result = $qb->execute();
+    return $result;        
+  }
+
+//error: BadMethodCallException in vendor/doctrine/orm/lib/Doctrine/ORM/EntityRepository.php
+//      public function findAllAnimals(){
+//        $qb = $this->createQueryBuilder("a")
+//                ->orderBy("a.id","DESC")
+//                ->getQuery();
+//        $result = $qb->execute();
+//        return $result;
+//    }
+    
+}//class AnimalRepository
+
+//\symsite\src\Controller\AnimalController.php
+...
+  //no va!
+  //$repo= new AnimalRepository(Animal::class);
+  //error: BadMethodCallException in vendor/doctrine/orm/lib/Doctrine/ORM/EntityRepository.php 
+  //(line 235)
+  //$result = $repanimal->findAllAnimals(); 
+  
+  $result = $repanimal->findByRaza("danesa");
+  var_dump($result);
+  
+  return $this->render('animal/index.html.twig', [
+    'controller_name' => 'AnimalController',
+    "animales" => $animales
+  ]);
+}//index
+```
+```s
+array(1) { 
+  [0]=> object(App\Entity\Animal)
+  #5386 (4) { 
+    ["id":"App\Entity\Animal":private]=> int(4) 
+    ["tipo":"App\Entity\Animal":private]=> string(4) "Vaca" 
+    ["color":"App\Entity\Animal":private]=> string(7) "purpura" 
+    ["raza":"App\Entity\Animal":private]=> string(6) "danesa" } 
+  }
 ```
 ### [446. Métodos en repositorios](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12088432#questions)
 ```php
