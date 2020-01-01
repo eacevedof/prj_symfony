@@ -1307,6 +1307,15 @@ class AnimalController extends AbstractController
 
 ### [449. Personalizar atributos 2 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12096908#questions/8965684)
 ```php
+->setAction($this->generateUrl("animal_save"))
+->setMethod("POST")
+->add("tipo", TextType::class,[
+    "label"=>"Tipo animal",
+    "attr"=>[
+        "class"=>"input"
+    ]
+])
+->add("color", TextType::class)
 ->add("raza", TextType::class)
 ->add("submit", SubmitType::class, [
     "label"=>"Crear Animal",
