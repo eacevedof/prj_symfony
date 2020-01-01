@@ -1420,7 +1420,54 @@ class Animal
 private $tipo;
 ```
 ### [453. Formularios separados en clases 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098916#questions/8965684)
-- 
+- Creamos una carpeta "src/Form" sera el namespace "App/Form"
+- Creamos la clase "AnimalType" extiende de "AbstractType" por lo tanto se le llama **<Entity>Type** por convención
+- Hacemos refactor y extraemos el form 
+```php
+//symsite\src\Form\AnimalType.php
+namespace App\Form;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
+class AnimalType extends AbstractType
+{
+    
+  public function buildForm(FormBuilderInterface $builder, array $options) {
+    $builder->add("tipo", TextType::class,[
+            "label"=>"Tipo animal",
+            "attr"=>[
+                "class"=>"input"
+            ]
+        ])
+        ->add("color", TextType::class)
+        ->add("raza", TextType::class)
+        ->add("submit", SubmitType::class, [
+            "label"=>"Crear Animal",
+            "attr"=>[
+                "class"=>"btn"
+            ]
+        ])
+        ->getForm()
+        ;
+  }
+}//AnimalType
+
+//symsite\src\Controller\AnimalController.php
+class AnimalController extends AbstractController
+{
+    public function crearAnimal(Request $request)
+    {
+        $animal = new Animal();
+        $form = $this->createForm(AnimalType::class,$animal);
+        
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+          ...
+```
 
 ### [454. Validar datos aislados 7 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098920#questions/8965684)
 - 
