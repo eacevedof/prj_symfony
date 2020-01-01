@@ -1371,7 +1371,40 @@ public function crearAnimal(Request $request)
 {{ form_start(form) }}  
 ```
 ### [451. Validar formulario 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098912#questions/8965684)
-- 
+- Para las validaciones se recomienda agregar las anotaciones
+- Tengo que importar Constraints as Assert
+```php
+//symsite\src\Entity\Animal.php
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Animales
+ *
+ * @ORM\Table(name="animales")
+ * @ORM\Entity(repositoryClass="App\Repository\AnimalRepository")
+ */
+class Animal
+{
+  /**
+    * @var int
+    *
+    * @ORM\Column(name="id", type="integer", nullable=false)
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="IDENTITY")
+    */
+  private $id;
+
+  /**
+    * @var string|null
+    *
+    * @ORM\Column(name="tipo", type="string", length=255, nullable=true)
+//validaciones:
+    * @Assert\NotBlank
+    * @Assert\Regex("/[a-zA-Z]+/")
+    */
+  private $tipo;
+...
+```
 ### [452. Personalizar mensajes 1 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098914#questions/8965684)
 - 
 ### [453. Formularios separados en clases 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098916#questions/8965684)
