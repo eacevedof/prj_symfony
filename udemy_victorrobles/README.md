@@ -1259,7 +1259,52 @@ public function index()
 - Podriamos crear una clase especifica para cada formulario
 
 ### [448. Crear formularios 7 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12094830#questions/8965684)
-- 
+```php
+crear_animal:
+  path: /crear-animal
+  controller: App\Controller\AnimalController::crearAnimal
+
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use App\Entity\Animal;
+
+//objetos para dentro del form
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
+class AnimalController extends AbstractController
+{
+  
+  public function crearAnimal()
+  {
+      $animal = new Animal();
+      $form = $this->createFormBuilder($animal)
+                  //despues de hacer la acción
+                  ->setAction($this->generateUrl("animal_save"))
+                  ->setMethod("POST")
+                  ->add("tipo", TextType::class)
+                  ->add("color", TextType::class)
+                  ->add("raza", TextType::class)
+                  ->add("submit", SubmitType::class)
+                  ->getForm()
+                  ;
+      return $this->render("animal/crear-animal.html.twig",[
+          "form" => $form->createView()
+      ]);
+  }
+//\symsite\templates\animal\crear-animal.html.twig
+<h1>Formulario con S4</h1>
+{{ form_start(form) }}
+{{ form_widget(form) }}
+{{ form_end(form) }}
+```
+- ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/334x190/b44f38dc82784b29eb275d5501689455/image.png)
+
 ### [449. Personalizar atributos 2 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12096908#questions/8965684)
 - 
 ### [450. Recibir datos del formulario 11 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098910#questions/8965684)
