@@ -1329,7 +1329,47 @@ class AnimalController extends AbstractController
 - ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/914x168/3ab49c602f56a3d9dc54f1e100a80710/image.png)
 
 ### [450. Recibir datos del formulario 11 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098910#questions/8965684)
-- 
+
+```php
+animal_save:
+  path: /animal/save
+  controller: App\Controller\AnimalController::save
+  methods: [post]
+
+public function crearAnimal(Request $request)
+{
+  $animal = new Animal();
+  $form = $this->createFormBuilder($animal)
+              //despues de hacer la acción
+              //->setAction($this->generateUrl("animal_save"))
+              ->setMethod("POST")
+  ...
+              ->getForm()
+              ;
+  $form->handleRequest($request);
+  if($form->isSubmitted())
+  {
+      $em = $this->getDoctrine()->getManager();
+      $em->persist($animal);
+      $em->flush();
+      $session = new Session();
+      //$session->start(); no hace falta iniciar sesion
+      //arrastra el mensaje hasta la ruta "crear_animal" ^^
+      $session->getFlashBag()->add("message","Animal creado");
+      
+      //reseteo el formulario:
+      //return $this->redirect($request->getUri()); //funciona ok
+      return $this->redirectToRoute("crear_animal");
+  }
+
+<h1>Formulario con S4</h1>
+
+{% for message in app.session.flashbag().get("message") %}
+    <strong>{{ message }}</strong>
+{% endfor %}
+
+{{ form_start(form) }}  
+```
 ### [451. Validar formulario 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098912#questions/8965684)
 - 
 ### [452. Personalizar mensajes 1 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098914#questions/8965684)
