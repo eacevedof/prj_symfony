@@ -1250,7 +1250,14 @@ public function index()
 
 ### Sección 99: Formularios en Symfony 0 / 8|39 min
 ### [447. Introducción a los formularios en Symfony4 2 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12088436#questions/8965684)
-- 
+- Se puede hacer de la forma clásica de toda la vida apuntando a una ruta de symfony (no recomendada)
+- Podemos usar createFormBuilder
+  - definimos en el controlador una funcion create que devolvera una vista con un formulario
+  - El formulario estará vinculado a una clase
+  - Dentro de la vista solo imprimiremos el formulario con una etiqueta de impresion
+  - Los formularios están vinculados a entidades
+- Podriamos crear una clase especifica para cada formulario
+
 ### [448. Crear formularios 7 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12094830#questions/8965684)
 - 
 ### [449. Personalizar atributos 2 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12096908#questions/8965684)
