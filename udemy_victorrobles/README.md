@@ -1407,9 +1407,20 @@ class Animal
 ```
 ### [452. Personalizar mensajes 1 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098914#questions/8965684)
 ```php
-
+/**
+  * @var string|null
+  *
+  * @ORM\Column(name="tipo", type="string", length=255, nullable=true)
+  * @Assert\NotBlank
+  * @Assert\Regex(
+  *  pattern="/[a-zA-Z]+/",
+  *  message="La raza debe estar formada por letras"
+  * )
+  */
+private $tipo;
 ```
 ### [453. Formularios separados en clases 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098916#questions/8965684)
 - 
+
 ### [454. Validar datos aislados 7 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098920#questions/8965684)
 - 
