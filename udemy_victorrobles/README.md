@@ -1525,7 +1525,8 @@ public function validarEmail($email)
 - Se ejecuta en la bd
 
 ### [459. Conectar a la base de datos 1 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12109888#questions)
--
+- Configuramos el fichero .env
+- `DATABASE_URL=mysql://root:1234@cmari03:3306/symf_tasks?serverVersion=5.7`
 ### Sección 102: Modelos y entidades 0 / 4|22 min
 ### [460. Generar entidades 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12109892#questions)
 -
