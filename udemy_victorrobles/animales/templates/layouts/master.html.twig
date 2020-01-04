@@ -1,0 +1,23 @@
+<!--master.html.twig-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title> {% block blktitulo %} Inicio {% endblock %} - Master en PHP de VR</title>
+  </head>
+  <body>
+    <div id="header">
+      {% block blkcabecera %}
+        <h1>Cabecera de la plantilla</h1>
+      {% endblock %}
+    </div>
+    <section id="content">
+      {% block blkcontenido %}
+        <p>Contenido por defcto</p>
+      {% endblock %}
+    </section>
+    <footer>
+      eduardoaf.com
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+{% extends "layouts/master.html.twig" %}
+
+{% block blktitulo %} Animales {% endblock %}
+
+{% block blkcabecera %}
+  {{parent()}}
+  <h2>Animales</h2>
+{% endblock %}
+
+{% block blkcontenido %}
+  {# 
+  <!--animales.html.twig blkcontenido-->
+  <div class="example-wrapper">
+    <h1>{{ title }}</h1>
+    <h2>Tu nombre es: {{ nombre }}</h2>
+    <h2>Tus apellidos: {{ apellidos }}</h2>
+  </div> 
+  #}
+  {# crear variable #}
+  {% set perro = "pastor aleman" %}
+  <h4>{{ perro }}</h4>
+
+  {# trabjar con arrays #}
+
+  {{ dump(animales) }}
+
+  {{ animales[0] }}
+
+  {{ aves.tipo ~ " - " ~ aves.raza}}
+
+  {# condicional #}
+  {% if aves.tipo == "palomo" %}
+    <h1>Cuidado un palomo volador</h1>
+  {% else %}
+    <h2>No hay palomos a la vista</h2>
+  {% endif %}
+  
+  {# bucle #}
+  {% if animales|length >= 0  %}
+    <ul>
+      {% for animal in animales %}
+        <li>{{animal}}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  
+  {% for i in 0..animales|length %}
+    {{i}}<br/>
+  {% endfor %}
+
+  {% if aves.color starts with "g" %}
+    <h1>Empieza por G</h1>
+  {% endif %}
+
+  {% if aves.color ends with "su" %}
+    <h1>Termina en su</h1>
+  {% endif %}
+
+  <hr/>
+  {{ include("partials/funciones.twig", {"nombre":"Eduardo A.F."}) }}
+{% endblock %}

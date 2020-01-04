@@ -1,0 +1,23 @@
+<h1>Funciones</h1>
+<h3> del include: {{nombre}}</h3>
+{# funciones predefinidas #}
+{{ min([9,11,6,99,2]) }}
+{{ max([9,11,6,99,2]) }}
+{{ random(animales) }}
+
+{% for i in range(0,100,5) %}
+  {{i}} <br/>
+{% endfor %}
+
+<h1>Filtros</h1>
+{{ animales|length }}
+
+{% set email = "  email@email.com    " %}
+
+{{ dump(email|trim|upper|lower) }}
+
+{{ email }}
+
+<h1>Extensiones Personalizadas</h1>
+{{ multiplicar(2)|raw }}
+{{ 12|multiplicar|raw}}
