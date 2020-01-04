@@ -4,8 +4,8 @@ USE symf_tasks;
 
 CREATE TABLE IF NOT EXISTS users(
     id          int(11) auto_incrment not null,
-    role        varchar(50),
-    name        varchar(100),
+    `role`      varchar(50),
+    `name`      varchar(100),
     surname     varchar(200),
     email       varchar(255),
     password    varchar(255),
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS users(
     CONSTRAINT pk_users PRIMARY KEY(id)
 ) ENGINE=InnoDb;
 
-CREATE TABLE IF NOT EXISTS users(
+CREATE TABLE IF NOT EXISTS tasks(
     id          int(11) auto_incrment not null,
     user_id     int(11),
     title       varchar(100),
