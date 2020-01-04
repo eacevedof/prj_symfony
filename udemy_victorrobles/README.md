@@ -1509,8 +1509,9 @@ public function validarEmail($email)
 - Login de usuario
 ### [456. Instalar Symfony para el proyecto completo 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098928#questions)
 - **comando:** crear el proyecto
-  - `composer create-project symfony/website-skeleton proyecto-symfony`
-
+  - `composer create-project symfony/website-skeleton proyecto`
+- configurar un host virutal
+- configurar el etc
 ## Sección 101: La base de datos del proyecto 0 / 3|10 min
 ### [457. Diseñar la base de datos 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12109360#questions)
 -
