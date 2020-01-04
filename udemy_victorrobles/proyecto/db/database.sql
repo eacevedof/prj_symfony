@@ -2,20 +2,20 @@ CREATE DATABASE IF NOT EXISTS symf_tasks;
 
 USE symf_tasks;
 
-CREATE TABLE IF NOT EXISTS users(
-    id          int(11) auto_incrment not null,
-    `role`      varchar(50),
-    `name`      varchar(100),
-    surname     varchar(200),
-    email       varchar(255),
-    password    varchar(255),
-    created_at  datetime,
-    CONSTRAINT pk_users PRIMARY KEY(id)
-) ENGINE=InnoDb;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `role` varchar(50) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `surname` varchar(200) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 CREATE TABLE IF NOT EXISTS tasks(
-    id          int(11) auto_incrment not null,
-    user_id     int(11),
+    id          int(11) not null auto_incrment,
+    user_id     int(11) not null,
     title       varchar(100),
     content     text,
     priority    varchar(20),
