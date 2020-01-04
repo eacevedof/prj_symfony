@@ -1503,7 +1503,10 @@ public function validarEmail($email)
 
 ## Sección 100: Empezando el proyecto completo de Symfony 0 / 2|4 min
 ### [455. Introducción al proyecto de Symfony 1 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098926#questions)
--
+- Proyecto de tareas
+- diseño y creacion de la bd
+- Entidades con sus relaciones
+- Login de usuario
 ### [456. Instalar Symfony para el proyecto completo 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12098928#questions)
 -
 ## Sección 101: La base de datos del proyecto 0 / 3|10 min
