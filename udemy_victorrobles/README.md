@@ -1527,9 +1527,50 @@ public function validarEmail($email)
 ### [459. Conectar a la base de datos 1 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12109888#questions)
 - Configuramos el fichero .env
 - `DATABASE_URL=mysql://root:1234@cmari03:3306/symf_tasks?serverVersion=5.7`
+
 ### Sección 102: Modelos y entidades 0 / 4|22 min
 ### [460. Generar entidades 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12109892#questions)
--
+- Creo las entidades
+- `root@hphp03:/var/www/html# php bin/console doctrine:mapping:import App\\Entity annotation --path=src/Entity` Ok
+- Muestra un aviso doctrine:
+  ```s
+  User Deprecated: Doctrine\ORM\Tools\Export\ClassMetadataExporter is deprecated and will be removed in Doctrine ORM 3.0
+
+  2020-01-04T17:22:34+00:00 [info] User Deprecated: Doctrine\ORM\Tools\Export\Driver\AnnotationExporter is deprecated 
+  and will be removed in Doctrine ORM 3.0
+
+  2020-01-04T17:22:34+00:00 [info] User Deprecated: Doctrine\ORM\Tools\EntityGenerator is deprecated 
+  and will be removed in Doctrine ORM 3.0
+
+  2020-01-04T17:22:34+00:00 [info] User Deprecated: The Doctrine\Common\Persistence\ObjectRepository class is deprecated 
+  since doctrine/persistence 1.3 and will be removed in 2.0. 
+  Use \Doctrine\Persistence\ObjectRepository instead.
+  ```
+  ```php
+  //Ha creado esta relación
+  /**
+  * Task
+  *
+  * @ORM\Table(name="tasks", indexes={@ORM\Index(name="fk_task_user", columns={"user_id"})})
+  * @ORM\Entity
+  */
+  class Task
+  {
+    /**
+      * @var \Users
+      * @ORM\ManyToOne(targetEntity="Users")
+      * @ORM\JoinColumns({
+      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+      * })
+      */
+    private $user;
+  ```
+- Creamos getters y setters:
+  - `root@hphp03:/var/www/html# php bin/console make:entity --regenerate App` Ok
+- Cambio el nombre la entidad de Users a User
+  - `@ORM\ManyToOne(targetEntity="Users")`
+  - Muchas tareas pueden estar relacionadas con un usuario
+
 ### [461. Relaciones ORM 6 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12110678#questions)
 -
 ### [462. Rellenar la base de datos 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12110766#questions)
