@@ -1512,6 +1512,7 @@ public function validarEmail($email)
   - `composer create-project symfony/website-skeleton proyecto`
 - configurar un host virutal
 - configurar el etc
+
 ## Sección 101: La base de datos del proyecto 0 / 3|10 min
 ### [457. Diseñar la base de datos 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12109360#questions)
 - Usa el programa dia para diseñar en UML
@@ -1520,7 +1521,8 @@ public function validarEmail($email)
   - tasks
 
 ### [458. Crear la base de datos 6 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12109362#questions)
--
+- 
+
 ### [459. Conectar a la base de datos 1 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12109888#questions)
 -
 ### Sección 102: Modelos y entidades 0 / 4|22 min
