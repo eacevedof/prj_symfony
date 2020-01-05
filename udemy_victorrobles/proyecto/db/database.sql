@@ -56,3 +56,12 @@ CREATE TABLE `users` (
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+INSERT INTO users VALUES(NULL,'ROLE_USER','A','af','eacevedof@eaf.com','password',CURTIME());
+INSERT INTO users VALUES(NULL,'ROLE_USER','B','GH','bgh@eaf.com','password',CURTIME());
+INSERT INTO users VALUES(NULL,'ROLE_USER','C','JK','cjk@eaf.com','password',CURTIME());
+
+INSERT INTO tasks VALUES (NULL, 1, 'Tarea 1', 'Contenido de prueba 1', 'high', 40,CURTIME());
+INSERT INTO tasks VALUES (NULL, 2, 'Tarea 2', 'Contenido de prueba 2', 'low', 20,CURTIME());
+INSERT INTO tasks VALUES (NULL, 3, 'Tarea 3', 'Contenido de prueba 3', 'medium', 10,CURTIME());
+INSERT INTO tasks VALUES (NULL, 1, 'Tarea 4', 'Contenido de prueba 4', 'high', 50,CURTIME());

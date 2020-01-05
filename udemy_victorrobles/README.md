@@ -1607,7 +1607,8 @@ private $user;
 - Se configura la relación bidireccional
 
 ### [462. Rellenar la base de datos 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12110766#questions)
--
+- Genero queries insert into
+
 ### [463. Probando entidades relacionadas 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12129072#questions)
 -
 ## Sección 103: Registro de usuarios con Symfony 0 / 6|47 min
