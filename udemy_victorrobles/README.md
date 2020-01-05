@@ -1610,7 +1610,13 @@ private $user;
 - Genero queries insert into
 
 ### [463. Probando entidades relacionadas 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12129072#questions)
--
+- `/var/www/html# php bin/console make:controller TaskController`
+- `/var/www/html# php bin/console make:controller UserController`
+- En el video instala un paquete de apache symfony
+  - `composer require symfony/apache-pack`
+- Se definen rutas para estos controladores
+  - /tasks
+  - /users
 ## Sección 103: Registro de usuarios con Symfony 0 / 6|47 min
 ### [464. Formulario de Registro 10 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12139616#questions)
 -
