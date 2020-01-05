@@ -1617,9 +1617,41 @@ private $user;
 - Se definen rutas para estos controladores
   - /tasks
   - /users
+- Listar los usuarios y sus tareas
+```php
+//User.php
+public function index()
+{
+  $em = $this->getDoctrine()->getManager();
+  $repotask = $this->getDoctrine()->getRepository(Task::class);
+  $tasks = $repotask->findAll();
+
+  //        foreach($tasks as $task)
+  //        {
+  //            //echo $task->getUser()->getEmail()." - ".$task->getTitle();
+  //        }
+
+  $repouser = $this->getDoctrine()->getRepository(User::class);
+  $users = $repouser->findAll();
+  foreach($users as $user)
+  {
+    echo "<h1>{$user->getName()} {$user->getSurname()}</h1>";
+    foreach($user->getTasks() as $task)
+    {
+        echo $task->getUser()->getEmail()." - ".$task->getTitle()."<br/>";
+    }            
+  }
+
+  return $this->render('task/index.html.twig', [
+    'controller_name' => 'TaskController',
+  ]);
+}
+```
+
 ## Sección 103: Registro de usuarios con Symfony 0 / 6|47 min
 ### [464. Formulario de Registro 10 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12139616#questions)
--
+
+
 ### [465. Guardar el usuario registrado 13 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12140094#questions)
 -
 ### [466. Validar formulario de registro 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12140098#questions)

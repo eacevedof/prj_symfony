@@ -152,5 +152,9 @@ class User
         return $this;
     }
 
+    public function getTasks()
+    {
+        return $this->tasks;
+    }
 
 }
