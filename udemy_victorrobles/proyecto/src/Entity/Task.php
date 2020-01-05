@@ -59,7 +59,7 @@ class Task
     /**
      * @var \User
      *
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tasks")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
@@ -143,5 +143,12 @@ class Task
         return $this;
     }
 
+    /**
+     * @return Collection|Task[]
+     */
+    public function getTasks():Collection
+    {
+        return $this->tasks;
+    }
 
 }

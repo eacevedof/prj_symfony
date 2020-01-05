@@ -1572,7 +1572,40 @@ public function validarEmail($email)
   - Muchas tareas pueden estar relacionadas con un usuario
 
 ### [461. Relaciones ORM 6 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12110678#questions)
--
+```php
+//importamos estas colecciones, son iterables de objetos
+//hay que agregar App\Entity\User
+//User.php
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
+/**
+  *
+  * @ORM\OneToMany(targetEntity="App\Entity\Task", mappedBy="user")
+  */
+private $tasks; 
+
+/**
+  * @return Collection|Task[]
+  */
+public function getTasks():Collection
+{
+    return $this->tasks;
+}
+
+//Task.php
+/**
+  * @var \User
+  *
+  * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tasks")
+  * @ORM\JoinColumns({
+  *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+  * })
+  */
+private $user;
+```
+- Se configura la relación bidireccional
+
 ### [462. Rellenar la base de datos 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12110766#questions)
 -
 ### [463. Probando entidades relacionadas 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12129072#questions)
