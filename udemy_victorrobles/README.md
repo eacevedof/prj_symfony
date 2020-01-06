@@ -1818,9 +1818,36 @@ private $password = 'NULL';
   if($form->isSubmitted() && $form->isValid())
   {
 ```
-
 ### [467. Cargar estilos 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12141124#questions)
--
+- creamos la carpeta **public/assets/css**
+- creamos el fichero **style.css**
+```css
+body {
+    background: white;
+}
+.example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+.example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+```
+```php
+//proyecto\templates\base.html.twig
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Welcome!{% endblock %}</title>
+  {% block stylesheets %}
+      <link href="{{ asset("assets/css/style.css") }}" type="text/css" rel="stylesheet">
+  {% endblock %}
+</head>
+//proyecto\templates\user\register.html.twig
+{% block body %}
+<div class="example-wrapper">
+    <h1>Registro usuarios</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+</div>
+{% endblock %}
+```
+
 ### [468. Maquetar formulario 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12141126#questions)
 -
 ### [469. Maquetar la cabecera y el menú 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12142262#questions)
