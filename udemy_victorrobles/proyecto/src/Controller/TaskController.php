@@ -21,16 +21,16 @@ class TaskController extends AbstractController
 //        }
         
         $repouser = $this->getDoctrine()->getRepository(User::class);
-        $users = $repouser->findAll();
-        foreach($users as $user)
-        {
-            echo "<h1>{$user->getName()} {$user->getSurname()}</h1>";
-            
-            foreach($user->getTasks() as $task)
-            {
-                echo $task->getUser()->getEmail()." - ".$task->getTitle()."<br/>";
-            }            
-        }
+//        $users = $repouser->findAll();
+//        foreach($users as $user)
+//        {
+//            echo "<h1>{$user->getName()} {$user->getSurname()}</h1>";
+//            
+//            foreach($user->getTasks() as $task)
+//            {
+//                echo $task->getUser()->getEmail()." - ".$task->getTitle()."<br/>";
+//            }            
+//        }
         
         
         return $this->render('task/index.html.twig', [

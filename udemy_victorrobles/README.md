@@ -1986,7 +1986,80 @@ button, input[type="submit"]{
 
 ## Sección 104: Login en Symfony 0 / 2|21 min
 ### [470. Login de usuarios 14 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12143718#questions)
--
+```php
+#proyecto\config\packages\security.yaml
+# https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+providers:
+    in_memory: { memory: null }
+    proveedor:
+        entity:
+            class: App\Entity\User
+            property: email
+    ...
+    anonymous: lazy
+    form_login:
+        login_path: login
+        check_path: login
+        provider: proveedor
+
+    logout:
+        path: /logout
+        # donde nos llevara cuando se haga logout
+        target: /login
+
+//routes.yaml
+login:
+    path: /login
+    controller: App\Controller\UserController::login
+
+logout:
+    path: /logout
+    # ya viene por defecto
+
+//proyecto\src\Controller\UserController.php
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+...
+public function login(AuthenticationUtils $authentication)
+{
+  $error = $authentication->getLastAuthenticationError();
+  $lastUsername = $authentication->getLastUsername();
+  return $this->render("user/login.html.twig",[
+    "error" => $error,
+    "_last_username"=>$lastUsername
+  ]);
+}
+
+# proyecto\templates\user\login.html.twig
+{% extends 'base.html.twig' %}
+
+{% block title %}Login de usuarios{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    <h2>Login usuarios</h2>
+    {% if error %}
+        <div class="alert alert-error">
+            {{ error.messagekey|trans(error.messageData,"security") }}
+        </div>
+    {% endif %}
+  
+    {% if app.user %}
+        {{ dump(app.user) }}
+    {% endif %}
+    
+    <form action="{{ path("login") }}" method="POST">
+        <label for="username">Email</label>
+        <input type="email" id="username" name="_username" value="{{ _last_username }}"/>
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="_password"/>
+        <div class="clearfix"></div>
+        <input type="submit" value="Entrar">
+    </form>
+</div>
+{% endblock %}
+```
+
+
 ### [471. Cerrar sesión (logout symfony) 7 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12143720#questions)
 -
 ## Sección 105: Gestión de tareas 0 / 9|1 h 7 min

@@ -10,11 +10,14 @@
 <body>
     {%block header%}
     <div id="header">
+        {% if app.user %}
+            {{ dump(app.user) }}
+        {% endif %}        
         <h1>Tareas symfony</h1>
         <ul id="menu">
             <li><a href="{{ path("tasks") }}">Inicio</a></li>
             <li><a href="{{ path("tasks") }}">Mis tareas</a></li>
-            <li><a href="{{ path("tasks") }}">Login</a></li>
+            <li><a href="{{ path("login") }}">Login</a></li>
             <li><a href="{{ path("register") }}">Registro</a></li>
         </ul>
     </div>

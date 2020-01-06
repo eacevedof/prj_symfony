@@ -10,3 +10,11 @@ users:
     path: /users
     controller: App\Controller\UserController::index
     
+login:
+    path: /login
+    controller: App\Controller\UserController::login
+
+logout:
+    path: /logout
+    # ya viene por defecto
+    
