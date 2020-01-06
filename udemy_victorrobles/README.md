@@ -1651,7 +1651,6 @@ public function index()
 ## Sección 103: Registro de usuarios con Symfony 0 / 6|47 min
 ### [464. Formulario de Registro 10 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12139616#questions)
 ```php
-<?php
 //proyecto\src\Form\RegisterType.php
 namespace App\Form;
 
