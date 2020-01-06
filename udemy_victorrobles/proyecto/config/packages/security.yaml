@@ -1,4 +1,10 @@
+# proyecto\config\packages\security.yaml
 security:
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+            # lo cifra 4 veces
+            cost: 4
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         in_memory: { memory: null }

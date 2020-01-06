@@ -1710,7 +1710,20 @@ class UserController extends AbstractController
 - ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/328x272/8272fc6174b66c609dbd3e1ff0630b5d/image.png)
 
 ### [465. Guardar el usuario registrado 13 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12140094#questions)
--
+```
+# error
+Could not convert PHP value '06-01-2020 11:14:38' of type 'string' to type 'datetime'. 
+Expected one of the following types: null, DateTime
+
+Esto es porque la entidad User espera un objeto DateTime
+
+/**
+* @var \DateTime|null
+* @ORM\Column(name="created_at", type="datetime", nullable=true, options={"default"="NULL"})
+*/
+private $createdAt = 'NULL';
+```
+
 ### [466. Validar formulario de registro 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12140098#questions)
 -
 ### [467. Cargar estilos 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12141124#questions)
@@ -1746,3 +1759,38 @@ class UserController extends AbstractController
 ## Sección 106: Control de Acceso 0 / 1|5 min
 ### [481. Control de acceso 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150720#questions)
 -
+
+### Notas
+- Pruebas de rendimiento:
+- Cargar un formulario ronda unos 4 segundos
+  ```php
+  //carga sin cuello de botella
+  Array (
+  [0] => /var/www/html/public/index.php
+  [1] => /var/www/html/config/bootstrap.php
+  [2] => /var/www/html/vendor/autoload.php
+  ...
+  [34] => /var/www/html/vendor/symfony/http-foundation/HeaderBag.php
+  [35] => /var/www/html/vendor/symfony/http-foundation/HeaderUtils.php
+  Total Execution Time: 0.0041566133499146 Mins (0.2 segundos)
+
+  //cuello de botella, cuando ejecuta esta linea
+  $response = $kernel->handle($request);
+  [36] => /var/www/html/config/bundles.php
+  [37] => /var/www/html/vendor/symfony/framework-bundle/FrameworkBundle.php
+  ...
+  [679] => /var/www/html/vendor/symfony/security-http/RememberMe/RememberMeServicesInterface.php
+  [680] => /var/www/html/vendor/symfony/http-kernel/Event/FinishRequestEvent.php
+  //casi un minuto
+  Total Execution Time: 0.074351918697357 Mins (4.5 segundos)
+  ```
+- Despues de instalar **intl** y **opcache**
+  - Se reduce el tiempo de respuesta a la mitad
+  ```php
+  //carga sin cuello de botella
+  Time: 0.11794185638428 secs
+  //con cuello de botella
+  Time: 2.0286891460419 secs
+  //con profiler
+  Time: 2.6077029705048 secs 703 archivos ^^
+  ```

@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * User
@@ -12,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="users")
  * @ORM\Entity
  */
-class User
+class User implements UserInterface
 {
     /**
      * @var int
@@ -60,7 +61,6 @@ class User
 
     /**
      * @var \DateTime|null
-     *
      * @ORM\Column(name="created_at", type="datetime", nullable=true, options={"default"="NULL"})
      */
     private $createdAt = 'NULL';
@@ -148,7 +148,6 @@ class User
     public function setCreatedAt(?\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 
@@ -160,4 +159,23 @@ class User
         return $this->tasks;
     }
 
+    public function getUsername(): string {
+        return $this->email;
+    }
+    
+    public function getSalt()
+    {
+        return null;
+    }
+    
+    public function getRoles()
+    {
+        //$this->getRole();
+        return ["ROLE_USER"];
+    }
+    
+    public function eraseCredentials() {
+        ;
+    }
+    
 }
