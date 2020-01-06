@@ -1849,7 +1849,66 @@ body {
 ```
 
 ### [468. Maquetar formulario 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12141126#questions)
--
+```css
+.example-wrapper { 
+  margin: 1em auto; 
+  max-width: 800px; 
+  width: 95%; 
+  font: 18px/1.5 sans-serif; 
+}
+
+.example-wrapper code { 
+  background: #F5F5F5; 
+  padding: 2px 6px; 
+}
+
+label{
+  display: block;
+  width: 80;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"]{
+  width: 70%;
+  padding:5px;
+}
+
+button, input[type="submit"]{
+  padding:5px;
+  margin-top:15px;
+  background: #176117;
+  color:white;
+  border: 1px solid #047425;
+  cursor: pointer;
+  transition: all 300ms;
+}
+```
+```php
+//proyecto\templates\base.html.twig
+  <meta charset="UTF-8">
+  <title>{% block title %}Welcome!{% endblock %}</title>
+  {% block stylesheets %}
+    <link href="{{ asset("assets/css/style.css") }}" type="text/css" rel="stylesheet">
+  {% endblock %}
+</head>
+<body>
+  {%block header%}
+  <h1>Tareas symfony</h1>
+  <ul>
+    <li><a href="{{ path("tasks") }}">Inicio</a></li>
+    <li><a href="{{ path("tasks") }}">Mis tareas</a></li>
+    <li><a href="{{ path("tasks") }}">Login</a></li>
+    <li><a href="{{ path("register") }}">Registro</a></li>
+  </ul>
+  {%endblock%}
+  {% block body %}{% endblock %}
+  {% block javascripts %}{% endblock %}
+</body>
+</html>
+```
 ### [469. Maquetar la cabecera y el menú 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12142262#questions)
 -
 ## Sección 104: Login en Symfony 0 / 2|21 min
