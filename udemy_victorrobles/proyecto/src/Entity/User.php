@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * User
  *
@@ -27,41 +27,46 @@ class User implements UserInterface
     /**
      * @var string|null
      *
-     * @ORM\Column(name="role", type="string", length=50, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="role", type="string", length=50, nullable=true)
      */
     private $role = 'NULL';
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(name="name", type="string", length=100, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="name", type="string", length=100, nullable=true)
+     * @Assert\NotBlank
+     * @Assert\Regex("/[a-zA-Z ]+/")
      */
     private $name = 'NULL';
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(name="surname", type="string", length=200, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="surname", type="string", length=200, nullable=true)
+     * @Assert\NotBlank
+     * @Assert\Regex("/[a-zA-Z ]+/")
      */
     private $surname = 'NULL';
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(name="email", type="string", length=255, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="email", type="string", length=255, nullable=true)
+     * @Assert\NotBlank
+     * @Assert\Email(
+     *  message = "E email '{{ value }}' no es valido",
+     * )
      */
     private $email = 'NULL';
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(name="password", type="string", length=255, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="password", type="string", length=255, nullable=true)
+     * @Assert\NotBlank
      */
     private $password = 'NULL';
 
     /**
      * @var \DateTime|null
-     * @ORM\Column(name="created_at", type="datetime", nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $createdAt = 'NULL';
 

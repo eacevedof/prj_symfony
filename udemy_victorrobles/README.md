@@ -1777,7 +1777,48 @@ if($form->isSubmitted())
 ```
 
 ### [466. Validar formulario de registro 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12140098#questions)
--
+```php
+//proyecto\src\Entity\User.php
+use Symfony\Component\Validator\Constraints as Assert;
+...
+/**
+ * @var string|null
+ * @ORM\Column(name="name", type="string", length=100, nullable=true)
+ * @Assert\NotBlank
+ * @Assert\Regex("/[a-zA-Z ]+/")
+ */
+private $name = 'NULL';
+
+/**
+ * @var string|null
+ * @ORM\Column(name="surname", type="string", length=200, nullable=true)
+ * @Assert\NotBlank
+ * @Assert\Regex("/[a-zA-Z ]+/")
+ */
+private $surname = 'NULL';
+
+/**
+ * @var string|null
+ * @ORM\Column(name="email", type="string", length=255, nullable=true)
+ * @Assert\NotBlank
+ * @Assert\Email(
+ *  message = "E email '{{ value }}' no es valido",
+ * )
+ */
+private $email = 'NULL';
+
+/**
+ * @var string|null
+ * @ORM\Column(name="password", type="string", length=255, nullable=true)
+ * @Assert\NotBlank
+ */
+private $password = 'NULL';
+
+//proyecto\src\Controller\UserController.php
+  if($form->isSubmitted() && $form->isValid())
+  {
+```
+
 ### [467. Cargar estilos 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12141124#questions)
 -
 ### [468. Maquetar formulario 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12141126#questions)
@@ -1846,3 +1887,4 @@ if($form->isSubmitted())
   //con profiler
   Time: 2.6077029705048 secs 703 archivos ^^
   ```
+  - Aun despues de instalar estas  extensiones el guardado se va a 6 segundos

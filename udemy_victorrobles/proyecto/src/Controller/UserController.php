@@ -21,7 +21,7 @@ class UserController extends AbstractController
         //rellena la entidad con los datos del formulario
         $form->handleRequest($request);
         //si hay datos en POST|GET
-        if($form->isSubmitted())
+        if($form->isSubmitted() && $form->isValid())
         {
             $user->setRole("ROLE_USER");
             $user->setCreatedAt(new \DateTime("now"));
