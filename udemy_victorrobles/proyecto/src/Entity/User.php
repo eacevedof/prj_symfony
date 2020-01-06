@@ -152,7 +152,10 @@ class User
         return $this;
     }
 
-    public function getTasks()
+    /**
+     * @return Collection|Task[]
+     */
+    public function getTasks():Collection
     {
         return $this->tasks;
     }

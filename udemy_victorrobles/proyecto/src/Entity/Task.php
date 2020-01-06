@@ -143,12 +143,6 @@ class Task
         return $this;
     }
 
-    /**
-     * @return Collection|Task[]
-     */
-    public function getTasks():Collection
-    {
-        return $this->tasks;
-    }
+
 
 }

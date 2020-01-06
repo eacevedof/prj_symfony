@@ -1586,8 +1586,8 @@ use Doctrine\Common\Collections\Collection;
 private $tasks; 
 
 /**
-  * @return Collection|Task[]
-  */
+ * @return Collection|Task[]
+ */
 public function getTasks():Collection
 {
     return $this->tasks;
@@ -1650,7 +1650,65 @@ public function index()
 
 ## Sección 103: Registro de usuarios con Symfony 0 / 6|47 min
 ### [464. Formulario de Registro 10 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12139616#questions)
+```php
+<?php
+//proyecto\src\Form\RegisterType.php
+namespace App\Form;
 
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
+class RegisterType extends AbstractType {
+    
+  public function buildForm(FormBuilderInterface $builder, array $options) {
+    $builder->add("name", TextType::class, ["label"=>"Nombre"])
+            ->add("surname", TextType::class, ["label"=>"Apellidos"])
+            ->add("email", EmailType::class, ["label"=>"Correo electronico"])
+            ->add("password", PasswordType::class, ["label"=>"Contraseña"])
+            ->add("submit", SubmitType::class, ["label"=>"Registrarese"])
+            ;
+  }
+}
+
+//proyecto\src\Controller\UserController.php
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+
+Use App\Entity\User;
+use App\Form\RegisterType;
+
+class UserController extends AbstractController
+{    
+  public function register(Request $request)
+  {
+    $user = new User();
+    $form = $this->createForm(RegisterType::class,$user);
+    return $this->render('user/register.html.twig', [
+        "form" => $form->createView()
+    ]);
+  }
+}//UserController
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Registro!{% endblock %}
+
+{% block body %}
+    <h1>Registro usuarios</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}
+```
+- ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/328x272/8272fc6174b66c609dbd3e1ff0630b5d/image.png)
 
 ### [465. Guardar el usuario registrado 13 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12140094#questions)
 -

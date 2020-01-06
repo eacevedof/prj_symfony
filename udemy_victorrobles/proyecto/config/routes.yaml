@@ -1,6 +1,10 @@
 tasks:
     path: /tasks
     controller: App\Controller\TaskController::index
+
+registers:
+    path: /registro
+    controller: App\Controller\UserController::register
     
 users:
     path: /users
