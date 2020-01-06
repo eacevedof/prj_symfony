@@ -8,4 +8,5 @@ registers:
     
 users:
     path: /users
-    controller: App\Controller\UserController::index    
+    controller: App\Controller\UserController::index
+    

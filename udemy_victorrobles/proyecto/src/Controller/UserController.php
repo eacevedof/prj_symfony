@@ -32,8 +32,8 @@ class UserController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-                   
-            $this->redirect("tasks");
+            
+            return $this->redirect("tasks");
         }
         
         return $this->render('user/register.html.twig', [

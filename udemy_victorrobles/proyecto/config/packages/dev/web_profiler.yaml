@@ -5,5 +5,5 @@ web_profiler:
 
 framework:
     profiler: 
-        # collect: false
-        { only_exceptions: false }
+        collect: false
+        # { only_exceptions: false }

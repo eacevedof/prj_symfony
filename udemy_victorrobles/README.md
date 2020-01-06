@@ -1710,6 +1710,8 @@ class UserController extends AbstractController
 - ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/328x272/8272fc6174b66c609dbd3e1ff0630b5d/image.png)
 
 ### [465. Guardar el usuario registrado 13 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12140094#questions)
+- cifrado de contraseña
+- trabajar con security.yaml
 ```
 # error
 Could not convert PHP value '06-01-2020 11:14:38' of type 'string' to type 'datetime'. 
@@ -1722,6 +1724,56 @@ Esto es porque la entidad User espera un objeto DateTime
 * @ORM\Column(name="created_at", type="datetime", nullable=true, options={"default"="NULL"})
 */
 private $createdAt = 'NULL';
+```
+```php
+#proyecto\config\packages\security.yaml
+security:
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+            # lo cifra 4 veces
+            cost: 4
+//proyecto\src\Entity\User.php
+use Symfony\Component\Security\Core\User\UserInterface;
+/**
+ * User
+ * @ORM\Table(name="users")
+ * @ORM\Entity
+ */
+class User implements UserInterface
+{
+  //
+  public function getUsername(): string {
+    return $this->email;
+  }
+
+  public function getSalt()
+  {
+    return null;
+  }
+
+  public function getRoles()
+  {
+    //$this->getRole();
+    return ["ROLE_USER"];
+  }
+
+  public function eraseCredentials() {
+    ;
+  }
+
+//proyecto\src\Controller\UserController.php
+if($form->isSubmitted())
+{
+    $user->setRole("ROLE_USER");
+    $user->setCreatedAt(new \DateTime("now"));
+    //cifrando la contraseña
+    $encoded = $encoder->encodePassword($user,$user->getPassword());
+    $user->setPassword($encoded);
+    
+    $em = $this->getDoctrine()->getManager();
+    $em->persist($user);
+    $em->flush();
 ```
 
 ### [466. Validar formulario de registro 4 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12140098#questions)

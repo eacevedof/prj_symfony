@@ -1,4 +1,4 @@
-# proyecto\config\packages\security.yaml
+#proyecto\config\packages\security.yaml
 security:
     encoders:
         App\Entity\User:
