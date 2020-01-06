@@ -2,6 +2,11 @@ body {
     background: white;
 }
 
+.clearfix {
+    float:none;
+    clear:both;
+}
+
 .example-wrapper { 
     margin: 1em auto; 
     max-width: 800px; 
@@ -21,6 +26,57 @@ label{
     margin-bottom: 5px;
 }
 
+#header{
+    margin: 1em auto; 
+    max-width: 800px; 
+    width: 95%;
+    font: 18px/1.5 sans-serif; 
+}
+
+#menu{
+    /*list-style: none;*/
+    margin:0;
+    padding: 0;
+    width: 100%;
+    height: 50px;
+    background: #eee;
+    line-height: 50px;
+    margin-right: 10px;
+    border-right: 1px solid #ccc;
+}
+
+#menu li {
+    /* 
+    indica que su contenido se verá en una linea
+    */
+    display: inline; 
+    /*por defecto los li se muestran en columna con esto se fuerza que se alineen 
+    de izq a deerecha*/
+    float:left; 
+    padding-left: 15px;
+    padding-right: 15px;
+    border-right: 1px solid #ccc;
+    /*
+    al ser un li se le indica que cambie al icono de la mano para que parezca un 
+    <a>
+    cursor: pointer; 
+    */
+    transition: all 300ms;
+}
+
+#menu li:hover {
+    background: #444;
+}
+
+#menu li:hover a{
+    color: white;
+}
+
+#menu a {
+    /* display: block; */
+    color: #444;
+    text-decoration: none;
+}
 
 input[type="text"],
 input[type="password"],

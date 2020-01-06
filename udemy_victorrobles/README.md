@@ -1910,7 +1910,80 @@ button, input[type="submit"]{
 </html>
 ```
 ### [469. Maquetar la cabecera y el menú 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12142262#questions)
--
+```css
+*display: inline; trata como una linea su contenido
+*display: block; trata como un parrafo el contenido
+
+.clearfix {
+  float:none;
+  clear:both;
+}
+#header{
+  margin: 1em auto; 
+  max-width: 800px; 
+  width: 95%;
+  font: 18px/1.5 sans-serif; 
+}
+
+#menu{
+  /*list-style: none;*/
+  margin:0;
+  padding: 0;
+  width: 100%;
+  height: 50px;
+  background: #eee;
+  line-height: 50px;
+  margin-right: 10px;
+  border-right: 1px solid #ccc;
+}
+
+#menu li {
+  /* 
+  indica que su contenido se verá en una linea
+  */
+  display: inline; 
+  /*por defecto los li se muestran en columna con esto se fuerza que se alineen 
+  de izq a deerecha*/
+  float:left; 
+  padding-left: 15px;
+  padding-right: 15px;
+  border-right: 1px solid #ccc;
+  /*
+  al ser un li se le indica que cambie al icono de la mano para que parezca un 
+  <a>
+  cursor: pointer; 
+  */
+  transition: all 300ms;
+}
+
+#menu li:hover {
+  background: #444;
+}
+
+#menu li:hover a{
+  color: white;
+}
+#menu a {
+  /* display: block; */
+  color: #444;
+  text-decoration: none;
+}
+```
+```php
+{%block header%}
+<div id="header">
+    <h1>Tareas symfony</h1>
+    <ul id="menu">
+        <li><a href="{{ path("tasks") }}">Inicio</a></li>
+        <li><a href="{{ path("tasks") }}">Mis tareas</a></li>
+        <li><a href="{{ path("tasks") }}">Login</a></li>
+        <li><a href="{{ path("register") }}">Registro</a></li>
+    </ul>
+</div>
+<div class="clearfix"></div>
+{%endblock%}
+```
+
 ## Sección 104: Login en Symfony 0 / 2|21 min
 ### [470. Login de usuarios 14 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12143718#questions)
 -
