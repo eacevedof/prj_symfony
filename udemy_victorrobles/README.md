@@ -2089,7 +2089,64 @@ proyecto\public\assets\css\style.css
 
 ## Sección 105: Gestión de tareas 0 / 9|1 h 7 min
 ### [472. Listado de tareas 9 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12143726#questions)
--
+```css
+table {
+  width: 100%;
+}
+
+table th,
+table td{
+  background: #f6f6f6;
+  padding: 15px;
+  padding-right: 25px;
+  padding-left: 25px;
+  border-bottom:  1px solid #eee;
+  text-align: center;
+}
+
+table td{
+  background:  #d5f5de;
+}
+```
+```php
+//proyecto\templates\task\index.html.twig
+{% block body %}
+<div class="example-wrapper">
+  <h1>Todas las tareas</h1>
+  <table>
+    <tr>
+      <th>Tarea</th>
+      <th>Prioridad</th>
+      <th>Horas presupuestadas</th>
+      <th>Acciones</th>
+    </tr>
+
+    {% for task in tasks %}
+      <tr>
+        <td>{{ task.title }}</td>
+        <td>{{ task.priority }}</td>
+        <td>{{ task.hours }}</td>
+        <td></td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}
+
+//proyecto\src\Controller\TaskController.php
+public function index()
+{
+  $em = $this->getDoctrine()->getManager();
+  $repotask = $this->getDoctrine()->getRepository(Task::class);
+  //$tasks = $repotask->findAll();
+  $tasks = $repotask->findBy([],["id"=>"DESC"]);
+
+  return $this->render('task/index.html.twig', [
+      'tasks' => $tasks,
+  ]);
+}
+```
+
 ### [473. Mejoras en el listado 6 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12144738#questions)
 -
 ### [474. Detalle de la tarea 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12144740#questions)

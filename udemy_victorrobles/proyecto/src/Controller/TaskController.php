@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,28 +12,11 @@ class TaskController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $repotask = $this->getDoctrine()->getRepository(Task::class);
-        $tasks = $repotask->findAll();
-        
-//        foreach($tasks as $task)
-//        {
-//            //echo $task->getUser()->getEmail()." - ".$task->getTitle();
-//        }
-        
-        $repouser = $this->getDoctrine()->getRepository(User::class);
-//        $users = $repouser->findAll();
-//        foreach($users as $user)
-//        {
-//            echo "<h1>{$user->getName()} {$user->getSurname()}</h1>";
-//            
-//            foreach($user->getTasks() as $task)
-//            {
-//                echo $task->getUser()->getEmail()." - ".$task->getTitle()."<br/>";
-//            }            
-//        }
-        
-        
+        //$tasks = $repotask->findAll();
+        $tasks = $repotask->findBy([],["id"=>"DESC"]);
+
         return $this->render('task/index.html.twig', [
-            'controller_name' => 'TaskController',
+            'tasks' => $tasks,
         ]);
     }
 }
