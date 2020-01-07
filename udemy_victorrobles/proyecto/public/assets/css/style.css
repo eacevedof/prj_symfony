@@ -72,6 +72,13 @@ label{
     color: white;
 }
 
+
+#menu li.right{
+    float: right;
+    border-right: 0px;
+    border-left: 1px solid #ccc;
+}
+
 #menu a {
     /* display: block; */
     color: #444;

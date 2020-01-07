@@ -2059,9 +2059,34 @@ public function login(AuthenticationUtils $authentication)
 {% endblock %}
 ```
 
-
 ### [471. Cerrar sesión (logout symfony) 7 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12143720#questions)
--
+```css
+proyecto\public\assets\css\style.css
+#menu li.right{
+    float: right;
+    border-right: 0px;
+    border-left: 1px solid #ccc;
+}
+```
+```php
+//E:\projects\prj_symfony\udemy_victorrobles\proyecto\templates\base.html.twig
+<div id="header">
+  <h1>Tareas symfony</h1>
+  <ul id="menu">
+    {% if app.user %}
+      <li><a href="{{ path("tasks") }}">Inicio</a></li>
+      <li><a href="{{ path("tasks") }}">Mis tareas</a></li>
+      <li class="right"><a href="{{ path("logout") }}">Cerrar sesion</a></li>
+      <li class="right"><a href="">{{ app.user.name ~ ' ' ~ app.user.surname }}</a></li> 
+    {% else %}            
+      <li><a href="{{ path("tasks") }}">Inicio</a></li>
+      <li><a href="{{ path("login") }}">Login</a></li>
+      <li><a href="{{ path("register") }}">Registro</a></li>
+    {% endif %}                
+  </ul>
+</div>
+```
+
 ## Sección 105: Gestión de tareas 0 / 9|1 h 7 min
 ### [472. Listado de tareas 9 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12143726#questions)
 -

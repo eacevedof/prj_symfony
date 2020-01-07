@@ -10,11 +10,6 @@
             {{ error.messagekey|trans(error.messageData,"security") }}
         </div>
     {% endif %}
-  
-      
-    {% if app.user %}
-        {{ dump(app.user) }}
-    {% endif %}
     
     <form action="{{ path("login") }}" method="POST">
         <label for="username">Email</label>
