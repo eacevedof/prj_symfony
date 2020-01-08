@@ -2148,7 +2148,61 @@ public function index()
 ```
 
 ### [473. Mejoras en el listado 6 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12144738#questions)
--
+```css
+.buttons a{
+  text-decoration: none;
+  border: 1px solid greenyellow;
+  padding: 10px;
+  color:white;
+  background: #00AA33;
+}
+
+.buttons .btn-edit{
+  background: orange;
+  border: 1px solid #b17405;
+}
+
+.buttons .btn-delete{
+  background: red;
+  border: 1px solid #790505;
+}
+```
+```php
+//proyecto\templates\task\index.html.twig
+ <table>
+    <tr>
+      <th>Tarea</th>
+      <th>Prioridad</th>
+      <th>Horas presupuestadas</th>
+      <th>Acciones</th>
+    </tr>
+
+    {% for task in tasks %}
+      <tr>
+        <td>{{ task.title }}</td>
+        <td>
+            {% if task.priority == "high" %}
+                {{ "Alta" }}
+            {% endif %}
+            {% if task.priority == "medium" %}
+                {{ "Media"}}
+            {% endif %}
+            {% if task.priority == "low" %}
+                {{ "Baja" }}
+            {% endif %}
+        </td>
+        <td>{{ task.hours }}</td>
+        <td class="buttons">
+          <a href="" class="btn-show">Ver</a>
+          <a href="" class="btn-edit">Editar</a>
+          <a href="" class="btn-delete">Borrar</a>
+        </td>
+      </tr>
+    {% endfor %}
+</table>
+```
+- ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/849x555/390b20bd7b9f9207d84fef8cd3f959eb/image.png)
+
 ### [474. Detalle de la tarea 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12144740#questions)
 -
 ### [475. Método crear tareas 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12144842#questions)

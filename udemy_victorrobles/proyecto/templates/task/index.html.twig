@@ -16,9 +16,23 @@
         {% for task in tasks %}
             <tr>
                 <td>{{ task.title }}</td>
-                <td>{{ task.priority }}</td>
+                <td>
+                    {% if task.priority == "high" %}
+                        {{ "Alta" }}
+                    {% endif %}
+                    {% if task.priority == "medium" %}
+                        {{ "Media"}}
+                    {% endif %}
+                    {% if task.priority == "low" %}
+                        {{ "Baja" }}
+                    {% endif %}
+                </td>
                 <td>{{ task.hours }}</td>
-                <td></td>
+                <td class="buttons">
+                    <a href="" class="btn-show">Ver</a>
+                    <a href="" class="btn-edit">Editar</a>
+                    <a href="" class="btn-delete">Borrar</a>
+                </td>
             </tr>
         {% endfor %}
     </table>
