@@ -2201,7 +2201,7 @@ public function index()
     {% endfor %}
 </table>
 ```
-- ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/849x555/390b20bd7b9f9207d84fef8cd3f959eb/image.png)
+![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/849x555/390b20bd7b9f9207d84fef8cd3f959eb/image.png)
 
 ### [474. Detalle de la tarea 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12144740#questions)
 -
