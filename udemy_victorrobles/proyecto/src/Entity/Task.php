@@ -109,7 +109,7 @@ class Task
 
     public function getHours(): ?int
     {
-        return $this->hours;
+        return (int) $this->hours;
     }
 
     public function setHours(?int $hours): self
@@ -142,7 +142,4 @@ class Task
 
         return $this;
     }
-
-
-
 }

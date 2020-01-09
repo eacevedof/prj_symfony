@@ -5,8 +5,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 use App\Entity\Task;
 use App\Entity\User;
+use App\Form\TaskType;
 
 class TaskController extends AbstractController
 {
@@ -30,9 +33,27 @@ class TaskController extends AbstractController
         return $this->render("task/detail.html.twig",["task"=>$task]);
     }
 
-    public function creation(Request $request)
+    public function creation(Request $request, UserInterface $user)
     {
-        return $this->render("task/creation.html.twig",[]);
+        //var_dump($user);die;
+        $task = new Task();
+        $form = $this->createForm(TaskType::class,$task);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            
+            $task->setCreatedAt(new \Datetime("now"));
+            $task->setUser($user);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($task);
+            $em->flush();
+            
+            return $this->redirect($this->generateUrl("task_detail",["id"=>$task->getId()]));
+
+        }
+        return $this->render("task/creation.html.twig",[
+            "form"=>$form->createView()
+        ]);
     }
 
 }

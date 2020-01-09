@@ -2275,8 +2275,78 @@ public function creation(Request $request)
 </div>
 {% endblock %}
 ```
+
 ### [476. Crear tareas 14 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150698#questions)
--
+```php
+//style.css
+input[type="email"],
+textarea,
+select{
+    width: 70%;
+    padding:5px;
+}
+
+//proyecto\src\Form\TaskType.php
+namespace App\Form;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType; //select
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
+class TaskType extends AbstractType {
+  public function buildForm(FormBuilderInterface $builder, array $options) {
+    $builder->add("title", TextType::class, ["label"=>"Titulo"])
+      ->add("content", TextareaType::class, ["label"=>"Contenido"])
+      ->add("priority", ChoiceType::class, ["label"=>"Prioridad","choices"=>[
+                                              "alta"=>"high",
+                                              "Media"=>"medium",
+                                              "Baja"=>"low"]])
+      ->add("hours", TextType::class, ["label"=>"Horas presupuestadas"])
+      ->add("submit", SubmitType::class, ["label"=>"Registrarse"])
+      ;
+  }
+}
+
+//TaskController.php
+use Symfony\Component\Security\Core\User\UserInterface;
+...
+use App\Form\TaskType;
+
+public function creation(Request $request, UserInterface $user)
+{
+  $task = new Task();
+  $form = $this->createForm(TaskType::class,$task);
+  $form->handleRequest($request);
+  if($form->isSubmitted() && $form->isValid()){
+    
+    $task->setCreatedAt(new \Datetime("now"));
+    $task->setUser($user);
+
+    $em = $this->getDoctrine()->getManager();
+    $em->persist($task);
+    $em->flush();
+    
+    return $this->redirect($this->generateUrl("task_detail",["id"=>$task->getId()]));
+  }
+  return $this->render("task/creation.html.twig",[
+    "form"=>$form->createView()
+  ]);
+}
+
+//creation.html.twig
+{% block body %}
+<div class="example-wrapper">
+  <h2>Crear tarea</h2>
+  {{ form_start(form) }}
+  {{ form_widget(form) }}
+  {{ form_end(form) }}  
+</div>
+{% endblock %}
+```
+
 ### [477. Mejorar estilos 1 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150704#questions)
 -
 ### [478. Mis tareas 9 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150706#questions)
