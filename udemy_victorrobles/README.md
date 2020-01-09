@@ -2348,7 +2348,21 @@ public function creation(Request $request, UserInterface $user)
 ```
 
 ### [477. Mejorar estilos 1 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150704#questions)
--
+```css
+  padding: 10px;
+  color:white;
+  background: #00AA33;
+}
+
+//esto resuelve que se solapen los botones
+.buttons{
+  width: 33%;
+}
+
+.buttons .btn-edit{
+  background: orange;
+```
+
 ### [478. Mis tareas 9 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150706#questions)
 -
 ### [479. Edición de tareas 9 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150710#questions)

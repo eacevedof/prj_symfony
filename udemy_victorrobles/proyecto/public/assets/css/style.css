@@ -134,6 +134,10 @@ table td{
     background: #00AA33;
 }
 
+.buttons{
+    width: 33%;
+}
+
 .buttons .btn-edit{
     background: orange;
     border: 1px solid #b17405;
