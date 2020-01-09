@@ -2274,7 +2274,6 @@ public function creation(Request $request)
   
 </div>
 {% endblock %}
-
 ```
 ### [476. Crear tareas 14 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150698#questions)
 -
