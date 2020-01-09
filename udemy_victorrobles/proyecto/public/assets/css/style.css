@@ -141,3 +141,7 @@ table td{
     background: red;
     border: 1px solid #790505;
 }
+
+.data-task {
+    color: gray;
+}

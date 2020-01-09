@@ -19,4 +19,12 @@ class TaskController extends AbstractController
             'tasks' => $tasks,
         ]);
     }
+
+    public function detail(Task $task){
+        if(!$task){
+            return $this->redirectToRoute("tasks");
+        }
+
+        return $this->render("task/detail.html.twig",["task"=>$task]);
+    }
 }

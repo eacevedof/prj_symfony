@@ -29,7 +29,7 @@
                 </td>
                 <td>{{ task.hours }}</td>
                 <td class="buttons">
-                    <a href="" class="btn-show">Ver</a>
+                    <a href="{{ path("task_detail",{"id":task.id}) }}" class="btn-show">Ver</a>
                     <a href="" class="btn-edit">Editar</a>
                     <a href="" class="btn-delete">Borrar</a>
                 </td>

@@ -2204,7 +2204,49 @@ public function index()
 ![](https://trello-attachments.s3.amazonaws.com/5e08af454987ac63c8dd78d7/849x555/390b20bd7b9f9207d84fef8cd3f959eb/image.png)
 
 ### [474. Detalle de la tarea 8 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12144740#questions)
--
+```php
+//proyecto\config\routes.yaml
+task_detail:
+    path: /tarea/{id}
+    controller: App\Controller\TaskController::detail
+
+//proyecto\src\Controller\TaskController.php
+public function detail(Task $task){
+  if(!$task){
+      return $this->redirectToRoute("tasks");
+  }
+
+  return $this->render("task/detail.html.twig",["task"=>$task]);
+}
+
+//proyecto\templates\task\detail.html.twig
+{% block body %}
+<div class="example-wrapper">
+  <h1>{{ task.title }}</h1>
+  <p class="data-task">
+    {{ task.user.name }} {{ task.user.surname }} | {{ task.createdAt|date("d/m/Y H:i:s")}} | 
+    {% if task.priority == "high" %}
+      {{ "Alta" }}
+    {% endif %}
+    {% if task.priority == "medium" %}
+        {{ "Media"}}
+    {% endif %}
+    {% if task.priority == "low" %}
+        {{ "Baja" }}
+    {% endif %} 
+    | {{ task.hours }}h
+  </p>
+  <p>
+    {{ task.content }}
+  </p>
+</div>
+{% endblock %}
+
+//proyecto\public\assets\css\style.css
+.data-task {
+    color: gray;
+}
+```
 ### [475. Método crear tareas 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12144842#questions)
 -
 ### [476. Crear tareas 14 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150698#questions)
