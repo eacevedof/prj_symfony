@@ -2248,7 +2248,34 @@ public function detail(Task $task){
 }
 ```
 ### [475. Método crear tareas 3 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12144842#questions)
--
+```php
+//routes.yaml
+tasks_creation:
+    path: /tarea
+    controller: App\Controller\TaskController::creation    
+//TaskController.php
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+public function creation(Request $request)
+{
+  return $this->render("task/creation.html.twig",[]);
+}
+
+//base.html.twig
+{% if app.user %}
+    <li><a href="{{ path("tasks") }}">Inicio</a></li>
+    <li><a href="{{ path("tasks") }}">Mis tareas</a></li>
+    <li><a href="{{ path("tasks_creation") }}">Crear tarea</a></li>
+
+//proyecto\templates\task\creation.html.twig
+{% block body %}
+<div class="example-wrapper">
+  <h2>Crear tarea</h2>
+  
+</div>
+{% endblock %}
+
+```
 ### [476. Crear tareas 14 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150698#questions)
 -
 ### [477. Mejorar estilos 1 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150704#questions)
