@@ -18,6 +18,10 @@ task_edit:
     path: /editar-tarea/{id}
     controller: App\Controller\TaskController::edit
 
+task_delete:
+    path: /tarea/delete/{id}
+    controller: App\Controller\TaskController::delete    
+
 register:
     path: /registro
     controller: App\Controller\UserController::register

@@ -2494,7 +2494,35 @@ public function edit(Request $request,UserInterface $user, Task $task)
 </div>
 ```
 ### [480. Borrado de tareas 6 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150712#questions)
+```php
+task_delete:
+  path: /tarea/delete/{id}
+  controller: App\Controller\TaskController::delete  
 
+//tarea/delete/{id}
+public function delete(UserInterface $user, Task $task)
+{
+  if(!$task)
+      return $this->redirectToRoute("tasks");        
+  
+  if(!$user || $user->getId() != $task->getUser()->getId())
+      return $this->redirectToRoute("tasks");
+  
+  $em = $this->getDoctrine()->getManager();
+  $em->remove($task);
+  $em->flush();
+  return $this->redirectToRoute("tasks");
+}
+
+//task-list.html.twig
+<td class="buttons">
+    <a href="{{ path("task_detail",{"id":task.id}) }}" class="btn-show">Ver</a>
+    {% if app.user != null and task.user.id == app.user.id %}
+        <a href="{{ path("task_edit",{"id":task.id}) }}" class="btn-edit">Editar</a>
+        <a href="{{ path("task_delete",{"id":task.id}) }}" class="btn-delete">Borrar</a>
+    {% endif %}
+</td>
+```
 
 ## Sección 106: Control de Acceso 0 / 1|5 min
 ### [481. Control de acceso 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150720#questions)
