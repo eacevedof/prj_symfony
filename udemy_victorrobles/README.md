@@ -2448,7 +2448,51 @@ public function myTasks(UserInterface $user){
   <li><a href="{{ path("my_tasks") }}">Mis tareas</a></li>
 ```
 ### [479. Edición de tareas 9 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150710#questions)
--
+- Twig defined es como isset
+```php
+task_edit:
+    path: /editar-tarea/{id}
+    controller: App\Controller\TaskController::edit
+//editar-tarea/{id}
+public function edit(Request $request,UserInterface $user, Task $task)
+{
+  if(!$user || $user->getId() != $task->getUser()->getId())
+  return $this->redirectToRoute("tasks");
+
+  $form = $this->createForm(TaskType::class,$task);
+  $form->handleRequest($request);
+  if($form->isSubmitted() && $form->isValid()){
+
+    $task->setCreatedAt(new \Datetime("now"));
+    $task->setUser($user);
+
+    $em = $this->getDoctrine()->getManager();
+    $em->persist($task);
+    $em->flush();
+
+    return $this->redirect($this->generateUrl("task_detail",
+    ["id"=>$task->getId()]));
+  }
+  return $this->render("task/creation.html.twig",["edit"=>true,
+    "form"=>$form->createView()
+  ]);
+}
+//task-list.html.twig
+  <a href="{{ path("task_edit",{"id":task.id}) }}" class="btn-edit">Editar</a>
+//creation.html.twig
+<div class="example-wrapper">
+  <h2>  
+  {% if edit is defined %}
+    Editar Tarea
+  {% else %}
+    Crear Tarea
+  {% endif %}
+  </h2>
+  {{ form_start(form) }}
+  {{ form_widget(form) }}
+  {{ form_end(form) }}  
+</div>
+```
 ### [480. Borrado de tareas 6 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150712#questions)
 
 

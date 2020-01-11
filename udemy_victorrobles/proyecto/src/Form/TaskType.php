@@ -19,7 +19,7 @@ class TaskType extends AbstractType {
                                                         "Media"=>"medium",
                                                         "Baja"=>"low"]])
                 ->add("hours", TextType::class, ["label"=>"Horas presupuestadas"])
-                ->add("submit", SubmitType::class, ["label"=>"Registrarse"])
+                ->add("submit", SubmitType::class, ["label"=>"Guardar"])
                 ;
     }
 }

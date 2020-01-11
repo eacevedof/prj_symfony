@@ -12,7 +12,11 @@ tasks_creation:
 
 my_tasks:
     path: /mis-tareas
-    controller: App\Controller\TaskController::myTasks    
+    controller: App\Controller\TaskController::myTasks  
+    
+task_edit:
+    path: /editar-tarea/{id}
+    controller: App\Controller\TaskController::edit
 
 register:
     path: /registro
