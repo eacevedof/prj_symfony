@@ -2526,8 +2526,37 @@ public function delete(UserInterface $user, Task $task)
 
 ## Sección 106: Control de Acceso 0 / 1|5 min
 ### [481. Control de acceso 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150720#questions)
--
+- Segun unas rutas se le puede aplicar unos roles que estan asociados a permisos
+```s
+access_control:
+  # - { path: ^/admin, roles: ROLE_ADMIN }
+  # - { path: ^/profile, roles: ROLE_USER }
+```
+```php
+//proyecto\config\packages\security.yaml
+      logout:
+          path: /logout
+          # donde nos llevara cuando se haga logout
+          target: /
 
+# Easy way to control access for large sections of your site
+# Note: Only the *first* access control that matches will be used
+access_control:
+  - { path: ^/tareas, roles: ROLE_USER }
+  - { path: ^/tarea, roles: ROLE_USER }
+  - { path: ^/crear-tarea, roles: ROLE_USER }
+  - { path: ^/mis-tareas, roles: ROLE_USER }
+  - { path: ^/editar-tarea, roles: ROLE_USER }
+  - { path: ^/borrar-tarea, roles: ROLE_USER }
+
+//routes.yaml
+tasks:
+    path: /tareas
+    controller: App\Controller\TaskController::index
+login:
+    path: /
+    controller: App\Controller\UserController::login    
+```
 ### Notas
 - Pruebas de rendimiento:
 - Cargar un formulario ronda unos 4 segundos

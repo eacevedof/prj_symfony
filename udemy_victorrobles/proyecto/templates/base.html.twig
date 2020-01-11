@@ -13,13 +13,12 @@
         <h1>Tareas symfony</h1>
         <ul id="menu">
             {% if app.user %}
-                <li><a href="{{ path("tasks") }}">Inicio</a></li>
+                <li><a href="{{ path("tasks") }}">Tareas</a></li>
                 <li><a href="{{ path("my_tasks") }}">Mis tareas</a></li>
                 <li><a href="{{ path("tasks_creation") }}">Crear tarea</a></li>
                 <li class="right"><a href="{{ path("logout") }}">Cerrar sesion</a></li>
                 <li class="right"><a href="">{{ app.user.name ~ ' ' ~ app.user.surname }}</a></li>                
-            {% else %}            
-                <li><a href="{{ path("tasks") }}">Inicio</a></li>
+            {% else %}
                 <li><a href="{{ path("login") }}">Login</a></li>
                 <li><a href="{{ path("register") }}">Registro</a></li>
             {% endif %}                
