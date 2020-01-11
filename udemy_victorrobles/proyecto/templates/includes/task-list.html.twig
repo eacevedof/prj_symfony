@@ -1,0 +1,35 @@
+{% if tasks|length >0 %}
+<table>
+    <tr>
+        <th>Tarea</th>
+        <th>Prioridad</th>
+        <th>Horas presupuestadas</th>
+        <th>Acciones</th>
+    </tr>
+
+    {% for task in tasks %}
+        <tr>
+            <td>{{ task.title }}</td>
+            <td>
+                {% if task.priority == "high" %}
+                    {{ "Alta" }}
+                {% endif %}
+                {% if task.priority == "medium" %}
+                    {{ "Media"}}
+                {% endif %}
+                {% if task.priority == "low" %}
+                    {{ "Baja" }}
+                {% endif %}
+            </td>
+            <td>{{ task.hours }}</td>
+            <td class="buttons">
+                <a href="{{ path("task_detail",{"id":task.id}) }}" class="btn-show">Ver</a>
+                <a href="" class="btn-edit">Editar</a>
+                <a href="" class="btn-delete">Borrar</a>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+{% else %}
+    <strong>No hay tareas disponibles en este momento</strong>
+{% endif %}

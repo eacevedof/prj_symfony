@@ -56,4 +56,10 @@ class TaskController extends AbstractController
         ]);
     }
 
-}
+    //mis-tareas
+    public function myTasks(UserInterface $user){
+        $tasks = $user->getTasks();
+        return $this->render("task/my-tasks.html.twig",["tasks"=>$tasks]);
+    }
+    
+}//TaskController

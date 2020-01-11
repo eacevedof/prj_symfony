@@ -2364,11 +2364,94 @@ public function creation(Request $request, UserInterface $user)
 ```
 
 ### [478. Mis tareas 9 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150706#questions)
--
+- Se duplica código en las vistas de index y my-tasks
+- se crea carpeta de includes para reutilizar código
+```php
+my_tasks:
+  path: /mis-tareas
+  controller: App\Controller\TaskController::myTasks    
+
+//controller
+use Symfony\Component\Security\Core\User\UserInterface;
+...
+//mis-tareas
+public function myTasks(UserInterface $user){
+  $tasks = $user->getTasks();
+  return $this->render("task/my-tasks.html.twig",["tasks"=>$tasks]);
+}
+
+//vistas:
+//proyecto\templates\includes\task-list.html.twig
+{% if tasks|length >0 %}
+<table>
+    <tr>
+      <th>Tarea</th>
+      <th>Prioridad</th>
+      <th>Horas presupuestadas</th>
+      <th>Acciones</th>
+    </tr>
+
+  {% for task in tasks %}
+    <tr>
+      <td>{{ task.title }}</td>
+      <td>
+        {% if task.priority == "high" %}
+            {{ "Alta" }}
+        {% endif %}
+        {% if task.priority == "medium" %}
+            {{ "Media"}}
+        {% endif %}
+        {% if task.priority == "low" %}
+            {{ "Baja" }}
+        {% endif %}
+      </td>
+      <td>{{ task.hours }}</td>
+      <td class="buttons">
+        <a href="{{ path("task_detail",{"id":task.id}) }}" class="btn-show">Ver</a>
+        <a href="" class="btn-edit">Editar</a>
+        <a href="" class="btn-delete">Borrar</a>
+      </td>
+    </tr>
+  {% endfor %}
+</table>
+{% else %}
+    <strong>No hay tareas disponibles en este momento</strong>
+{% endif %}
+
+//templates\task\index.html.twig
+{% extends 'base.html.twig' %}
+
+{% block title %}Todas las tareas{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    <h1>Todas las tareas</h1>
+    {{ include("includes/task-list.html.twig") }}
+</div>
+{% endblock %}
+
+//templates\task\my-tasks.html.twig
+{% extends 'base.html.twig' %}
+
+{% block title %}Todas las tareas{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    <h1>Mis tareas</h1>
+    {{ include("includes/task-list.html.twig") }}
+</div>
+{% endblock %}
+
+//base.html.twig
+{% if app.user %}
+  <li><a href="{{ path("tasks") }}">Inicio</a></li>
+  <li><a href="{{ path("my_tasks") }}">Mis tareas</a></li>
+```
 ### [479. Edición de tareas 9 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150710#questions)
 -
 ### [480. Borrado de tareas 6 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150712#questions)
--
+
+
 ## Sección 106: Control de Acceso 0 / 1|5 min
 ### [481. Control de acceso 5 min](https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/12150720#questions)
 -

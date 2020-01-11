@@ -10,6 +10,10 @@ tasks_creation:
     path: /tarea
     controller: App\Controller\TaskController::creation    
 
+my_tasks:
+    path: /mis-tareas
+    controller: App\Controller\TaskController::myTasks    
+
 register:
     path: /registro
     controller: App\Controller\UserController::register
