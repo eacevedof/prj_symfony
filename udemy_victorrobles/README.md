@@ -2555,7 +2555,21 @@ tasks:
     controller: App\Controller\TaskController::index
 login:
     path: /
-    controller: App\Controller\UserController::login    
+    controller: App\Controller\UserController::login
+
+//proyecto\templates\base.html.twig
+<ul id="menu">
+  {% if app.user %}
+      <li><a href="{{ path("tasks") }}">Tareas</a></li>
+      <li><a href="{{ path("my_tasks") }}">Mis tareas</a></li>
+      <li><a href="{{ path("tasks_creation") }}">Crear tarea</a></li>
+      <li class="right"><a href="{{ path("logout") }}">Cerrar sesion</a></li>
+      <li class="right"><a href="">{{ app.user.name ~ ' ' ~ app.user.surname }}</a></li>                
+  {% else %}
+      <li><a href="{{ path("login") }}">Login</a></li>
+      <li><a href="{{ path("register") }}">Registro</a></li>
+  {% endif %}                
+</ul>
 ```
 ### Notas
 - Pruebas de rendimiento:
