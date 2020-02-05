@@ -1,0 +1,14 @@
+version: "2"
+
+options:
+  compose-dev-file-path: "docker-compose.macos.yml"
+  compose-file-path: "docker-compose.macos.yml"
+
+syncs:
+  sf5-expenses-api-be-sync:
+    notify_terminal: true
+    src: "."
+    sync_strategy: "native_osx"
+    sync_excludes: [".git",".gitignore","*\.md","vendor/*","var/cache/*","var/log/*"]
+    sync_userid: $U_ID
+    sync_groupid: $U_ID
