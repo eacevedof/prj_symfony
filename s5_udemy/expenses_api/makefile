@@ -1,9 +1,12 @@
 #!/bin/bash
 
+# en mac devuelve Darwin (código de la terminal de mac), ubuntu en linux y para windows hay 2
 OS := $(shell uname)
+# docker backend, que coincide con el nombre en docker-compose.yml container_name
 DOCKER_BE = expenses_api
 
 ifeq ($(OS),Darwin)
+  # id de usuario que se va a usar en el entorno
   UID  = $(shell id -u)
 else ifeq ($(OS),Linux)
   UID = $(shell id -u)
