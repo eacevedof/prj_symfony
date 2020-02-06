@@ -1,0 +1,61 @@
+version: '3.5'
+
+services:
+  sf5-expenses-api-web:
+    container_name: sf5-expenses-api-web
+    build:
+      context: ./docker/nginx
+      args:
+        UID: $U_ID
+    ports:
+      - 200:80
+    volumes:
+      - ./public:/appdata/www/public
+    depends_on:
+      - sf5-expenses-api-be
+    networks:
+      - sf5-expenses-api-network
+
+  sf5-expenses-api-be:
+    container_name: sf5-expenses-api-be
+    build:
+      context: docker/php
+      args:
+        UID: $U_ID
+    environment:
+      PHP_IDE_CONFIG: serverName=Docker
+      PHP_XDEBUG_ENABLED: 1
+      XDEBUG_CONFIG: remote_host=host.docker.internal remote_port=9005
+    volumes:
+      - sf5-expenses-api-be-sync:/appdata/www:nocopy
+      - ./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - ~/.ssh/id_rsa:/home/appuser/.ssh/id_rsa
+    depends_on:
+      - sf5-expenses-api-db
+    networks:
+      - sf5-expenses-api-network
+
+  sf5-expenses-api-db:
+    container_name: sf5-expenses-api-db
+    image: mysql:5.7
+    ports:
+      - 3350:3306
+    environment:
+      MYSQL_DATABASE: sf5-expenses-api_api
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root
+    command: mysqld --sql_mode="STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"
+    volumes:
+      - sf5-expenses-api-db-data:/var/lib/mysql
+    networks:
+      - sf5-expenses-api-network
+
+volumes:
+  sf5-expenses-api-db-data:
+  sf5-expenses-api-be-sync:
+    external: true
+
+networks:
+  sf5-expenses-api-network:
+
