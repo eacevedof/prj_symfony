@@ -1,3 +1,8 @@
+### Sección 1: Introducción al curso!! 1 / 1|7 min
+### [1. Bienvenidos a este curso! Algunas recomendaciones antes de empezar 7 min]()
+- ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/a1a623aba60aed0a7ecb57a28f31fc2a/image.png)
+
+
 ### Sección2: Creación del proyecto
 ### [Repo original - bitbucket](https://bitbucket.org/juanwilde/sf5-expenses-api/src/master/)
 
