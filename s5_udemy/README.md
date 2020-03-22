@@ -1,6 +1,12 @@
 ### Sección 1: Introducción al curso!! 1 / 1|7 min
 ### [1. Bienvenidos a este curso! Algunas recomendaciones antes de empezar 7 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17450464#questions/9295602)
 - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/a1a623aba60aed0a7ecb57a28f31fc2a/image.png)
+- Necesitas saber:
+  - Haber trabajado con algún framework (laravel o symf)
+  - Unit testing
+    - Unitario y funcional
+  - Conocimientos básicos de docker
+  - xdebug
 
 ### Sección2: Creación del proyecto
 ### [Repo original - bitbucket](https://bitbucket.org/juanwilde/sf5-expenses-api/src/master/)
@@ -30,6 +36,9 @@
 ### [5. Configuración de Docker en Windows (Bonus)](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451456#questions/9295602)
 - 
 ### [6. Instalación de librerías adicionales 5 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451528#questions/9295602)
+- 
+### Sección 4: Instalación de librerías adicionales 1 / 1|5 min
+### [6. Instalación de librerías adicionales 5 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17450464#questions)
 - 
 
 ### Sección 5: Autenticación y registro 0 / 3|1 h 41 min
