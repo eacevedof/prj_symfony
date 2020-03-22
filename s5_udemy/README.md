@@ -7,6 +7,7 @@
     - Unitario y funcional
   - Conocimientos básicos de docker
   - xdebug
+- Recomienda revisar todos los videos de la *Sección 5: Autenticación y registro 0 / 3|1 h 41 min* y despues realizarlo
 
 ### Sección2: Creación del proyecto
 ### [Repo original - bitbucket](https://bitbucket.org/juanwilde/sf5-expenses-api/src/master/)
