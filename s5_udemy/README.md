@@ -20,7 +20,9 @@
 - Crear repo en bitbucket
 - Configuración de gitignore
   - Hay que incluir en este fichero, archivos de certificados, contraseñas o que tengan datos sensibles que no se deben publicar
-
+  - Agrego .vscode, no sabia que hay un pseudo lenguaje de marcado `##>tag y <##tag`
+- Configuracion de .env
+  - 
 ### Sección 3: Configuración de Docker 3 / 3|45 min
 ### [3. Configuración de Docker en Mac 26 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451272#questions/9295602)
 - [Rama](https://bitbucket.org/juanwilde/sf5-expenses-api/src/b953a0090139df2d90c8eea1e7f8e11912315136/?at=section2%2Fvideo1-docker-config)
