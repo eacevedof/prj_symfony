@@ -13,6 +13,13 @@
 ### [Repo original - bitbucket](https://bitbucket.org/juanwilde/sf5-expenses-api/src/master/)
 - `composer create-project symfony/skeleton expenses_api`
   - Installing symfony/skeleton (v5.0.99)
+- Abrir phpstorm para configurar la version de php 7.4
+- Instala plugin en phpstorm que no hay en vscode (Symfony support by Daniel Espandiller)
+- Configura `composer.json` la version de php a 7.4 y la descripcion del proyecto
+- En phpstorm, preferences le indica la version de php que va a usar (phplint de sintaxis)
+- Crear repo en bitbucket
+- Configuración de gitignore
+  - Hay que incluir en este fichero, archivos de certificados, contraseñas o que tengan datos sensibles que no se deben publicar
 
 ### Sección 3: Configuración de Docker 3 / 3|45 min
 ### [3. Configuración de Docker en Mac 26 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451272#questions/9295602)
