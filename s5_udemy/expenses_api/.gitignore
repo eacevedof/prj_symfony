@@ -11,4 +11,5 @@
 ###> Other files ###
 .idea
 .vscode
+.env.local
 ###< Other files ###

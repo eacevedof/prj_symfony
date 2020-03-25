@@ -30,6 +30,19 @@
   ###< symfony/framework-bundle ###
   ```
   - se crea una copia de lo anterior en .env.local
+  - el **`.env`**, configuración común. Debe estar en nuestro repositorio para que nuestros compañeros 
+  - en **`.env.local`** para entornos de cada de desarrollador
+  - en **.gitignore** se agrega `.env.local`
+- Comandos personalizados, como mi: `gitpush.sh`
+  - `gita` git add
+  - `gits` git status
+  - `git commit -m "Initial commit"`
+- Configura repo en **Bitbucket**
+  - Enviar los cambios al repo:
+    - `git remote add origin git@bitbucket.org:<milogin>/<nombre-repo>.git`
+    - `git push -u origin master` 
+      - `-u o --set-upstream` Esto crea la rama master
+
 ### Sección 3: Configuración de Docker 3 / 3|45 min
 ### [3. Configuración de Docker en Mac 26 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451272#questions/9295602)
 - [Rama](https://bitbucket.org/juanwilde/sf5-expenses-api/src/b953a0090139df2d90c8eea1e7f8e11912315136/?at=section2%2Fvideo1-docker-config)
