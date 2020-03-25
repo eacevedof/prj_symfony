@@ -46,7 +46,26 @@
 ### Sección 3: Configuración de Docker 3 / 3|45 min
 ### [3. Configuración de Docker en Mac 26 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451272#questions/9295602)
 - [Rama](https://bitbucket.org/juanwilde/sf5-expenses-api/src/b953a0090139df2d90c8eea1e7f8e11912315136/?at=section2%2Fvideo1-docker-config)
-- Se incluyen ficheros:
+- Para usuarios de linux hay que instalar vbox
+- Maq virtual con version 18.04 ubuntu, con git, docker y todos los paquetes relacionados con el curso
+- También explicará como hacerlo en Windows
+- Por cada sección creará una rama, de modo que se pueda cambiar de rama para consulta del código
+  - `git checkout -b section1/vieo1-create-project; git push origin section1/video1-create-project`
+  - Vemos que ahora tenemos esta rama en Bitbucket
+- `git checkout -b section2/video1-docker-config`
+- copia archivos de configuración (que ya los tenía preparados) al proyecto.rama en curso
+  ```js
+  var/
+  vendor/
+  .env.local
+  docker-compose.linux.yml
+  docker-compose.macos.yml
+  docker-sync.yml
+  Makefile
+  ```
+  - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/392x488/b5d1f52542385661e13ce24df6b9a7bf/image.png)
+  ```js
+  - Se incluyen ficheros:
   - docker-compose.linux.yml
   - docker-compose.macos.yml
   - docker-sync.yml
@@ -58,9 +77,9 @@
     - Dockerfile
     - php.ini
     - xdebug.ini
-    - xdebug-linux.ini
-### [3. Configuración de Docker en Mac 26 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451272#questions/9295602)
-- 
+    - xdebug-linux.ini  
+  ```
+
 ### [4. Configuración de Docker en Linux 8 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451450#questions/9295602)
 -
 ### [5. Configuración de Docker en Windows (Bonus)](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451456#questions/9295602)
