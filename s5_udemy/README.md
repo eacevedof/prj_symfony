@@ -53,6 +53,7 @@
   - `git checkout -b section1/vieo1-create-project; git push origin section1/video1-create-project`
   - Vemos que ahora tenemos esta rama en Bitbucket
 - `git checkout -b section2/video1-docker-config`
+- ![Bitbucket rama: section2/video1-docker-config](https://bitbucket.org/juanwilde/sf5-expenses-api/src/5d07e74988543272786a6fc859836162e79bab3c/?at=section2%2Fvideo1-docker-config)
 - copia archivos de configuración (que ya los tenía preparados) al proyecto.rama en curso
   ```js
   var/
@@ -79,6 +80,179 @@
     - xdebug.ini
     - xdebug-linux.ini  
   ```
+- Se va a usar nginx en lugar de apache.
+  - Es más ligero
+  - Más sencillo de configurar
+  - Es asincrono
+  - Evita tener que instalar el paquete apache-pack para symfony ya que según el s.o se puede complicar su configuración
+- **Empezamos la explicación:**
+  - **makefile** `expenses_api/makefile`
+  - `UID  = $(shell id -u)`
+  - **UI_D** será una variable de entorno que se utilizará en los ficheros .yml de modo que se pueda crear un usuario con este id en los contenedores
+  ```js
+  #makefile
+  ifeq ($(OS),Darwin)
+    docker volume create --name=sf5-expenses-api-be-sync
+    # levantará: la bd, el backend y el servicio web
+    # servicios en cascada
+    U_ID=${UID} docker-compose -f docker-compose.macos.yml up -d
+    # docker-sync ayuda en al optimizacion del funcionamiento en mac
+    U_ID=${UID} docker-sync start
+  else
+    ...
+  ```
+- **docker-sync**
+  > Cuando tu app escribe un log se tienen que hacer varias peticiones entre entornos ya que no se puede escribir dirctamente si el kernel de mac no lo permite, entonces hay una latencia desde que se escribe en el contendor y se sincroniza con la carpeta local. En cortas palabras es lo que hace netbeans si se activa `crear copia en`
+- **makefile docker-sync-restart** 
+  > permite un reinicio en caso que haya mucha latencia entre el contenedor y el host
+  ```js
+  #makefile
+  docker-sync-restart: ## Rebuild docker-sync stack and prepare environment
+	U_ID=${UID} docker-sync-stack clean
+	$(MAKE) run
+	$(MAKE) prepare
+  ```
+  - [Que es prepare?](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451272#questions/9774800)
+```js
+#makefile
+#!/bin/bash
+# https://bitbucket.org/juanwilde/sf5-expenses-api/src/b953a0090139df2d90c8eea1e7f8e11912315136/Makefile?at=section2%2Fvideo1-docker-config
+
+# en mac devuelve Darwin (código de la terminal de mac), ubuntu en linux y para windows hay 2
+OS := $(shell uname)
+# docker backend, que coincide con el nombre en docker-compose.yml container_name
+DOCKER_BE = expenses_api
+
+ifeq ($(OS),Darwin)
+  # id de usuario que se va a usar en el entorno
+  UID  = $(shell id -u)
+else ifeq ($(OS),Linux)
+  UID = $(shell id -u)
+else
+  UID = 1000 # windows hay q asignarle manualmente
+endif
+
+# U_ID será un argumento para el resto de archivos
+
+help: ## Show this help message
+  @echo "usage: make [target]"
+  @echo
+  @echo "targets:"
+  @egrep "^(.+)\:\ ##\ (.+)" ${MAKEFILE_LIST} | column -t -c 2 -s ":#"
+
+run: ## Start the containers
+ifeq ($(OS),Darwin)
+	docker volume create --name=sf5-expenses-api-be-sync
+  # levantará: la bd, el backend y el servicio web
+  # servicios en cascada
+	U_ID=${UID} docker-compose -f docker-compose.macos.yml up -d
+  # docker-sync ayuda en al optimizacion del funcionamiento en mac
+	U_ID=${UID} docker-sync start
+else
+  U_ID=${UID} docker-compose -f docker-compose.linux.yml up -d
+endif
+
+stop: ## Stop the containers
+ifeq ($(OS),Darwin)
+	U_ID=${UID} docker-compose -f docker-compose.macos.yml stop
+	U_ID=${UID} docker-sync stop
+else
+	U_ID=${UID} docker-compose -f docker-compose.linux.yml stop
+endif
+
+docker-sync-restart: ## Rebuild docker-sync stack and prepare environment
+	U_ID=${UID} docker-sync-stack clean
+	$(MAKE) run
+	$(MAKE) prepare
+
+restart: ## Restart the containers
+	$(MAKE) stop && $(MAKE) run
+
+build: ## Rebuilds all the containers
+ifeq ($(OS),Darwin)
+	U_ID=${UID} docker-compose -f docker-compose.macos.yml build --compress --parallel
+else
+	U_ID=${UID} docker-compose -f docker-compose.linux.yml build
+endif
+
+prepare: ## Runs backend commands
+	$(MAKE) be-sf-permissions
+	$(MAKE) composer-install
+#	$(MAKE) migrations
+
+# Backend commands
+be-sf-permissions: ## Configure the Symfony permissions
+	U_ID=${UID} docker exec -it -uroot ${DOCKER_BE} sh /usr/bin/sf-permissions
+
+composer-install: ## Installs composer dependencies
+	U_ID=${UID} docker exec --user ${UID} -it ${DOCKER_BE} composer install --no-scripts --no-interaction --optimize-autoloader
+
+migrations: ## Runs the migrations
+	U_ID=${UID} docker exec -it --user ${UID} ${DOCKER_BE} bin/console doctrine:migrations:migrate -n
+
+be-logs: ## Tails the Symfony dev log
+	U_ID=${UID} docker exec -it --user ${UID} ${DOCKER_BE} tail -f var/log/dev.log
+# End backend commands
+
+ssh-be: ## ssh's into the be container
+	U_ID=${UID} docker exec -it --user ${UID} ${DOCKER_BE} bash
+
+code-style: ## Runs php-cs to fix code styling following Symfony rules
+  # es como un php linter para estilos de codificación.
+	php-cs-fixer fix src --rules=@Symfony
+#	php-cs-fixer fix tests --rules=@Symfony
+```
+- Instalar docker-sync: `gem install docker-sync`
+```yml
+# docker-sync.yml
+syncs:
+  sf5-expenses-api-be-sync:
+    notify_terminal: true
+    src: "."
+    sync_strategy: "native_osx"
+    sync_excludes: [".git",".gitignore","*\.md","vendor/*","var/cache/*","var/log/*"]
+    sync_userid: $U_ID
+    sync_groupid: $U_ID
+```
+- **docker-compose.macos.yml**
+```yml
+# docker-compose.macos.yml
+volumes:
+  # nocopy evita hacer la copia del contenedor al host (nuestra maquina)
+  - sf5-expenses-api-be-sync:/appdata/www:nocopy
+```
+- En el caso de linux (docker-compose) no hay que hacer un :nocopy ya que no se usa docker-sync puesto que docker puede comunicarse directamente con el core
+- **red**:
+  - Especificacion de nombre de red
+  ```yml
+  #docker-compose.macos.yml
+  ...
+    sf5-expenses-api-network:
+    # name: sf5-expenses-api-local-network no es necesario
+  ```
+- **make**
+  - Ejecuta: `make` es como si fuera `make -h`
+  - En su mac, al hacer make le muestra esto:
+  - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/9305cdc88a1bf005a113ba9ee72b2d38/image.png)
+  - a mi me daba `missing separator linea 22`
+    - El makefile debe estar indentado con tabulaciones
+    - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/570x253/767444f405d5ee973eefb7206db57f29/image.png)
+  - Ejecutar: `make build`
+    - Hace todo el proceso de docker-compose
+  - Ejecutar: `make run`
+    - docker-sync: `command not found`
+    - Hay que instalar con: `gem install docker-sync`
+    - **error:** `error  (<unknown>): found unknown escape character while parsing a quoted scalar at line 12 column 41`
+    - Hay que cambiar las dobles comillas a simples en: `sync_excludes: ['.idea', '.git'...]`
+    - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/620x160/93b88a337a3939fc659907f1c419e694/image.png)
+  - `php -v` deberias tener la misma version en local q en el contenedor
+  - `composer self-update`
+  - `composer install`
+    > Deprecation warning: Your package name udemy-expenses-api is invalid, it should have a vendor name, a forward slash, and a package name. The vendor and package name can be words separated by
+    - He cambiado el nombre en *composer.json* de `Udemy - Expenses Api` a `udemy-expenses-api/app`
+  - Siempre que se instale alguna dependencia hay que hacerlo tanto dentro del **contenedor** como fuera, en mi maq local.
+- Según la configuración en `dcoker-compose.macos.yml` si vamos al puerto 200 deberiamos ver la web. 
+  - [http://localhost:200](http://localhost:200)
 
 ### [4. Configuración de Docker en Linux 8 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451450#questions/9295602)
 -

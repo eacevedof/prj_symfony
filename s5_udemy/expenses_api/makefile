@@ -7,27 +7,32 @@ OS := $(shell uname)
 DOCKER_BE = expenses_api
 
 ifeq ($(OS),Darwin)
-  # id de usuario que se va a usar en el entorno
-  UID  = $(shell id -u)
+	# id de usuario que se va a usar en el entorno
+	UID=$(shell id -u)
 else ifeq ($(OS),Linux)
-  UID = $(shell id -u)
+	UID=$(shell id -u)
 else
-  UID = 1000
+	UID=1000 # windows hay q asignarle manualmente
 endif
 
+# U_ID será un argumento para el resto de archivos
+
 help: ## Show this help message
-  @echo "usage: make [target]"
-  @echo
-  @echo "targets:"
-  @egrep "^(.+)\:\ ##\ (.+)" ${MAKEFILE_LIST} | column -t -c 2 -s ":#"
+	@echo "usage: make [target]"
+	@echo
+	@echo "targets:"
+	@egrep "^(.+)\:\ ##\ (.+)" ${MAKEFILE_LIST} | column -t -c 2 -s ":#"
 
 run: ## Start the containers
 ifeq ($(OS),Darwin)
 	docker volume create --name=sf5-expenses-api-be-sync
+	# levantará: la bd, el backend y el servicio web
+	# servicios en cascada
 	U_ID=${UID} docker-compose -f docker-compose.macos.yml up -d
+	# docker-sync ayuda en al optimizacion del funcionamiento en mac
 	U_ID=${UID} docker-sync start
 else
-  U_ID = $(UID} docker-compose -f docker-compose.linux.yml up -d
+	U_ID=${UID} docker-compose -f docker-compose.linux.yml up -d
 endif
 
 stop: ## Stop the containers

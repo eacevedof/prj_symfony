@@ -4,6 +4,7 @@ services:
   sf5-expenses-api-web:
     container_name: sf5-expenses-api-web
     build:
+      # apunta al Dockerfile
       context: ./docker/nginx
       args:
         UID: $U_ID
@@ -27,6 +28,7 @@ services:
       PHP_XDEBUG_ENABLED: 1
       XDEBUG_CONFIG: remote_host=host.docker.internal remote_port=9005
     volumes:
+      # nocopy evita hacer la copia del contenedor al host (nuestra maquina)
       - sf5-expenses-api-be-sync:/appdata/www:nocopy
       - ./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
       - ~/.ssh/id_rsa:/home/appuser/.ssh/id_rsa
@@ -58,4 +60,5 @@ volumes:
 
 networks:
   sf5-expenses-api-network:
+    # name: sf5-expenses-api-local-network no es necesario
 

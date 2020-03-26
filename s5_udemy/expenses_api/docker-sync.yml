@@ -9,6 +9,6 @@ syncs:
     notify_terminal: true
     src: "."
     sync_strategy: "native_osx"
-    sync_excludes: [".git",".gitignore","*\.md","vendor/*","var/cache/*","var/log/*"]
+    sync_excludes: ['.idea', '.git', '.gitignore', '*\.md', 'vendor/*', 'var/cache/*', 'var/log/*']
     sync_userid: $U_ID
     sync_groupid: $U_ID

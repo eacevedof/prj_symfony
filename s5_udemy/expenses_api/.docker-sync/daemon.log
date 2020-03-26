@@ -1,0 +1,40 @@
+          ok  Starting native_osx for sync sf5-expenses-api-be-sync
+          ok  sf5-expenses-api-be-sync container still running, restarting unison in container
+unison: stopped
+unison: started
+     success  Sync container started
+     success  Showing unison logs from your sync container: sf5-expenses-api-be-sync
+[2020-03-26 18:23:49 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 18:23:49.48 on 26 Mar 2020
+[2020-03-26 18:23:49 +0100] Sync Log:  [BGN] Copying .docker-sync/daemon.log from /host_sync to /app_sync
+[2020-03-26 18:23:49 +0100] Sync Log:  [END] Copying .docker-sync/daemon.log
+[2020-03-26 18:23:49 +0100] Sync Log:  [BGN] Copying .docker-sync/daemon.pid from /host_sync to /app_sync
+[2020-03-26 18:23:49 +0100] Sync Log:  [END] Copying .docker-sync/daemon.pid
+[2020-03-26 18:23:49 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 18:23:49.49 on 26 Mar 2020
+[2020-03-26 18:23:49 +0100] Sync Log:  Synchronization complete at 18:23:49  (2 items transferred, 0 skipped, 0 failed)
+[2020-03-26 18:28:59 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 18:28:58.95 on 26 Mar 2020
+[2020-03-26 18:28:59 +0100] Sync Log:  [BGN] Updating file composer.json from /host_sync to /app_sync
+[2020-03-26 18:28:59 +0100] Sync Log:  [END] Updating file composer.json
+[2020-03-26 18:28:59 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 18:28:58.95 on 26 Mar 2020
+[2020-03-26 18:28:59 +0100] Sync Log:  Synchronization complete at 18:28:58  (1 item transferred, 0 skipped, 0 failed)
+[2020-03-26 18:29:45 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 18:29:45.50 on 26 Mar 2020
+[2020-03-26 18:29:45 +0100] Sync Log:  [BGN] Updating file composer.json from /host_sync to /app_sync
+[2020-03-26 18:29:45 +0100] Sync Log:  [END] Updating file composer.json
+[2020-03-26 18:29:45 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 18:29:45.50 on 26 Mar 2020
+[2020-03-26 18:29:45 +0100] Sync Log:  Synchronization complete at 18:29:45  (1 item transferred, 0 skipped, 0 failed)
+[2020-03-26 18:32:10 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 18:32:09.90 on 26 Mar 2020
+[2020-03-26 18:32:10 +0100] Sync Log:  [BGN] Updating file composer.json from /host_sync to /app_sync
+[2020-03-26 18:32:10 +0100] Sync Log:  [END] Updating file composer.json
+[2020-03-26 18:32:10 +0100] Sync Log:  [BGN] Updating file composer.lock from /host_sync to /app_sync
+[2020-03-26 18:32:10 +0100] Sync Log:  [END] Updating file composer.lock
+[2020-03-26 18:32:10 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 18:32:09.90 on 26 Mar 2020
+[2020-03-26 18:32:10 +0100] Sync Log:  Synchronization complete at 18:32:09  (2 items transferred, 0 skipped, 0 failed)
+[2020-03-26 18:37:47 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 18:37:47.06 on 26 Mar 2020
+[2020-03-26 18:37:47 +0100] Sync Log:  [BGN] Updating file composer.json from /host_sync to /app_sync
+[2020-03-26 18:37:47 +0100] Sync Log:  [END] Updating file composer.json
+[2020-03-26 18:37:47 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 18:37:47.06 on 26 Mar 2020
+[2020-03-26 18:37:47 +0100] Sync Log:  Synchronization complete at 18:37:47  (1 item transferred, 0 skipped, 0 failed)
+[2020-03-26 18:38:07 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 18:38:07.81 on 26 Mar 2020
+[2020-03-26 18:38:07 +0100] Sync Log:  [BGN] Updating file composer.json from /host_sync to /app_sync
+[2020-03-26 18:38:07 +0100] Sync Log:  [END] Updating file composer.json
+[2020-03-26 18:38:07 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 18:38:07.81 on 26 Mar 2020
+[2020-03-26 18:38:07 +0100] Sync Log:  Synchronization complete at 18:38:07  (1 item transferred, 0 skipped, 0 failed)
