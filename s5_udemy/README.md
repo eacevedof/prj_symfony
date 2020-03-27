@@ -45,7 +45,7 @@
 
 ### Sección 3: Configuración de Docker 3 / 3|45 min
 ### [3. Configuración de Docker en Mac 26 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451272#questions/9295602)
-- [Rama](https://bitbucket.org/juanwilde/sf5-expenses-api/src/b953a0090139df2d90c8eea1e7f8e11912315136/?at=section2%2Fvideo1-docker-config)
+- [Bitbucket rama - section2-video1-docker-config](https://bitbucket.org/juanwilde/sf5-expenses-api/src/b953a0090139df2d90c8eea1e7f8e11912315136/?at=section2%2Fvideo1-docker-config)
 - Para usuarios de linux hay que instalar vbox
 - Maq virtual con version 18.04 ubuntu, con git, docker y todos los paquetes relacionados con el curso
 - También explicará como hacerlo en Windows
@@ -53,7 +53,7 @@
   - `git checkout -b section1/vieo1-create-project; git push origin section1/video1-create-project`
   - Vemos que ahora tenemos esta rama en Bitbucket
 - `git checkout -b section2/video1-docker-config`
-- ![Bitbucket rama: section2/video1-docker-config](https://bitbucket.org/juanwilde/sf5-expenses-api/src/5d07e74988543272786a6fc859836162e79bab3c/?at=section2%2Fvideo1-docker-config)
+- [Bitbucket rama: section2/video1-docker-config](https://bitbucket.org/juanwilde/sf5-expenses-api/src/5d07e74988543272786a6fc859836162e79bab3c/?at=section2%2Fvideo1-docker-config)
 - copia archivos de configuración (que ya los tenía preparados) al proyecto.rama en curso
   ```js
   var/
@@ -253,6 +253,7 @@ volumes:
   - Siempre que se instale alguna dependencia hay que hacerlo tanto dentro del **contenedor** como fuera, en mi maq local.
 - Según la configuración en `dcoker-compose.macos.yml` si vamos al puerto 200 deberiamos ver la web. 
   - [http://localhost:200](http://localhost:200)
+  2020/03/26 19:25:44 [emerg] 1#1: unexpected "}" in /etc/nginx/conf.d/default.conf:27
 
 ### [4. Configuración de Docker en Linux 8 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451450#questions/9295602)
 -

@@ -38,3 +38,57 @@ unison: started
 [2020-03-26 18:38:07 +0100] Sync Log:  [END] Updating file composer.json
 [2020-03-26 18:38:07 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 18:38:07.81 on 26 Mar 2020
 [2020-03-26 18:38:07 +0100] Sync Log:  Synchronization complete at 18:38:07  (1 item transferred, 0 skipped, 0 failed)
+          ok  Starting native_osx for sync sf5-expenses-api-be-sync
+          ok  sf5-expenses-api-be-sync container still running, restarting unison in container
+unison: stopped
+unison: started
+     success  Sync container started
+     success  Showing unison logs from your sync container: sf5-expenses-api-be-sync
+[2020-03-26 19:03:53 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 19:03:53.64 on 26 Mar 2020
+[2020-03-26 19:03:53 +0100] Sync Log:  [BGN] Updating file .docker-sync/daemon.log from /host_sync to /app_sync
+[2020-03-26 19:03:53 +0100] Sync Log:  [END] Updating file .docker-sync/daemon.log
+[2020-03-26 19:03:53 +0100] Sync Log:  [BGN] Copying .docker-sync/daemon.pid from /host_sync to /app_sync
+[2020-03-26 19:03:53 +0100] Sync Log:  [END] Copying .docker-sync/daemon.pid
+[2020-03-26 19:03:53 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 19:03:53.64 on 26 Mar 2020
+[2020-03-26 19:03:53 +0100] Sync Log:  Synchronization complete at 19:03:53  (2 items transferred, 0 skipped, 0 failed)
+[2020-03-26 20:10:26 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 20:10:26.09 on 26 Mar 2020
+[2020-03-26 20:10:26 +0100] Sync Log:  [BGN] Updating file docker-compose.macos.yml from /host_sync to /app_sync
+[2020-03-26 20:10:26 +0100] Sync Log:  [END] Updating file docker-compose.macos.yml
+[2020-03-26 20:10:26 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 20:10:26.09 on 26 Mar 2020
+[2020-03-26 20:10:26 +0100] Sync Log:  Synchronization complete at 20:10:26  (1 item transferred, 0 skipped, 0 failed)
+          ok  Starting native_osx for sync sf5-expenses-api-be-sync
+          ok  sf5-expenses-api-be-sync container still running, restarting unison in container
+unison: stopped
+unison: started
+     success  Sync container started
+     success  Showing unison logs from your sync container: sf5-expenses-api-be-sync
+[2020-03-26 20:12:27 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 20:12:27.44 on 26 Mar 2020
+[2020-03-26 20:12:27 +0100] Sync Log:  [BGN] Updating file .docker-sync/daemon.log from /host_sync to /app_sync
+[2020-03-26 20:12:27 +0100] Sync Log:  [END] Updating file .docker-sync/daemon.log
+[2020-03-26 20:12:27 +0100] Sync Log:  [BGN] Copying .docker-sync/daemon.pid from /host_sync to /app_sync
+[2020-03-26 20:12:27 +0100] Sync Log:  [END] Copying .docker-sync/daemon.pid
+[2020-03-26 20:12:27 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 20:12:27.45 on 26 Mar 2020
+[2020-03-26 20:12:27 +0100] Sync Log:  Synchronization complete at 20:12:27  (2 items transferred, 0 skipped, 0 failed)
+[2020-03-26 20:16:35 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 20:16:35.03 on 26 Mar 2020
+[2020-03-26 20:16:35 +0100] Sync Log:  [BGN] Updating file docker-compose.macos.yml from /host_sync to /app_sync
+[2020-03-26 20:16:35 +0100] Sync Log:  [END] Updating file docker-compose.macos.yml
+[2020-03-26 20:16:35 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 20:16:35.04 on 26 Mar 2020
+[2020-03-26 20:16:35 +0100] Sync Log:  Synchronization complete at 20:16:35  (1 item transferred, 0 skipped, 0 failed)
+          ok  Starting native_osx for sync sf5-expenses-api-be-sync
+          ok  sf5-expenses-api-be-sync container still running, restarting unison in container
+unison: stopped
+unison: started
+     success  Sync container started
+     success  Showing unison logs from your sync container: sf5-expenses-api-be-sync
+[2020-03-26 20:26:28 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 20:26:28.19 on 26 Mar 2020
+[2020-03-26 20:26:28 +0100] Sync Log:  [BGN] Updating file .docker-sync/daemon.log from /host_sync to /app_sync
+[2020-03-26 20:26:28 +0100] Sync Log:  [END] Updating file .docker-sync/daemon.log
+[2020-03-26 20:26:28 +0100] Sync Log:  [BGN] Updating file .docker-sync/daemon.pid from /host_sync to /app_sync
+[2020-03-26 20:26:28 +0100] Sync Log:  [END] Updating file .docker-sync/daemon.pid
+[2020-03-26 20:26:28 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 20:26:28.20 on 26 Mar 2020
+[2020-03-26 20:26:28 +0100] Sync Log:  Synchronization complete at 20:26:28  (2 items transferred, 0 skipped, 0 failed)
+[2020-03-27 11:17:54 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 11:17:53.91 on 27 Mar 2020
+[2020-03-27 11:17:54 +0100] Sync Log:  [BGN] Updating file docker/nginx/default.conf from /host_sync to /app_sync
+[2020-03-27 11:17:54 +0100] Sync Log:  [END] Updating file docker/nginx/default.conf
+[2020-03-27 11:17:54 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 11:17:53.91 on 27 Mar 2020
+[2020-03-27 11:17:54 +0100] Sync Log:  Synchronization complete at 11:17:53  (1 item transferred, 0 skipped, 0 failed)
