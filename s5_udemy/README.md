@@ -252,8 +252,11 @@ volumes:
     - He cambiado el nombre en *composer.json* de `Udemy - Expenses Api` a `udemy-expenses-api/app`
   - Siempre que se instale alguna dependencia hay que hacerlo tanto dentro del **contenedor** como fuera, en mi maq local.
 - Según la configuración en `dcoker-compose.macos.yml` si vamos al puerto 200 deberiamos ver la web. 
-  - [http://localhost:200](http://localhost:200)
-  2020/03/26 19:25:44 [emerg] 1#1: unexpected "}" in /etc/nginx/conf.d/default.conf:27
+- [http://localhost:200](http://localhost:200)
+  - Error: 2020/03/26 19:25:44 [emerg] 1#1: unexpected "}" in /etc/nginx/conf.d/default.conf:27
+  - He copiado el conf del repo de bitbucket y ya ha funcionado.
+  - Error en include de vendor autoload
+    - [Pregunta Udemy](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451272#questions/9794838)
 
 ### [4. Configuración de Docker en Linux 8 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451450#questions/9295602)
 -

@@ -9,7 +9,7 @@ services:
       args:
         UID: $U_ID
     ports:
-      - 5000:80
+      - 200:80
     volumes:
       - ./public:/appdata/www/public
     depends_on:
