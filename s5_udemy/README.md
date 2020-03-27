@@ -263,7 +263,18 @@ volumes:
       - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/558x340/08a0172220886aee609dad5266f9f602/image.png)
 
 ### [4. Configuración de Docker en Linux 8 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451450#questions/9295602)
--
+- En un pc con windows se instala virtualbox
+- Descargamos la imagen de ubuntu creada por Juan
+  - [Ubuntu - docker](https://drive.google.com/open?id=1v1eOGV7Un-FC7YUxKOIzkXxdCId0Hrio)
+  - Tiene: Git, Docker, Ubuntu 18.4
+- Otra opción es particionar el disco con linux
+- Se crea carpeta $HOME/www
+- Se clona el repo de bitbucket dentro de esta
+- Se ejecuta 
+  - `make build`
+  - `make run`
+  - `make prepare`
+- En el navegador poner: `localhost:200`
 ### [5. Configuración de Docker en Windows (Bonus)](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451456#questions/9295602)
 - 
 ### [6. Instalación de librerías adicionales 5 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451528#questions/9295602)
