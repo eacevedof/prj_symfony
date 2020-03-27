@@ -224,3 +224,13 @@ unison: started
 [2020-03-27 16:57:50 +0100] Sync Log:  [END] Updating file public/index.php
 [2020-03-27 16:57:50 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 16:57:49.50 on 27 Mar 2020
 [2020-03-27 16:57:50 +0100] Sync Log:  Synchronization complete at 16:57:49  (1 item transferred, 0 skipped, 0 failed)
+[2020-03-27 17:07:04 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 17:07:04.52 on 27 Mar 2020
+[2020-03-27 17:07:04 +0100] Sync Log:  [BGN] Updating file makefile from /host_sync to /app_sync
+[2020-03-27 17:07:04 +0100] Sync Log:  [END] Updating file makefile
+[2020-03-27 17:07:04 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 17:07:04.53 on 27 Mar 2020
+[2020-03-27 17:07:04 +0100] Sync Log:  Synchronization complete at 17:07:04  (1 item transferred, 0 skipped, 0 failed)
+[2020-03-27 17:08:11 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 17:08:11.12 on 27 Mar 2020
+[2020-03-27 17:08:11 +0100] Sync Log:  [BGN] Updating file config/bootstrap.php from /host_sync to /app_sync
+[2020-03-27 17:08:11 +0100] Sync Log:  [END] Updating file config/bootstrap.php
+[2020-03-27 17:08:11 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 17:08:11.12 on 27 Mar 2020
+[2020-03-27 17:08:11 +0100] Sync Log:  Synchronization complete at 17:08:11  (1 item transferred, 0 skipped, 0 failed)

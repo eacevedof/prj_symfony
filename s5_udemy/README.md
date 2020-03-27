@@ -257,6 +257,10 @@ volumes:
   - He copiado el conf del repo de bitbucket y ya ha funcionado.
   - Error en include de vendor autoload
     - [Pregunta Udemy](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451272#questions/9794838)
+    - Tenía un bug en makefile:
+      - `DOCKER_BE = sf5-expenses-api-be` antes era `expenses_api` con lo que todas las lineas relacionadas con este contenedor daban error
+      - Ahora se ha instalado composer en `sf5-expenses-api-be` y esto es lo que hay despues de la instalación
+      - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/558x340/08a0172220886aee609dad5266f9f602/image.png)
 
 ### [4. Configuración de Docker en Linux 8 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451450#questions/9295602)
 -
