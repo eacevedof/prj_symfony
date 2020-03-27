@@ -275,8 +275,12 @@ volumes:
   - `make run`
   - `make prepare`
 - En el navegador poner: `localhost:200`
+
 ### [5. Configuración de Docker en Windows (Bonus)](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451456#questions/9295602)
-- 
+- Se instala docker desktop for windows
+- Se instala gitbash
+- Instalación de make [Make for win](http://gnuwin32.sourceforge.net/packages/make.htm)
+
 ### [6. Instalación de librerías adicionales 5 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451528#questions/9295602)
 - 
 ### Sección 4: Instalación de librerías adicionales 1 / 1|5 min
