@@ -234,3 +234,48 @@ unison: started
 [2020-03-27 17:08:11 +0100] Sync Log:  [END] Updating file config/bootstrap.php
 [2020-03-27 17:08:11 +0100] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 17:08:11.12 on 27 Mar 2020
 [2020-03-27 17:08:11 +0100] Sync Log:  Synchronization complete at 17:08:11  (1 item transferred, 0 skipped, 0 failed)
+[2020-03-29 16:11:34 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 16:11:34.03 on 29 Mar 2020
+[2020-03-29 16:11:34 +0200] Sync Log:  [BGN] Copying public/index2.php from /host_sync to /app_sync
+[2020-03-29 16:11:34 +0200] Sync Log:  [END] Copying public/index2.php
+[2020-03-29 16:11:34 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 16:11:34.03 on 29 Mar 2020
+[2020-03-29 16:11:34 +0200] Sync Log:  Synchronization complete at 16:11:34  (1 item transferred, 0 skipped, 0 failed)
+[2020-03-29 16:11:44 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 16:11:43.87 on 29 Mar 2020
+[2020-03-29 16:11:44 +0200] Sync Log:  [BGN] Updating file public/index2.php from /host_sync to /app_sync
+[2020-03-29 16:11:44 +0200] Sync Log:  [END] Updating file public/index2.php
+[2020-03-29 16:11:44 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 16:11:43.87 on 29 Mar 2020
+[2020-03-29 16:11:44 +0200] Sync Log:  Synchronization complete at 16:11:43  (1 item transferred, 0 skipped, 0 failed)
+[2020-03-29 22:31:59 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 22:31:58.32 on 29 Mar 2020
+[2020-03-29 22:31:59 +0200] Sync Log:  [BGN] Updating file public/index2.php from /host_sync to /app_sync
+[2020-03-29 22:31:59 +0200] Sync Log:  [END] Updating file public/index2.php
+[2020-03-29 22:31:59 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 22:31:58.32 on 29 Mar 2020
+[2020-03-29 22:31:59 +0200] Sync Log:  Synchronization complete at 22:31:58  (1 item transferred, 0 skipped, 0 failed)
+[2020-03-29 22:34:36 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 22:34:35.59 on 29 Mar 2020
+[2020-03-29 22:34:36 +0200] Sync Log:  [BGN] Updating file public/index2.php from /host_sync to /app_sync
+[2020-03-29 22:34:36 +0200] Sync Log:  [END] Updating file public/index2.php
+[2020-03-29 22:34:36 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 22:34:35.60 on 29 Mar 2020
+[2020-03-29 22:34:36 +0200] Sync Log:  Synchronization complete at 22:34:35  (1 item transferred, 0 skipped, 0 failed)
+[2020-03-29 22:36:29 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 22:36:28.54 on 29 Mar 2020
+[2020-03-29 22:36:29 +0200] Sync Log:  [BGN] Updating file public/index2.php from /host_sync to /app_sync
+[2020-03-29 22:36:29 +0200] Sync Log:  [END] Updating file public/index2.php
+[2020-03-29 22:36:29 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 22:36:28.54 on 29 Mar 2020
+[2020-03-29 22:36:29 +0200] Sync Log:  Synchronization complete at 22:36:28  (1 item transferred, 0 skipped, 0 failed)
+[2020-03-29 22:36:32 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 22:36:32.06 on 29 Mar 2020
+[2020-03-29 22:36:32 +0200] Sync Log:  [BGN] Updating file public/index2.php from /host_sync to /app_sync
+[2020-03-29 22:36:32 +0200] Sync Log:  [END] Updating file public/index2.php
+[2020-03-29 22:36:32 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 22:36:32.07 on 29 Mar 2020
+[2020-03-29 22:36:32 +0200] Sync Log:  Synchronization complete at 22:36:32  (1 item transferred, 0 skipped, 0 failed)
+[2020-03-29 22:36:52 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 22:36:52.39 on 29 Mar 2020
+[2020-03-29 22:36:52 +0200] Sync Log:  [BGN] Updating file public/index2.php from /host_sync to /app_sync
+[2020-03-29 22:36:52 +0200] Sync Log:  [END] Updating file public/index2.php
+[2020-03-29 22:36:52 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 22:36:52.39 on 29 Mar 2020
+[2020-03-29 22:36:52 +0200] Sync Log:  Synchronization complete at 22:36:52  (1 item transferred, 0 skipped, 0 failed)
+[2020-03-29 22:38:30 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 22:38:29.87 on 29 Mar 2020
+[2020-03-29 22:38:30 +0200] Sync Log:  [BGN] Updating file public/index2.php from /host_sync to /app_sync
+[2020-03-29 22:38:30 +0200] Sync Log:  [END] Updating file public/index2.php
+[2020-03-29 22:38:30 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 22:38:29.87 on 29 Mar 2020
+[2020-03-29 22:38:30 +0200] Sync Log:  Synchronization complete at 22:38:29  (1 item transferred, 0 skipped, 0 failed)
+[2020-03-29 22:47:20 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) started propagating changes at 22:47:19.93 on 29 Mar 2020
+[2020-03-29 22:47:20 +0200] Sync Log:  [BGN] Updating file public/index2.php from /host_sync to /app_sync
+[2020-03-29 22:47:20 +0200] Sync Log:  [END] Updating file public/index2.php
+[2020-03-29 22:47:20 +0200] Sync Log:  UNISON 2.51.2 (OCAML 4.06.1) finished propagating changes at 22:47:19.93 on 29 Mar 2020
+[2020-03-29 22:47:20 +0200] Sync Log:  Synchronization complete at 22:47:19  (1 item transferred, 0 skipped, 0 failed)

@@ -280,6 +280,21 @@ volumes:
 - Se instala docker desktop for windows
 - Se instala gitbash
 - Instalación de make [Make for win](http://gnuwin32.sourceforge.net/packages/make.htm)
+- Bajar `make-<version>-without-guile-w32-bin.zip`
+- Se extraen en la carpeta: `<archivos-de-programa>/git/mingw64`
+- Ya se puede hacer: 
+  - `make build`
+  - `make run`
+  - `winpty make prepare`
+- Instalación de workbench
+- Para crear los usuarios:
+  - `winpty make ssh-be`
+  - Dentro del contenedor:
+    - `sf d:f:l -n`
+    - Purga la bd
+    - Crea la bd desde 0 con datos de prueba
+- Si vamos a [localhost:85/api/v1/docs](http://localhost:85/api/v1/docs)
+  - Podemos ver la app funcionando
 
 ### [6. Instalación de librerías adicionales 5 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451528#questions/9295602)
 - 
