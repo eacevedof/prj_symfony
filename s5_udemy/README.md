@@ -378,7 +378,13 @@ DATABASE_URL=mysql://root:root@sf5-expenses-api-db:3306/sf5-expenses-api_api?ser
 - `composer require ramsey/uuid-doctrine`
 - Crea el fichero: `expenses_api/config/packages/ramsey_uuid_doctrine.yaml`
   - Aqui se le indica que cada vez que se defina un tipo uuid se va a inyectar `Ramsey...\UuidType`
-
+- Se crea la entidad User
+- Se configura en **doctrine.yaml** el tipo del mapping, en lugar de anotación se pone **yml**
+- El role Role.php
+- El mapping (esquema de user) en `Doctrine/Mapping/Entity/User.orm.yml`
+- Con esto ya se puede ejecutar la migración (dentro del contenedor be):
+  - `sf doctrine:migrations:generate`
+  - crea el fichero `src/Migrations/Version<numero>.php`
 
 ### [9. Custom endpoint para registrar usuarios 38 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451550#questions/9295602)
 - 
