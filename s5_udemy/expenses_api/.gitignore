@@ -6,8 +6,8 @@
 /public/bundles/
 /var/
 /vendor/
-/.docker-sync/*
-/config/jwt/*
+/.docker-sync/
+/config/jwt/
 ###< symfony/framework-bundle ###
 
 ###> Other files ###
