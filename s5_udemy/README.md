@@ -364,6 +364,7 @@ DATABASE_URL=mysql://root:root@sf5-expenses-api-db:3306/sf5-expenses-api_api?ser
 
 ### [8. Configurar sistema de autenticación 56 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451544#questions/9295602)
 - 
+
 ### [9. Custom endpoint para registrar usuarios 38 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451550#questions/9295602)
 - 
 
