@@ -61,7 +61,7 @@ endif
 prepare: ## Runs backend commands
 	$(MAKE) be-sf-permissions
 	$(MAKE) composer-install
-#	$(MAKE) migrations
+	$(MAKE) migrations
 
 # Backend commands
 be-sf-permissions: ## Configure the Symfony permissions

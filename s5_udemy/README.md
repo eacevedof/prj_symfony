@@ -286,7 +286,14 @@ volumes:
   - `make build`
   - `make run`
   - `winpty make prepare`
-- Instalación de workbench
+    - **error**
+    - intenta ejecutar el ORM
+    ```
+    There are no commands defined in the "doctrine:migrations" namespace.                                                                               
+    You may be looking for a command provided by the "Doctrine ORM" which is currently not installed. 
+    Try running "composer require symfony/orm-pack".
+    ```
+- Instalación de workbench (en mi caso beaver)
 - Para crear los usuarios:
   - `winpty make ssh-be`
   - Dentro del contenedor:
@@ -295,6 +302,15 @@ volumes:
     - Crea la bd desde 0 con datos de prueba
 - Si vamos a [localhost:85/api/v1/docs](http://localhost:85/api/v1/docs)
   - Podemos ver la app funcionando
+- Instalación de **docker-sync** en windows
+  - Hay que instalar el subsistema de linux en windows
+  - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/ccb612c9403eba6e03cf91c8ae99f31b/image.png)
+  - Ir al store y buscar linux:
+  - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/1e57c72408fc9e8c7dd5862072e8d53a/image.png)
+  - despues de ejecutar launch ya contamos con un linux de este tipo:
+  - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/e35ce0331869844a4bdb5563af87e526/image.png)
+  - Despues de contar con linux hay que seguir la serie de pasos del manual que muchos no son tan directos
+- En resumen habría que instalar mejor un linux en **virtualbox** y ahi instalar **docker-sync**
 
 ### [6. Instalación de librerías adicionales 5 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451528#questions/9295602)
 - 
