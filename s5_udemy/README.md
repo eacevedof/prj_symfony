@@ -336,7 +336,32 @@ DATABASE_URL=mysql://root:root@sf5-expenses-api-db:3306/sf5-expenses-api_api?ser
 
 ### Sección 5: Autenticación y registro 0 / 3|1 h 41 min
 ### [7. Instalar librería para usar JSON Web Tokens 7 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451540#questions/9295602)
-- 
+- `git checkout -b section4/video1-install-jwt-library`
+- `make ssh-be`
+- `composer require "lexik/jwt-authentication-bundle"`
+- **en host:** `composer install` para mantener sincronizados los dos lados
+- La instalacion de jwt toca varios ficheros:
+  - expenses_api/config/packages/lexik_jwt_authentication.yaml
+  - expenses_api/config/packages/security.yaml
+  - expenses_api/config/packages/bundles.php
+  - expenses_api/.env
+- Despues de instalar queda configurar la libreria:
+  - Hay que crear los certificados
+  ```js
+  //makefile
+  //esto tiene relacion con el fichero .env, la contraseña hay que replicarla ahi
+  //https://github.com/lexik/LexikJWTAuthenticationBundle/blob/master/Resources/doc/index.md#generate-the-ssh-keys
+  generate-ssh-keys: ## Generate ssh keys in the container
+	U_ID=${UID} docker exec -it --user ${UID} ${DOCKER_BE} mkdir -p config/jwt
+	U_ID=${UID} docker exec -it --user ${UID} ${DOCKER_BE} openssl genrsa -passout pass:sf5-expenses-api -out config/jwt/private.pem -aes256 4096
+	U_ID=${UID} docker exec -it --user ${UID} ${DOCKER_BE} openssl rsa -pubout -passin pass:sf5-expenses-api -in config/jwt/private.pem -out config/jwt/public.pem
+  ```
+  - se configura **.env** con la nueva clave
+  - se configura **lexik_jwt_authentication.yaml** con el TTL
+  - se ejecuta `make generate-ssh-keys`
+    - Crea una una carpeta **config/jwt** con **private.pem y public.pem**
+- En este punto ya estaría configurada la libreria
+
 ### [8. Configurar sistema de autenticación 56 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451544#questions/9295602)
 - 
 ### [9. Custom endpoint para registrar usuarios 38 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451550#questions/9295602)
