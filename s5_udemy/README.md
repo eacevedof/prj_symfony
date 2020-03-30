@@ -313,7 +313,26 @@ volumes:
 - En resumen habría que instalar mejor un linux en **virtualbox** y ahi instalar **docker-sync**
 
 ### [6. Instalación de librerías adicionales 5 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451528#questions/9295602)
-- 
+- Crea nuna nueva rama
+  - `git checkout -b section3/video1-install-doctrine-and-monolog`
+- `make ssh-be`
+  - crea sesion en: `appuser@a94a428f574e:/appdata/www$`
+- `composer require symfony/orm-pack`
+- `composer require monolog`
+```js
+//archivo: .env
+###> doctrine/doctrine-bundle ###
+# estos datos se obtienen de docker-compose.macos.yml - sf5-expenses-api-db
+# en este caso uso root // root pq son los datos genericos, se deberia usar user//password
+DATABASE_URL=mysql://root:root@sf5-expenses-api-db:3306/sf5-expenses-api_api?serverVersion=5.7
+###< doctrine/doctrine-bundle ###
+```
+- Dentro del contenedor: **@a94a428f574e:/appdata/www**
+- `sf doctrine:migrations:migrate`
+  - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/541x78/52bc362ec18ed57fce515e156534d96f/image.png)
+  - Este mensaje indica que hay conexion
+- ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/734x596/43851d0cb7614ada079077425e9f4353/image.png)
+
 ### Sección 4: Instalación de librerías adicionales 1 / 1|5 min
 ### [6. Instalación de librerías adicionales 5 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17450464#questions)
 - 
