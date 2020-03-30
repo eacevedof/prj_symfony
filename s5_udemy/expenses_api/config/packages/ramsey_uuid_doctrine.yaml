@@ -1,0 +1,5 @@
+# expenses_api/config/packages/ramsey_uuid_doctrine.yaml
+doctrine:
+    dbal:
+        types:
+            uuid: 'Ramsey\Uuid\Doctrine\UuidType'

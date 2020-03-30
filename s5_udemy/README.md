@@ -363,7 +363,22 @@ DATABASE_URL=mysql://root:root@sf5-expenses-api-db:3306/sf5-expenses-api_api?ser
 - En este punto ya estaría configurada la libreria
 
 ### [8. Configurar sistema de autenticación 56 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451544#questions/9295602)
-- 
+- Vamos a instalar una libreria para unique id
+- Crearemos la entidad usuario
+- Crear fichero mapping
+- Creación de repositorio
+- Creación de UserProvider, clase que se va a usar por la libreria instalada
+- Migración de contraseñas
+  - Desde la v4.4 en funcion de la pass del usuario se aplica un algoritmo u otro
+- Security.yml
+- Xdebug
+- Rutas
+- `git checkout -b section4/video2-authentication-logic`
+- `make ssh-be`
+- `composer require ramsey/uuid-doctrine`
+- Crea el fichero: `expenses_api/config/packages/ramsey_uuid_doctrine.yaml`
+  - Aqui se le indica que cada vez que se defina un tipo uuid se va a inyectar `Ramsey...\UuidType`
+
 
 ### [9. Custom endpoint para registrar usuarios 38 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451550#questions/9295602)
 - 
