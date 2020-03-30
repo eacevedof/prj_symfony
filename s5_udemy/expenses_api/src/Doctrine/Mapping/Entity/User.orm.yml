@@ -1,0 +1,31 @@
+App\Entity\User;
+  type: entity
+  table: user
+
+  id:
+    id:
+      type: string
+  
+  fields:
+    name:
+      type: string
+      nullable: false
+    email:
+      type: string
+      nullable: false
+    password:
+      type: string
+      nullable: false
+    roles:
+      type: simple_array
+      nullable: false
+    createdAt:
+      type: string
+      nullable: false
+    updatedAt:
+      type: string
+      nullable: false
+
+  lifecycleCallbacks:
+    # antes de actualizar un valor en la bd se ejecutara el metodo User.markAsUpdated
+    preUpdate: [markAsUpdated]
