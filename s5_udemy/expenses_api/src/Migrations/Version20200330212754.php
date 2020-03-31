@@ -12,20 +12,33 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20200330212754 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
-        return '';
+        return 'Creates `user` table';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-
+        //el tipo BINARY la comparación es más rapido y más eficiente tambien
+        //permite comparar la contraseña por el cod bin y no su caracter
+        $this->addSql('
+            CREATE TABLE user (
+                id CHAR(36) NOT NULL PRIMARY KEY,
+                name VARCHAR(100) NOT NULL,
+                email VARCHAR(100) NOT NULL,
+                password BINARY(200) NOT NULL,
+                roles VARCHAR(100) NOT NULL,
+                create_at DATETIME NOT NULL,
+                updated_at DATETIME NOT NULL
+            )
+            DEFAULT CHARACTER SET utf8mb4 
+            COLLATE utf8mb4_general_ci
+            ENGINE = InnoDB
+        ');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-
+        $this->addSql('DROP TABLE user');
     }
 }

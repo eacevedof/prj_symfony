@@ -6,8 +6,9 @@ namespace App\Entity;
 
 use App\Security\Role;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-class User
+class User implements UserInterface
 {
     protected ?string $id;
     protected string $name;
@@ -15,7 +16,7 @@ class User
     protected string $password;
     protected array $roles;
     protected \DateTime $createdAt;
-    protected \DateTime $updateAt;
+    protected \DateTime $updatedAt;
 
     /**
      * @throws \Exeeption
@@ -29,43 +30,43 @@ class User
         $this->createdAt = new \DateTime();
         $this->markAsUpdated();
     }
-    
+
     public function getId(): ?string
     {
         return $this->id;
     }
-    
-    public function getName():string
+
+    public function getName(): string
     {
         return $this->name;
     }
-    
-    public function setName(string $name):void
+
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    public function getEmail():string
+    public function getEmail(): string
     {
         return $this->email;
     }
-    
-    public function setEmail(string $email):void
+
+    public function setEmail(string $email): void
     {
         $this->email = $email;
-    }    
+    }
 
-    public function getPassword():string
+    public function getPassword(): string
     {
         return $this->password;
     }
-    
-    public function setPassword(string $password):void
+
+    public function setPassword(string $password): void
     {
         $this->password = $password;
-    }    
-    
-    public function getRoles():array
+    }
+
+    public function getRoles(): array
     {
         return $this->roles;
     }
@@ -74,10 +75,10 @@ class User
     {
         return $this->createdAt;
     }
-    
+
     public function getUpdatedAt(): \Datetime
     {
-        return $this->UpdatedAt;
+        return $this->updatedAt;
     }
 
     public function markAsUpdated(): void
@@ -85,4 +86,16 @@ class User
         $this->updatedAt = new \DateTime();
     }
 
+    public function getSalt(): void
+    {
+    }
+
+    public function getUsername(): string
+    {
+        return $this->email;
+    }
+
+    public function eraseCredentials(): void
+    {
+    }
 }

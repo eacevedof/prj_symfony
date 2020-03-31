@@ -412,6 +412,294 @@ DATABASE_URL=mysql://root:root@sf5-expenses-api-db:3306/sf5-expenses-api_api?ser
       }
   }
   ```
+  - Configuracion del método up: `public function up(Schema $schema) : void` aqui se configura el esquema, el **CREATE TABLE**
+  - Se usa *utf8mb4* ya que es el fix de UTF8 de mysql
+  ```php
+  //el tipo BINARY la comparación es más rapido y más eficiente tambien
+  //permite comparar la contraseña por el cod bin y no su caracter
+  $this->addSql("
+      CREATE TABLE user (
+          id CHAR(36) NOT NULL PRIMARY KEY,
+          name VARCHAR(100) NOT NULL,
+          email VARCHAR(100) NOT NULL,
+          password BINARY(200) NOT NULL,
+          roles VARCHAR(100) NOT NULL,
+          create_at DATETIME NOT NULL,
+          updated_at DATETIME NOT NULL
+      )
+      DEFAULT CHARACTER SET utf8mb4 
+      COLLATE utf8mb4_general_ci
+      ENGINE = InnoDB
+  ");
+  ```
+  - Con el esquema definido ahora ejecutamos en el contenedor be: `sf doctrine:migrations:migrate -n` -n salta la pregunta de *si quiero*
+  ```js
+  ++ migrated (took 218.7ms, used 12M memory)
+  ------------------------
+  ++ finished in 235.1ms
+  ++ used 12M memory
+  ++ 1 migrations executed
+  ++ 1 sql queries
+  ```
+  ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/906x380/82134cf4a379ef986253d539464468e8/image.png)
+- **Creacion de repositorio**
+- Clase obsoleta (izquierda):
+  - `use Doctrine\Common\Persistence\ManagerRegistry;`
+  - deberia usarse: `use Doctrine\Persistence\ManagerRegistry;`
+  - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/bddc7a643ca90178c710984c98050b9c/image.png)
+  ```php
+  //repositorios
+  //BaseRepository.php
+  <?php
+
+  declare(strict_types=1);
+
+  namespace App\Repository;
+
+  //esta clase aparece como obsoleta pero en esta version de doctrine no esta del todo corregida
+  //por lo tanto la seguimos usando
+  //use Doctrine\Common\Persistence\ManagerRegistry;
+  use Doctrine\DBAL\Connection;
+  use Doctrine\DBAL\Query\QueryBuilder;
+  use Doctrine\Persistence\ManagerRegistry;
+  use Doctrine\Persistence\ObjectManager;
+  use Doctrine\Persistence\ObjectRepository;
+
+  abstract class BaseRepository
+  {
+      protected ManagerRegistry $managerRegistry;
+      protected ObjectRepository $objectRepository;
+      protected Connection $connection;
+
+      public function __construct(ManagerRegistry $managerRegistry, Connection $connection)
+      {
+          $this->managerRegistry = $managerRegistry;
+          $this->connection = $connection;
+
+          //getRepository devolverá el repositorio del nombre de la entidad que se le inyecta
+          $this->objectRepository = $this->getEntityManager()->getRepository($this->entityClass());
+      }
+
+      abstract protected static function entityClass(): string;
+
+      protected function saveEntity($entity): void
+      {
+          $this->getEntityManager()->persist($entity);
+          $this->getEntityManager()->flush();
+      }
+
+      protected function removeEntity($entity): void
+      {
+          $this->getEntityManager()->remove($entity);
+          $this->getEntityManager()->flush();
+      }
+
+      protected function createQueryBuilder(): QueryBuilder
+      {
+          return $this->getEntityManager()->createQueryBuilder();
+      }
+
+      /**
+       * @throws DBALException
+       *                       para hacer queries abiertas
+       */
+      protected function executeFetchQuery(string $query, array $params = []): array
+      {
+          return $this->connection->executeQuery($query, $params)->fetchAll();
+      }
+
+      /**
+       * @throws DBALException
+       */
+      protected function executeInsertQuery(string $query, array $params = []): array
+      {
+          return $this->connection->executeQuery($query, $params);
+      }
+
+      private function getEntityManager(): ObjectManager
+      {
+          $entityManager = $this->managerRegistry->getManager();
+          if ($entityManager->isOpen()) {
+              return $entityManager;
+          }
+
+          return $this->managerRegistry->resetManager();
+      }
+  }
+
+  //UserRepository.php
+  declare(strict_types=1);
+
+  namespace App\Repository;
+
+  use App\Entity\User;
+
+  class UserRepository extends BaseRepository
+  {
+      protected static function entityClass(): string
+      {
+          return User::class;
+      }
+
+      public function findOneByEmail(string $email): ?User
+      {
+          $user = $this->objectRepository->findByOne(['email' => $email]);
+
+          return $user;
+      }
+
+      public function save(User $user): void
+      {
+          $this->saveEntity($user);
+      }
+  }
+  ```
+- **Creacion del provider**
+  ```php
+  declare(strict_types=1);
+
+  namespace App\Security\Core\User;
+
+  use App\Repository\UserRepository;
+  use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+  use Symfony\Component\Security\Core\User\UserInterface;
+  use Symfony\Component\Security\Core\User\UserProviderInterface;
+
+  class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
+  {
+      private UserRepository $userRepository;
+
+      public function __construct(UserRepository $userRepo)
+      {
+          $this->userRepository = $userRepo;
+      }
+
+      public function loadUserByUsernameAndPayload($usuername, array $payload): UserInterface
+      {
+          return $this->findUser($username);
+      }
+
+      private function findUser(string $username): User
+      {
+          $user = $this->userRepository->findOneByEmail($username);
+          if (null === $user) {
+              throw new UsernameNotFoundException(\sprintf('User with email %s not found!', $username));
+          }
+
+          return $user;
+      }
+
+      public function loadUserByUsername(string $username)
+      {
+          return $this->findUser($username);
+      }
+
+      public function refreshUser(UserInterface $user)
+      {
+          if (!$user instanceof User) {
+              throw new UnsupportedUserException(\sprintf('Instances of %s are not supported', \get_class($user)));
+          }
+
+          return $this->loadUserByUsername($user->getUsername());
+      }
+
+      public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
+      {
+          $user->setPassword($newEncodedPassword);
+          $this->userRepository($user);
+      }
+
+      public function supportsClass(string $class): bool
+      {
+          return User::class == $class;
+      }
+  }
+  ```
+- **Configuracion de YAML security y routes***
+  ```yaml
+  # config/packages/security.yaml
+  # se rellena según lexikjwt guia de instalación
+  security:
+      encoders:
+          App\Entity\User:
+              algorithm: "auto"
+              
+      providers:
+          user_provider:
+              id: App\Security\Core\User\UserProvider
+              
+      firewalls:
+          login:
+              pattern: ^/api/v1/login
+              stateless: true
+              anonymous: true
+              provider: user_provider
+              
+              # en lugar de json_login que forzaría a enviar los datos de autenticacion en json
+              form_login:
+                  check_path: /api/v1/login_check
+                  username_parameter: _email
+                  password_parameter: _password
+                  # ruta real: vendor/lexik/jwt-authentication-bundle/Security/Http/Authentication/AuthenticationSuccessHandler.php
+                  success_handler: lexik_jwt_authentication.handler.authentication_success
+                  # vendor/lexik/jwt-authentication-bundle/Security/Http/Authentication/AuthenticationFailureHandler.php
+                  failure_handler: lexik_jwt_authentication.handler.authentication_failure
+                  require_previous_session: false
+                  
+          api:
+              pattern: ^/api/v1
+              stateless: true
+              guard:
+                  authenticators:
+                      # vendor/lexik/jwt-authentication-bundle/Security/Guard/JWTTokenAuthenticator.php
+                      - lexik_jwt_authentication.jwt_token_authenticator
+          
+      # todo lo que venga despues de /api/v1 tiene que estar autenticado
+      access_control:
+          - { path: ^/api/v1, roles: IS_AUTHENTICATED_FULLY }
+
+  #routes.yaml
+  api_login_check:
+    path: /api/v1/login_check
+  ```
+- **comprobacion de rutas**
+```js
+appuser@a94a428f574e:/appdata/www$ sf d:r
+----------------- -------- -------- ------ -------------------------- 
+Name              Method   Scheme   Host   Path                      
+----------------- -------- -------- ------ -------------------------- 
+_preview_error    ANY      ANY      ANY    /_error/{code}.{_format}  
+api_login_check   ANY      ANY      ANY    /api/v1/login_check       
+----------------- -------- -------- ------ -------------------------- 
+```
+- **configuración xdebug (phpstorm)**
+  - Preferencias &gt; php &gt;
+  - Se donfigura el CLI Interpreters. La version de php y donde está. En nuestro caso docker-mac
+  - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/7e5589651dfcd5379da6254720be7cc4/image.png)
+  - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/42f98f6d082a529e32a22af3eb59bf1d/image.png)
+  - Configuracion de la raiz del proyecto (path mappings).
+    - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/1152x236/1571589bfd6d1507b165b837b5571800/image.png)
+    - Volume binding
+    - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/8f157930bf55afa208f0e736c3923e28/image.png)
+  - En php &gt; debug, hay que configurar el puerto 9005
+    ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/1182x296/6807a2d337bbdc7d4d0530619c0b9441/image.png)
+  - Servers
+    - El "Name: Docker" es que se crea en el docker-compose **be** serverName ^^
+    ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/14ab7510a1fdae190851d95d565b9b9b/image.png)
+- **make code-style**
+  - `brew upgrade php-fixer`
+  - Formatea el codigo al estilo de symfony: `make code-style`
+  ```js
+  make code-style
+  php-cs-fixer fix src --rules=@Symfony
+  Loaded config default.
+   1) src/Migrations/Version20200330212754.php
+   2) src/Repository/BaseRepository.php
+   3) src/Repository/UserRepository.php
+   4) src/Security/Core/User/UserProvider.php
+   5) src/Security/Role.php
+   6) src/Entity/User.php
+  ````
 
 ### [9. Custom endpoint para registrar usuarios 38 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451550#questions/9295602)
 - 
