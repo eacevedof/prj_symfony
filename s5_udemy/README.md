@@ -385,6 +385,33 @@ DATABASE_URL=mysql://root:root@sf5-expenses-api-db:3306/sf5-expenses-api_api?ser
 - Con esto ya se puede ejecutar la migración (dentro del contenedor be):
   - `sf doctrine:migrations:generate`
   - crea el fichero `src/Migrations/Version<numero>.php`
+  ```php
+  //expenses_api/src/Migrations/Version20200330212754.php
+  declare(strict_types=1);
+  namespace DoctrineMigrations;
+  use Doctrine\DBAL\Schema\Schema;
+  use Doctrine\Migrations\AbstractMigration;
+  /**
+  * Auto-generated Migration: Please modify to your needs!
+  */
+  final class Version20200330212754 extends AbstractMigration
+  {
+      public function getDescription() : string
+      {
+          return '';
+      }
+
+      public function up(Schema $schema) : void
+      {
+          // this up() migration is auto-generated, please modify it to your needs
+      }
+
+      public function down(Schema $schema) : void
+      {
+          // this down() migration is auto-generated, please modify it to your needs
+      }
+  }
+  ```
 
 ### [9. Custom endpoint para registrar usuarios 38 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451550#questions/9295602)
 - 
