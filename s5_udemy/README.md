@@ -683,6 +683,8 @@ api_login_check   ANY      ANY      ANY    /api/v1/login_check
     - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/8f157930bf55afa208f0e736c3923e28/image.png)
   - En php &gt; debug, hay que configurar el puerto 9005
     ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/1182x296/6807a2d337bbdc7d4d0530619c0b9441/image.png)
+    - Hay que activar el **start listening**
+    ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/741x533/bfb0488ac683b7a77de58e3095b393c4/image.png)
   - Servers
     - El "Name: Docker" es que se crea en el docker-compose **be** serverName ^^
     ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/14ab7510a1fdae190851d95d565b9b9b/image.png)
