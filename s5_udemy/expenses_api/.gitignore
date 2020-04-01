@@ -7,6 +7,7 @@
 /var/
 /vendor/
 /.docker-sync/
+/config/jwt/
 ###< symfony/framework-bundle ###
 
 ###> Other files ###
@@ -14,6 +15,5 @@
 .vscode
 .env.local
 .docker-sync
-config/jwt
 .php_cs.cache
 ###< Other files ###
