@@ -1,10 +1,12 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Security\Core\User;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -13,24 +15,14 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
 {
     private UserRepository $userRepository;
 
-    public function __construct(UserRepository $userRepo)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->userRepository = $userRepo;
+        $this->userRepository = $userRepository;
     }
 
-    public function loadUserByUsernameAndPayload($usuername, array $payload): UserInterface
+    public function loadUserByUsernameAndPayload($username, array $payload): UserInterface
     {
         return $this->findUser($username);
-    }
-
-    private function findUser(string $username): User
-    {
-        $user = $this->userRepository->findOneByEmail($username);
-        if (null === $user) {
-            throw new UsernameNotFoundException(\sprintf('User with email %s not found!', $username));
-        }
-
-        return $user;
     }
 
     public function loadUserByUsername(string $username)
@@ -47,14 +39,26 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
         return $this->loadUserByUsername($user->getUsername());
     }
 
+    private function findUser(string $username): User
+    {
+        $user = $this->userRepository->findOneByEmail($username);
+
+        if (null === $user) {
+            throw new UsernameNotFoundException(\sprintf('User with email %s not found', $username));
+        }
+
+        return $user;
+    }
+
     public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
     {
         $user->setPassword($newEncodedPassword);
-        $this->userRepository($user);
+
+        $this->userRepository->save($user);
     }
 
-    public function supportsClass(string $class): bool
+    public function supportsClass(string $class)
     {
-        return User::class == $class;
+        return User::class === $class;
     }
 }
