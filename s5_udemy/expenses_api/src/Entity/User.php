@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Security\Role;
+use App\Security\Roles;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -19,14 +19,14 @@ class User implements UserInterface
     protected \DateTime $updatedAt;
 
     /**
-     * @throws \Exeeption
+     * @throws \Exception
      */
     public function __construct(string $name, string $email, string $id = null)
     {
         $this->id = $id ?? Uuid::uuid4()->toString();
         $this->name = $name;
         $this->email = $email;
-        $this->roles[] = Role::ROLE_USER;
+        $this->roles[] = Roles::ROLE_USER;
         $this->createdAt = new \DateTime();
         $this->markAsUpdated();
     }
