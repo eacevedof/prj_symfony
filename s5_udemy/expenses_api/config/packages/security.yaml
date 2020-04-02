@@ -9,6 +9,11 @@ security:
             id: App\Security\Core\User\UserProvider
             
     firewalls:
+        register:
+            pattern: ^/api/v1/users/register
+            methods: [POST]
+            security: false
+
         login:
             pattern: ^/api/v1/login
             stateless: true
