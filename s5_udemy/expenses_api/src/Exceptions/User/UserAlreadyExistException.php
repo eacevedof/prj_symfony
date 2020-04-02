@@ -1,17 +1,16 @@
 <?php
-
+//src/Exceptions/User/UserAlreadyExistException.php
 declare(strict_types=1);
 namespace App\Exceptions\User;
 
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-
-class UserAlreadyExistException extends BadRequestHttpException
+class UserAlreadyExistException extends ConflictHttpException
 {
-    private const MESSAGE = "User with email %s already exists";
+    private const MESSAGE = 'User with email %s already exist';
 
-    public static function fromUserEmail(string $email):self
+    public static function fromUserEmail(string $email): self
     {
-        throw new self(\sprintf(self::MESSAGE,$email));
+        throw new self(\sprintf(self::MESSAGE, $email));
     }
 }
