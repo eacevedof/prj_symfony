@@ -833,7 +833,9 @@ class Register
     type: datetime
     nullable: false
   ```
-  
+ - Estaba entrando por la excepción pero no hacia caso al listener.
+   - Tenía el listener mal configurado en services.yaml
+   - Las importaciones estaban mal hechas, usaba clases nativas de php y debían ser las de Symfony
 
 ### Sección 6: Instalar y configurar API Platform 0 / 3|3 h 4 min
 ### [10. Instalar y configurar API Platform y recurso para usuarios 1 h 17 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451554#questions/9295602)
