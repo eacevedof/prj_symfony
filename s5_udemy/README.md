@@ -701,10 +701,126 @@ api_login_check   ANY      ANY      ANY    /api/v1/login_check
    4) src/Security/Core/User/UserProvider.php
    5) src/Security/Role.php
    6) src/Entity/User.php
-  ````
+  ```
 
 ### [9. Custom endpoint para registrar usuarios 38 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451550#questions/9295602)
-- 
+- `git checkout -b section4/video3-create-custom-action-register-users`
+- Hay que configurar la app para crear ese "custom actions"
+- Renombramos la carpeta **Controller** a **Api**
+- Hacemos refactor en: 
+  - annotations.yaml, services.yaml
+  ```yaml
+  # annotations.yaml
+  controllers:
+     # resource: ../../src/Controller/
+     resource: ../../src/Api/
+     type: annotation
+     prefix: /api/v1
+  
+  # services.yaml
+  #App\Controller\:
+  App\Api\:
+      #resource: '../src/Controller'
+      resource: "../src/Api"
+      tags: ['controller.service_arguments']
+  ```
+- Con esto todas las clases dentro de `Api/` serán consideradas como **custom endpoints**
+- Se crea la clase: `src/Api/Listener/JsonExceptionResponseTransformerListener`
+  - La intención es evitar que la gestión de excepciones la haga por defecto symfony, la típca web en color rojo.
+  - Al estar trabajando con una API esto no nos vale. Por lo tanto hay que devolver un JSON
+  - Una vez creado, hay que darla de alta como servicio **services.yaml**
+  ```yaml
+  App\Api\Listener\JsonExceptionResponseTransformerListener:
+     tags:
+        - { name: kernel.event_listner, event: kernel.exception, method: onKernelException, priority: 100}
+  ```
+- Probando: 
+   - [localhost:200/api/v1/users/register](http://localhost:200/api/v1/users/register)
+  ```json
+  {
+      "code": 401,
+      "message": "JWT Token not found"
+  }
+  ```
+  - Esto sucede porque esta ACL se esta ejecutando:
+  ```
+  # security
+  access_control:
+      - { path: ^/api/v1, roles: IS_AUTHENTICATED_FULLY }
+  ```
+  - Agregamos esta linea:
+  ```yaml
+  firewalls:
+     register:
+        pattern: ^/api/v1/users/register
+        methods: [POST]
+        security: false  
+  ```
+  - Ahora ya contesta con 200
+- Definiendo una excepción personalizada:
+  - En el archivo: `src/Api/Action/User/Register.php` debemos validar si ya existe el email si es así hay que lanzar una excepción.
+  - Creamos un fichero en `src/Exceptions/User/UserAlreadyExistException.php`
+- Con lo anterior ya podemos definir nuestro custom endpoint:
+```php
+//src/Api/Action/User/Register.php
+class Register
+{
+  private UserRepository $userRepository;
+  private JWTTokenManagerInterface $JWTTokenManager;
+  private EncoderFactoryInterface $encoderFactory;
+
+  public function __construct(UserRepository $userRepository, JWTTokenManagerInterface $JWTTokenManager, EncoderFactoryInterface $encoderFactory)
+  {
+      $this->userRepository = $userRepository;
+      $this->JWTTokenManager = $JWTTokenManager;
+      $this->encoderFactory = $encoderFactory;
+  }
+
+  /**
+   * @Route("/users/register", methods={"POST"})
+   * @throws \Exception
+   */
+  public function __invoke(Request $request): JsonResponse
+  {
+      $name = RequestTransformer::getRequiredField($request,"name");
+      $email = RequestTransformer::getRequiredField($request,"email");
+      $password = RequestTransformer::getRequiredField($request,"password");
+
+      //hay que ver si existe el usuario
+      $existUser = $this->userRepository->findOneByEmail($email);
+      if( null !== $existUser)
+      {
+          throw UserAlreadyExistException::fromUserEmail($email);
+          //throw new BadRequestHttpException(\sprintf("User with email % already exist",$email));
+      }
+
+      $user = new User($name,$email);
+      $encoder = $this->encoderFactory->getEncoder($user);
+      $user->setPassword($encoder->encodePassword($password,null));
+      $this->userRepository->save($user);
+      $jwt = $this->JWTTokenManager->create($user);
+      //se podría hacer un push en Rabbit MQ para que despues del alta se haga un envio al usuario
+      return new JsonResponse(["token"=>$jwt]);
+  }
+}  
+```
+- Me está dando este **error** al llamar a esta url: [localhost:200/api/v1/users/register](http://localhost:200/api/v1/users/register): 
+  - A Juan no le pasa esto. He reinstalado todo y me sigue pasando :S
+  - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/743x501/59508c49d3ac360722c70e2c85363245/image.png)
+  ```php
+  Object of class DateTime could not be converted to string
+
+  in vendor/doctrine/dbal/lib/Doctrine/DBAL/Driver/PDOStatement.php (line 81)
+  public function bindValue($param, $value, $type = ParameterType::STRING){
+    $type = $this->convertParamType($type);        
+    try {            
+      return parent::bindValue($param, $value, $type);        
+    } catch (\PDOException $exception) { 
+      throw new PDOException($exception);        
+    }
+  }
+  ```
+  
 
 ### Sección 6: Instalar y configurar API Platform 0 / 3|3 h 4 min
 ### [10. Instalar y configurar API Platform y recurso para usuarios 1 h 17 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451554#questions/9295602)
