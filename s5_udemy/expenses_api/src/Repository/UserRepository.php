@@ -15,7 +15,8 @@ class UserRepository extends BaseRepository
 
     public function findOneByEmail(string $email): ?User
     {
-        $user = $this->objectRepository->findByOne(['email' => $email]);
+        /** @var User $user */
+        $user = $this->objectRepository->findOneBy(['email' => $email]);
 
         return $user;
     }
