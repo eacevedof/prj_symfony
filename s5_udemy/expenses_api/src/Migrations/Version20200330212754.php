@@ -28,7 +28,7 @@ final class Version20200330212754 extends AbstractMigration
                 email VARCHAR(100) NOT NULL,
                 password BINARY(200) NOT NULL,
                 roles VARCHAR(100) NOT NULL,
-                create_at DATETIME NOT NULL,
+                created_at DATETIME NOT NULL,
                 updated_at DATETIME NOT NULL
             )
             DEFAULT CHARACTER SET utf8mb4 
