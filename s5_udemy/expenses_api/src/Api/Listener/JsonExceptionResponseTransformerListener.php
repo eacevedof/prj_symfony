@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Api\Listener;
@@ -9,17 +10,17 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 class JsonExceptionResponseTransformerListener
 {
-    public  function onKernelException(ExceptionEvent $event ): void
+    public function onKernelException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
-        if($exception instanceof HttpExceptionInterface){
+        if ($exception instanceof HttpExceptionInterface) {
             $data = [
-                "class" => \get_class($exception),
-                "code" => $exception->getStatusCode(),
-                "message" => $exception->getMessage()
+                'class' => \get_class($exception),
+                'code' => $exception->getStatusCode(),
+                'message' => $exception->getMessage(),
             ];
 
-            $response = $this->prepareResponse($data, $data["code"]);
+            $response = $this->prepareResponse($data, $data['code']);
             $event->setResponse($response);
         }
     }
@@ -27,8 +28,9 @@ class JsonExceptionResponseTransformerListener
     private function prepareResponse(array $data, int $statusCode): JsonResponse
     {
         $response = new JsonResponse($data, $statusCode);
-        $response->headers->set("Server-Time",\time());
-        $response->headers->set("X-Error-Code", $statusCode);
+        $response->headers->set('Server-Time', \time());
+        $response->headers->set('X-Error-Code', $statusCode);
+
         return $response;
     }
 }

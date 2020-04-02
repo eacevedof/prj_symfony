@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Api\Action;
@@ -10,9 +11,9 @@ class RequestTransformer
 {
     public static function transform(Request $request): void
     {
-        $data = \json_decode($request->getContent(),true);
-        if(null===$data || \JSON_ERROR_NONE !== \json_last_error()){
-            throw new \InvalidArgumentException("Invalid json body");
+        $data = \json_decode($request->getContent(), true);
+        if (null === $data || \JSON_ERROR_NONE !== \json_last_error()) {
+            throw new \InvalidArgumentException('Invalid json body');
         }
 
         $request->request->replace($data);
@@ -43,19 +44,17 @@ class RequestTransformer
         throw new BadRequestHttpException(\sprintf('Missing POST field %s', $fieldName));
     }
 
-
-    private static function arrayFlatten(array $array):array
+    private static function arrayFlatten(array $array): array
     {
         $return = [];
-        foreach ($array as $key => $value)
-        {
-            if(is_array($value)){
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
                 $return = array_merge($return, self::arrayFlatten($value));
-            }
-            else
+            } else {
                 $return[$key] = $value;
+            }
         }
+
         return $return;
     }
-
 }//RequestTransformer
