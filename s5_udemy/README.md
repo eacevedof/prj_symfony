@@ -820,6 +820,19 @@ class Register
     }
   }
   ```
+  - Tenía mal configurado el mappings
+  ```yaml
+  # Doctrine/Mapping/Entity/User.orm.yml
+  App\Entity\User:
+    type: entity
+    table: user
+  createdAt:
+    type: datetime
+    nullable: false
+  updatedAt:
+    type: datetime
+    nullable: false
+  ```
   
 
 ### Sección 6: Instalar y configurar API Platform 0 / 3|3 h 4 min
