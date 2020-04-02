@@ -842,6 +842,8 @@ class Register
   - Para saber la info que se guarda en este podemos acceder a:
     - [http://jwt.io](http://jwt.io)
   - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/f9a10291c86e3cf0da61d988df700434/image.png)
+  - Con esta información ya podemos saber quien es el que está haciendo la petición
+  
 
 ### Sección 6: Instalar y configurar API Platform 0 / 3|3 h 4 min
 ### [10. Instalar y configurar API Platform y recurso para usuarios 1 h 17 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451554#questions/9295602)
