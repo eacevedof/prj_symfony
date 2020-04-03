@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Api\Action\User;
 
 use App\Api\Action\RequestTransformer;
+use App\Entity\User;
 use App\Exceptions\User\UserAlreadyExistException;
 use App\Repository\UserRepository;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-//use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 

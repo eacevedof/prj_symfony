@@ -16,9 +16,9 @@ use App\Security\Roles;
 class UserVoter extends BaseVoter
 {
 
-    public const USER_READ = "";
-    public const USER_UPDATE = "";
-    public const USER_DELETE = "";
+    public const USER_READ = "USER_READ";
+    public const USER_UPDATE = "USER_UPDATE";
+    public const USER_DELETE = "USER_DELETE";
 
     /**
      * @inheritDoc
@@ -41,7 +41,7 @@ class UserVoter extends BaseVoter
         if(self::USER_READ === $attribute){
             //si no hay entidad la lectura escritura solo se permitirá a los admin
             if(null === $subject){
-                $this->security->isGranted(Roles::ROLE_ADMIN);
+                return $this->security->isGranted(Roles::ROLE_ADMIN);
             }
 
             return ($this->security->isGranted(Roles::ROLE_USER) || $subject->equals($tokenUser));

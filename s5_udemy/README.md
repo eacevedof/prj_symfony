@@ -1157,9 +1157,82 @@ api_platform:
   
   //expenses_api/src/Security/Roles.php
   nuevo ROLE_ADMIN
-
-
   ```
+- En la bd cambiamos a mano el perfil del usuario: **ROLE_ADMIN**
+- Con todo configurado, como trabajamos con Swagger?
+- Con **postman** entramos en *login_check* que nos devolverá un token
+- Con dicho token vamos a swagger y presionamos en **Authorize** insertamos: `Bearer <el token>`
+- Me ha dado un error (pq no tenía ROLE_ADMIN en la tabla user):
+```
+Code	Details
+403
+Undocumented
+Error: Forbidden
+Response body
+Download
+{
+  "@context": "/api/v1/contexts/Error",
+  "@type": "hydra:Error",
+  "hydra:title": "An error occurred",
+  "hydra:description": "Access Denied.",
+
+Faltaba aplicar los literales a las constantes en UserVoter
+```
+- Otros:
+```
+"@context": "/api/v1/contexts/Error",
+  "@type": "hydra:Error",
+  "hydra:title": "An error occurred",
+  "hydra:description": "Call to a member function equals() on null",
+
+Faltaba aplicar return en UserVoter
+```
+```
+the namespace prefix used with the resource in /appdata/www/config/services.yaml (which is loaded in resource /appdata/www/config/services.yaml). (500 Internal Server Error)
+
+Faltaba limpiar la cache pq habia borrado un fichero
+```
+- Ya contesta correctamente:
+```json
+{
+  "@context": "/api/v1/contexts/User",
+  "@id": "/api/v1/users",
+  "@type": "hydra:Collection",
+  "hydra:member": [
+    {
+      "@id": "/api/v1/users/403169b5-2ed4-42f5-84bd-848b76e6a548",
+      "@type": "User",
+      "id": "403169b5-2ed4-42f5-84bd-848b76e6a548",
+      "name": "juan",
+      "email": "juan@api.com",
+      "roles": [
+        "ROLE_ADMIN"
+      ]
+    }
+  ],
+  "hydra:totalItems": 1
+}
+```
+- Probando `GET: /api/v1/users/{id}` devuelve:
+```json
+{
+  "@context": "/api/v1/contexts/User",
+  "@id": "/api/v1/users/403169b5-2ed4-42f5-84bd-848b76e6a548",
+  "@type": "User",
+  "id": "403169b5-2ed4-42f5-84bd-848b76e6a548",
+  "name": "juan",
+  "email": "juan@api.com",
+  "roles": [
+    "ROLE_ADMIN"
+  ]
+}
+```
+- Probando `DELETE: http://localhost:200/api/v1/users/403169b5-2ed4-42f5-84bd-848b76e6a548`
+![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/1143x495/511ee31647ddd90bc527909e1a1f0b33/image.png)
+- La tabla user ahora está vacia
+
+- Trabajar con **PUT** y listeners del kernel de symfony
+
 
 ### [11. Configurar recurso y seguridad de User y tests funcionales 1 h 9 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451568#questions/9295602)
 - 
