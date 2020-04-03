@@ -844,10 +844,35 @@ class Register
   - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/f9a10291c86e3cf0da61d988df700434/image.png)
   - Con esta información ya podemos saber quien es el que está haciendo la petición
   
-
 ### Sección 6: Instalar y configurar API Platform 0 / 3|3 h 4 min
 ### [10. Instalar y configurar API Platform y recurso para usuarios 1 h 17 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451554#questions/9295602)
-- 
+- `git checkout -b section5/video1-install-and-setup-api-platform`
+- Instalación de [**api-platform.com**](https://api-platform.com/docs/core/getting-started/#getting-started)
+  - Iniciamos sesion en el contenedor `make ssh-be`
+  - `composer require api`
+  - Si estamos en mac tambien hay que hacer esto en la maquina host.
+  - Despues de la instación se han tocado/creado estos ficheros:
+  ```js
+  modified:   .env //CORS_ALLOW_ORIGIN=^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$
+  modified:   composer.json //"api-platform/api-pack": "^1.2",
+  modified:   composer.lock
+  modified:   config/bundles.php
+    Symfony\Bundle\TwigBundle\TwigBundle::class => ['all' => true]
+    Nelmio\CorsBundle\NelmioCorsBundle::class => ['all' => true]
+    ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle::class => ['all' => true]
+  modified:   symfony.lock
+
+  config/packages/api_platform.yaml
+  config/packages/nelmio_cors.yaml
+  config/packages/test/twig.yaml  ha instalado twig???
+  config/packages/test/validator.yaml
+  config/packages/twig.yaml
+  config/packages/validator.yaml
+  config/routes/api_platform.yaml
+  src/Entity/.gitignore
+  templates/
+  ``` 
+
 ### [11. Configurar recurso y seguridad de User y tests funcionales 1 h 9 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451568#questions/9295602)
 - 
 ### [12. Tests unitarios para Register y Validators 38 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451578#questions/9295602)
