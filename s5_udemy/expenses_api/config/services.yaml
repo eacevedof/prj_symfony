@@ -40,5 +40,5 @@ services:
 
         # todas las clases que implementen esta interfaz van a tener este tag: app.role_validator
         App\Security\Validator\Role\RoleValidator:
-            tags: ["app.role_validator"]
+            tags: [ 'app.role_validator' ]
 
