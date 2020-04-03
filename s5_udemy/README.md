@@ -872,6 +872,185 @@ class Register
   src/Entity/.gitignore
   templates/
   ``` 
+- **configuración de api_plattform.yaml**
+```yaml
+# config/packages/api_platform.yaml
+
+# manual de configuración: 
+# https://api-platform.com/docs/core/configuration/#configuration
+api_platform:
+    mapping:
+        # repositorio de mappings
+        # paths: ['%kernel.project_dir%/src/Entity']
+        paths: 
+            - '%kernel.project_dir%/src/Doctrine/Mapping/Entity'
+            # zona de los recursos, se encarga de habilitar endpoints y la seguridad 
+            - '%kernel.project_dir%/config/api_platform/resources'
+    patch_formats:
+        json: ['application/merge-patch+json']
+    swagger:
+        versions: [3]
+        # se habilita swager para poder introducir un token valido en la doc de swagger y poder consumir
+        # los endpoints tanto con postman como con swagger
+        api_keys:
+            apiKey:
+                name: Authorization
+                type: header
+    
+    title: 'SF5 Expenses API'
+    description: 'An awesome API built Symfony 5.0 PHP 7.4 and API Platform'
+    version: 1.0
+    show_webby: false #araña en la interfaz
+```
+- **configuracion de rutas config/routes/api_platform.yaml**
+```yaml
+# config/routes/api_platform.yaml
+api_platform:
+    resource: .
+    type: api_platform
+    prefix: /api/v1
+```
+- comprobamos doctrine routes: `appuser@a37554db531b:/appdata/www$ sf d:r`
+```js
+ -------------------------------------- -------- -------- ------ ---------------------------------------- 
+  Name                                   Method   Scheme   Host   Path                                    
+ -------------------------------------- -------- -------- ------ ---------------------------------------- 
+  _preview_error                         ANY      ANY      ANY    /_error/{code}.{_format}                
+  app_api_action_user_register__invoke   POST     ANY      ANY    /api/v1/users/register                  
+  api_entrypoint                         ANY      ANY      ANY    /api/v1/{index}.{_format}               
+  api_doc                                ANY      ANY      ANY    /api/v1/docs.{_format}                  
+  api_jsonld_context                     ANY      ANY      ANY    /api/v1/contexts/{shortName}.{_format}  
+  api_users_get_collection               GET      ANY      ANY    /api/v1/users.{_format}                 
+  api_users_post_collection              POST     ANY      ANY    /api/v1/users.{_format}                 
+  api_users_get_item                     GET      ANY      ANY    /api/v1/users/{id}.{_format}            
+  api_users_delete_item                  DELETE   ANY      ANY    /api/v1/users/{id}.{_format}            
+  api_users_put_item                     PUT      ANY      ANY    /api/v1/users/{id}.{_format}            
+  api_users_patch_item                   PATCH    ANY      ANY    /api/v1/users/{id}.{_format}            
+  api_login_check                        ANY      ANY      ANY    /api/v1/login_check                     
+ -------------------------------------- -------- -------- ------ ---------------------------------------- 
+```
+- No sha creado varios endpoints y la mayoria tienen que ver con *users*
+- Tenemos que *abrir* `/api/v1/docs.{_format}`
+  - Sin permisos:
+  ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/678x344/1396f4dea6b35b661a6fb417cabded70/image.png)
+  ```js
+  InvalidConfigurationException
+  HTTP 500 Internal Server Error
+  No authentication listener registered for firewall "docs".
+  ```
+  - con **security.yaml** configurado
+  ```yaml
+  # config/packages/security.yaml
+  #alias
+  docs:
+      pattern: ^/api/v1/docs
+      methods: [GET]
+      security: false
+  ```
+  - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/597x581/ec2664708b7555fac7cd8b050b258020/image.png)
+- Configuramos el **grupo de serialización** para indicar que (recrusos) es lo que queremos exponer del usuario
+  - Por ejemplo `/api/v1/users/{id}` devuelve todos los campos de user
+  - Vamos a exponer solo cierta info
+  - Nueva carpeta: `config/api_platform/serialization`
+  - En lugar de utilizar los grupos de seralización directamente en nuestras entidades configuramos **framework.yaml**
+  ```yaml
+  # config/packages/framework.yaml
+  framework:
+      ...
+      serializer:
+          mapping:
+              path: ['%kernel.project_dir%/config/api_platform/serialization']
+  ```
+- Creamos el recurso usuario **config/api_platform/resources/User.yaml**:
+  - Normalizacion = Leer un recurso
+  - Denormalizacion = Escribir
+  - [info serializaer](https://symfony.com/doc/current/components/serializer.html)
+  ```yaml
+  # config/api_platform/resources/User.yaml
+  App\Entity\User:
+    attributes:
+      # estos son como decoradores que identificarán que campos admiten lectura/escritura
+      normalization_context:
+        groups: ["user_read"]
+      denormalization_context:
+        groups: ["user_write"]
+    
+    # para obtener todos los usuarios el usr que pide el recuros debe tener USER_READ
+    # listado
+    collectionOperations:
+      get:
+        method: "GET"
+        security: "is_granted('USER_READ')" #se configura como voter
+
+    # registro
+    itemOperations:
+      get:
+        method: "GET"
+        security: "is_granted('USER_READ',object)"
+      put:
+        method: "PUT"
+        security: "is_granted('USER_UPDATE',object)"
+        swagger_context:
+          parameters:
+            - in: body
+              name: user
+              description: The user to update
+              schema:
+                type: object
+                required:
+                  - name
+                  - email
+                  - roles
+                properties:
+                  name:
+                    type: string
+                  email:
+                    type: string
+                  roles:
+                    type: array
+                    items:
+                      type: string
+      delete:
+        method: "DELETE"
+        security: "is_granted('USER_DELETE',object)"
+  ```
+- Creamos el recurso de serializacion usuario **config/api_platform/serialization/User.yaml**:
+  ```yaml
+  # config/api_platform/serialization/User.yaml
+  App\Entity\User:
+    attributes:
+      id:
+        groups: ["user_read"]
+      name:
+        groups: ["user_read","user_write"]
+      email:
+        groups: ["user_read"]
+      password:
+        groups: ["user_write"]
+      roles:
+        groups: ["user_read","user_write"]
+  ```
+  - Ya no hay endpoint con **POST** `/api/v1/users Creates a User Resource`
+  - Comprobamos nuevamente la respuesta de: `/api/v1/users/{id}`
+  ```json
+  {
+    "@context": "string",
+    "@id": "string",
+    "@type": "string",
+    "id": "string",
+    "name": "string",
+    "email": "string",
+    "roles": [
+      "string"
+    ]
+  }
+  ```
+  - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/568x249/9646eb78efc52375f9d1deabeac9319a/image.png)
+- En **put**
+  - Vemos que el json solo devuelve **name, password** no permite la lectura de roles.
+  ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/481x159/b3a6bd3f7bd8f4f28a565892f4fdbb97/image.png)
+  - Porque estos se pueden cambiar **user_write** pero en la entidad no hay el setter del roles (setRoles(array $roles)), lo agregamos.
+  ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/502x211/f35acada786c3e5b873bccf0382a41b0/image.png)
 
 ### [11. Configurar recurso y seguridad de User y tests funcionales 1 h 9 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451568#questions/9295602)
 - 
