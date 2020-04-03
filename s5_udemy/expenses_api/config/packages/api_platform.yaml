@@ -24,4 +24,4 @@ api_platform:
     title: 'SF5 Expenses API'
     description: 'An awesome API built Symfony 5.0 PHP 7.4 and API Platform'
     version: 1.0
-    show_webby: false #araña en la interfaz
+    show_webby: false #araña animada en la interfaz
