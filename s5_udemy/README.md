@@ -1048,9 +1048,9 @@ api_platform:
   - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/568x249/9646eb78efc52375f9d1deabeac9319a/image.png)
 - En **put**
   - Vemos que el json solo devuelve **name, password** no permite la lectura de roles.
-  ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/481x159/b3a6bd3f7bd8f4f28a565892f4fdbb97/image.png)
+  - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/481x159/b3a6bd3f7bd8f4f28a565892f4fdbb97/image.png)
   - Porque estos se pueden cambiar **user_write** pero en la entidad no hay el setter del roles (setRoles(array $roles)), lo agregamos.
-  ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/502x211/f35acada786c3e5b873bccf0382a41b0/image.png)
+  - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/502x211/f35acada786c3e5b873bccf0382a41b0/image.png)
 
 ### [11. Configurar recurso y seguridad de User y tests funcionales 1 h 9 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451568#questions/9295602)
 - 
