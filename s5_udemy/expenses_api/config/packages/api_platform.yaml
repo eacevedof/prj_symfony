@@ -1,7 +1,27 @@
+# config/packages/api_platform.yaml
+
+# manual de configuración: 
+# https://api-platform.com/docs/core/configuration/#configuration
 api_platform:
     mapping:
-        paths: ['%kernel.project_dir%/src/Entity']
+        # repositorio de mappings
+        # paths: ['%kernel.project_dir%/src/Entity']
+        paths: 
+            - '%kernel.project_dir%/src/Doctrine/Mapping/Entity'
+            # zona de los recursos, se encarga de habilitar endpoints y la seguridad 
+            - '%kernel.project_dir%/config/api_platform/resources'
     patch_formats:
         json: ['application/merge-patch+json']
     swagger:
         versions: [3]
+        # se habilita swager para poder introducir un token valido en la doc de swagger y poder consumir
+        # los endpoints tanto con postman como con swagger
+        api_keys:
+            apiKey:
+                name: Authorization
+                type: header
+    
+    title: 'SF5 Expenses API'
+    description: 'An awesome API built Symfony 5.0 PHP 7.4 and API Platform'
+    version: 1.0
+    show_webby: false #araña en la interfaz

@@ -1,0 +1,13 @@
+# config/api_platform/serialization/User.yaml
+App\Entity\User:
+  attributes:
+    id:
+      groups: ["user_read"]
+    name:
+      groups: ["user_read","user_write"]
+    email:
+      groups: ["user_read"]
+    password:
+      groups: ["user_write"]
+    roles:
+      groups: ["user_read","user_write"]

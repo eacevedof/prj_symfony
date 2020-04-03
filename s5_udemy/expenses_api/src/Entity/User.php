@@ -71,6 +71,11 @@ class User implements UserInterface
         return $this->roles;
     }
 
+    public function setRoles(array $roles): void
+    {
+        $this->roles = $roles;
+    } 
+
     public function getCreatedAt(): \Datetime
     {
         return $this->createdAt;
