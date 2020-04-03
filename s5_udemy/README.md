@@ -1052,6 +1052,115 @@ api_platform:
   - Porque estos se pueden cambiar **user_write** pero en la entidad no hay el setter del roles (setRoles(array $roles)), lo agregamos.
   - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/502x211/f35acada786c3e5b873bccf0382a41b0/image.png)
 
+- configuracion de **voters**
+  - [Symfony - Voters](https://symfony.com/doc/current/security/voters.html)
+  - Son un conjunto de interfaces que nos permiten evaluar una operación
+  - Un caso de uso es verificar el perfil del usuario y en base a esto discrimina el CRUD que se puede realizar sobre el recurso
+  - Los **voters** tienen relación con los recursos
+  - crear carpeta: **src/Security/Authorization/Voter**
+  - crear clases:
+  - `expenses_api/src/Security/Authorization/Voter/BaseVoter.php`
+  ```php
+  //src/Security/Authorization/Voter/BaseVoter.php
+  declare(strict_types=1);
+  namespace App\Security\Authorization\Voter;
+
+  use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+  use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+  use Symfony\Component\Security\Core\Security;
+
+  /*
+  * La clase abstracta nos va a permitir que los hijos hereden de BaseVoter y que
+  * puedan customizar los metodos obligatorios y la interfaz no obliga a la clase abstracta
+  * a implementar los metodos de la interfaz
+  * */
+  abstract class BaseVoter extends Voter //Voter implementa: VoterInterface
+  {
+      protected Security $security;
+
+      public function __construct(Security $security)
+      {
+          $this->security = $security;
+      }
+  }  
+  ```
+  - `expenses_api/src/Security/Authorization/Voter/UserVoter.php`
+  ```php
+  declare(strict_types=1);
+  namespace App\Security\Authorization\Voter;
+
+  use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+  use App\Entity\User;
+  use App\Security\Roles;
+
+  /**
+  * Class UserVoter
+  * Cuando se intente hacer una operación sobre un recurso se van a lanzar todos los metodos del Voter
+  * y se verá cual de ellos soporta el atributo (operacion R,U,D) que se está pasando
+  */
+  class UserVoter extends BaseVoter
+  {
+      public const USER_READ = "";
+      public const USER_UPDATE = "";
+      public const USER_DELETE = "";
+
+      /**
+      * @inheritDoc
+      */
+      protected function supports(string $attribute, $subject): bool
+      {
+          //en base a un atributo READ,UPDATE,DELETE y la entidad devolverá si es valido o no
+          return \in_array($attribute,$this->getSupportedAttributes(),true);
+      }
+
+      /**
+      * @inheritDoc
+      * @param string $attribute se obtiene de is_granted('USER_READ',object) y es USER_READ
+      * @param User | null $subject es el "object" que es un objeto usuario, null para casos is_granted(ACCION)
+      */
+      protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
+      {
+          /** @var User $tokenUser  **/
+          $tokenUser = $token->getUser();
+          if(self::USER_READ === $attribute){
+              //si no hay entidad la lectura escritura solo se permitirá a los admin
+              if(null === $subject){
+                  $this->security->isGranted(Roles::ROLE_ADMIN);
+              }
+
+              return ($this->security->isGranted(Roles::ROLE_USER) || $subject->equals($tokenUser));
+          }
+
+          if(\in_array($attribute, [self::USER_UPDATE, self::USER_DELETE]))
+          {
+              return ($this->security->isGranted(Roles::ROLE_USER) || $subject->equals($tokenUser));
+          }
+
+          return false;
+      }
+
+      private function getSupportedAttributes():array
+      {
+          return [
+              self::USER_READ,
+              self::USER_UPDATE,
+              self::USER_DELETE
+          ];
+      }
+  } 
+  //Entity/User.php
+  //para acceder desde voter a tus propios datos
+  public function equals(User $user): bool
+  {
+      return $this->getId() == $user->getId();
+  }
+  
+  //expenses_api/src/Security/Roles.php
+  nuevo ROLE_ADMIN
+
+
+  ```
+
 ### [11. Configurar recurso y seguridad de User y tests funcionales 1 h 9 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451568#questions/9295602)
 - 
 ### [12. Tests unitarios para Register y Validators 38 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451578#questions/9295602)

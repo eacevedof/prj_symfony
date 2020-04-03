@@ -103,4 +103,11 @@ class User implements UserInterface
     public function eraseCredentials(): void
     {
     }
+
+    //para acceder desde voter a tus propios datos
+    public function equals(User $user): bool
+    {
+        return $this->getId() == $user->getId();
+    }
+
 }
