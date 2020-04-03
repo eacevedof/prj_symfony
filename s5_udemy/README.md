@@ -1337,6 +1337,22 @@ sf d:r
 ```
 - Se crean los validadores en **src/Security/Validator/Role**
 - Se crean las excepciones para las validaciones **src/Exceptions/Role** 
+- Me está dando este eror:
+![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/4f214ae77038a03befe14f82794ae9d1/image.png)
+```
+403 Error: Forbidden
+  "@context": "/api/v1/contexts/Error",
+  "@type": "hydra:Error",
+  "hydra:title": "An error occurred",
+  "hydra:description": "Access Denied.",
+  "trace": [
+    namespace": "",
+      "short_class": "",
+      "class": "",
+      "type": "",
+      "function": "",
+      "file": "/appdata/www/vendor/symfony/security-http/Firewall/ExceptionListener.php",
+```
 
 ### [11. Configurar recurso y seguridad de User y tests funcionales 1 h 9 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451568#questions/9295602)
 - 
