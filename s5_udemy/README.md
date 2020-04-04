@@ -1520,6 +1520,7 @@ CORS_ALLOW_ORIGIN=^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$
   - El problema se da porque el script **/vendor/symfony/phpunit-bridge/bin/simple-phpunit.php** intenta ejecutar comandos con **composer.phar** y no lo encuentra ya que lo tengo instalado en mi carpeta projects (`/Users/<user>/projects/composer.phar`) y el alias esta en **.zshrc** mas no en **.bash_profile**. La solución rápida ha sido copiar el **.phar** dentro de la raíz del proyecto. Ha funcionado!.
   - ![](https://trello.com/1/cards/5e7777d6cd7def249ee578fb/attachments/5e88f9a4c649cc541e09c2b0/previews/download?backingUrl=https%3A%2F%2Ftrello-attachments.s3.amazonaws.com%2F5e7777d6cd7def249ee578fb%2F769x239%2F83a5aa9311d4318daf2e4e9410dca397%2Fimage.png)
   - He instalado la versión de phpunit-8.3 (se indica aqui: expenses_api/phpunit.xml.dist)
+  - Se puede probar con: `bin/phpunit` puede que actualice algunas librerias
 - 
 
 ### [12. Tests unitarios para Register y Validators 38 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451578#questions/9295602)
