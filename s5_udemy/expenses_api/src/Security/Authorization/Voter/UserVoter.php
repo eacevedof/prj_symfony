@@ -1,12 +1,11 @@
 <?php
-
+//src/Security/Authorization/Voter/UserVoter.php
 declare(strict_types=1);
 namespace App\Security\Authorization\Voter;
 
-
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use App\Entity\User;
 use App\Security\Roles;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class UserVoter
@@ -44,12 +43,15 @@ class UserVoter extends BaseVoter
                 return $this->security->isGranted(Roles::ROLE_ADMIN);
             }
 
-            return ($this->security->isGranted(Roles::ROLE_USER) || $subject->equals($tokenUser));
+            //si el token tiene ROLE_ADMIN o el registro a modificar es igual a la entidad que está moodificando
+            return ($this->security->isGranted(Roles::ROLE_ADMIN) || $subject->equals($tokenUser));
         }
 
+        //si se pretende actualizar o borrar
         if(\in_array($attribute, [self::USER_UPDATE, self::USER_DELETE]))
         {
-            return ($this->security->isGranted(Roles::ROLE_USER) || $subject->equals($tokenUser));
+            //el token (usuario en sesion) debe ser admin o debe ser el mismo
+            return ($this->security->isGranted(Roles::ROLE_ADMIN) || $subject->equals($tokenUser));
         }
 
         return false;
@@ -65,3 +67,22 @@ class UserVoter extends BaseVoter
     }
 
 }
+
+/*
+vendor/symfony/security-core/Authorization/AuthorizationChecker.php
+
+final public function isGranted($attribute, $subject = null): bool
+{
+    if (null === ($token = $this->tokenStorage->getToken())) {
+        throw new AuthenticationCredentialsNotFoundException('The token storage contains no authentication token. One possible reason may be that there is no firewall configured for this URL.');
+    }
+
+    if ($this->alwaysAuthenticate || !$token->isAuthenticated()) {
+        $this->tokenStorage->setToken($token = $this->authenticationManager->authenticate($token));
+    }
+
+    //hay varios metodos de decision y cada uno compruega algo, el atributo y el token pasan por los voters
+    //vendor/symfony/security-core/Authorization/AccessDecisionManager.php
+    return $this->accessDecisionManager->decide($token, [$attribute], $subject);
+}
+*/
