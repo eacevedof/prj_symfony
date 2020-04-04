@@ -846,7 +846,7 @@ class Register
   
 ### Sección 6: Instalar y configurar API Platform 0 / 3|3 h 4 min
 ### [10. Instalar y configurar API Platform y recurso para usuarios 1 h 17 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451554#questions/9295602)
-- `git checkout -b section5/video1-install-and-setup-api-platform`
+- [`git checkout -b section5/video1-install-and-setup-api-platform`](https://bitbucket.org/juanwilde/sf5-expenses-api/src/6d713bba882f82522c5606a3030d1f27a8c2cde7/?at=section5%2Fvideo1-install-and-setup-api-platform)
 - Instalación de [**api-platform.com**](https://api-platform.com/docs/core/getting-started/#getting-started)
   - Iniciamos sesion en el contenedor `make ssh-be`
   - `composer require api`
