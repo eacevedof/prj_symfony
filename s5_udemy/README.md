@@ -1469,6 +1469,11 @@ solucion:
 ![](https://trello.com/1/cards/5e7777d6cd7def249ee578fb/attachments/5e8889fa3c3d4c266c33f1f3/previews/download?backingUrl=https%3A%2F%2Ftrello-attachments.s3.amazonaws.com%2F5e7777d6cd7def249ee578fb%2F1034x93%2Fd5dc228352dd6ca01209c93ba862d712%2Fimage.png)
 
 - [Symfony - Autowiring doc](https://symfony.com/doc/current/service_container/autowiring.html)
+```env
+###> nelmio/cors-bundle ###
+CORS_ALLOW_ORIGIN=^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$
+###< nelmio/cors-bundle ###
+```
 
 ### [11. Configurar recurso y seguridad de User y tests funcionales 1 h 9 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451568#questions/9295602)
 - 
