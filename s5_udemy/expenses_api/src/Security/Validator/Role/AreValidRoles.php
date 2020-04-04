@@ -1,5 +1,5 @@
 <?php
-
+//src/Security/Validator/Role/AreValidRoles.php
 declare(strict_types=1);
 namespace App\Security\Validator\Role;
 
@@ -17,6 +17,7 @@ class AreValidRoles implements RoleValidator
 
         \array_map(function (string $role): void {
             if(!\in_array($role,Roles::getSupportedRoles(), true)){
+                //lanza una excepcion: BadRequestHttpException
                 throw UnsupportedRoleException::fromRole($role);
             }
         },$roles);

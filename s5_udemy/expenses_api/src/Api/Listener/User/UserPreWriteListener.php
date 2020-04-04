@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 class UserPreWriteListener implements PreWriteListener
 {
-    //ruta put
+    //ruta put sf d:r
     private const PUT_USER = "api_users_put_item";
     private EncoderFactoryInterface $encoderFactory;
 
@@ -21,6 +21,7 @@ class UserPreWriteListener implements PreWriteListener
      */
     private iterable $roleValidators;
 
+    //$roleValidators se configura en services.yaml
     public function __construct(EncoderFactoryInterface $encoderFactory, iterable $roleValidators)
     {
         $this->encoderFactory = $encoderFactory;

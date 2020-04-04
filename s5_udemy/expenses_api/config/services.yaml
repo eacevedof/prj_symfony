@@ -9,7 +9,7 @@ services:
             # cuando inyectemos una variable que se llame $roleValidators va a estar etiquetada
             # con app.role_validator
             # esto le permitirá a symfony inyectar un iterable $roleValidators siempre que se pase a un constructor
-            # esta variable
+            # esta variable en este caso a un listener: UserPreWriteListener(EncoderFactoryInterface $encoderFactory, iterable $roleValidators)
             $roleValidators: !tagged app.role_validator
 
     # makes classes in src/ available to be used as services
@@ -32,10 +32,13 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 100 }
 
-    # todas las clases que sean instancia de una determinada clase o interface tengan un comportamiento
+    # https://api-platform.com/docs/core/events/#built-in-event-listeners
+    # todas las clases que sean instancia de una determinada clase o interfaz tengan un comportamiento
     _instanceof:
-        App\Api\Listener\PreWriteListener: # Interfaz
+        # todas las clases que implementen esta interfaz ejecutaran el metodo onKernelView antes de escribir en la bd
+        App\Api\Listener\PreWriteListener:
             tags:
+                # PreWriteListener.onKernelView(ViewEvent):void
                 - { name: kernel.event_listener, event: kernel.view, method: onKernelView, priority: 33 }
 
         # todas las clases que implementen esta interfaz van a tener este tag: app.role_validator

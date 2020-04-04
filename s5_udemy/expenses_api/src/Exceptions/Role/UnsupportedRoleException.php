@@ -1,4 +1,5 @@
 <?php
+//src/Exceptions/Role/UnsupportedRoleException.php
 declare(strict_types=1);
 
 namespace App\Exceptions\Role;

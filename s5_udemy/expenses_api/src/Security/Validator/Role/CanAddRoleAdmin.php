@@ -25,7 +25,6 @@ class CanAddRoleAdmin implements RoleValidator
         $this->security = $security;
     }
 
-
     public function validate(Request $request): array
     {
         $roles = \array_unique(RequestTransformer::getRequiredField($request,"roles"));

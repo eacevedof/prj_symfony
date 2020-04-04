@@ -1258,6 +1258,21 @@ Faltaba limpiar la cache pq habia borrado un fichero
 - En [api-platform/listeners](https://api-platform.com/docs/core/events/#built-in-event-listeners)
 - En **pre y post** hooks vemos los puntos de inyección
 - Creamos intefaz: **src/Api/Listener/PreWriteListener.php**
+```php
+# src/Api/Listener/PreWriteListener.php
+declare(strict_types=1);
+namespace App\Api\Listener;
+
+use Symfony\Component\HttpKernel\Event\ViewEvent;
+
+interface PreWriteListener
+{
+    //este método se ejecutará siempre antes de escribir en la bd
+    //justo antes de que doctrine lo guarde en la bd
+    public function onKernelView(ViewEvent $event):void;
+}
+//PreWriteListener.onKernelView(ViewEvent):void
+```
 - Creamos **expenses_api/src/Api/Listener/User/UserPreWriteListener.php**
 ```php
 //src/Api/Listener/User/UserPreWriteListener.php
@@ -1360,7 +1375,76 @@ sf d:r
           tags: ["app.role_validator"]              
 ```
 - Se crean los validadores en **src/Security/Validator/Role**
-- Se crean las excepciones para las validaciones **src/Exceptions/Role** 
+- Se crean las excepciones para las validaciones **src/Exceptions/Role**
+```php
+//src/Security/Validator/Role/AreValidRoles.php
+declare(strict_types=1);
+namespace App\Security\Validator\Role;
+
+use App\Api\Action\RequestTransformer;
+use App\Exceptions\Role\UnsupportedRoleException;
+use App\Security\Roles;
+use Symfony\Component\HttpFoundation\Request;
+
+class AreValidRoles implements RoleValidator
+{
+
+    public function validate(Request $request): array
+    {
+        $roles = \array_unique(RequestTransformer::getRequiredField($request,"roles"));
+
+        \array_map(function (string $role): void {
+            if(!\in_array($role,Roles::getSupportedRoles(), true)){
+                //lanza una excepcion: BadRequestHttpException
+                throw UnsupportedRoleException::fromRole($role);
+            }
+        },$roles);
+
+        return $roles;
+    }
+}
+//src/Security/Validator/Role/CanAddRoleAdmin.php
+declare(strict_types=1);
+namespace App\Security\Validator\Role;
+
+use App\Api\Action\RequestTransformer;
+use App\Exceptions\Role\RequiredRoleToAddRoleAdminNotFoundException;
+use App\Exceptions\Role\UnsupportedRoleException;
+use App\Security\Roles;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
+
+/**
+ * Class CanAddRoleAdmin
+ * @package App\Security\Validator\Role
+ * Si un usuario es admin puede asignarle rol de admin a otro usuario de lo contrario no
+ */
+class CanAddRoleAdmin implements RoleValidator
+{
+
+    private Security $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+
+    public function validate(Request $request): array
+    {
+        $roles = \array_unique(RequestTransformer::getRequiredField($request,"roles"));
+
+        if( \in_array(Roles::ROLE_ADMIN, $roles, true))
+        {
+            if(!$this->security->isGranted(Roles::ROLE_ADMIN))
+            {
+                throw RequiredRoleToAddRoleAdminNotFoundException::fromRole(Roles::ROLE_ADMIN);
+            }
+        }
+
+        return $roles;
+    }
+}
+```
 - Me está dando este eror:
 ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/4f214ae77038a03befe14f82794ae9d1/image.png)
 ```
@@ -1380,6 +1464,9 @@ sf d:r
 solucion:
   Tenía mal configurado el metodo de retorno voteOnAttribute en src/Security/Authorization/Voter/UserVoter.php
 ```
+- Al haber funcionado la actualización
+![](https://trello.com/1/cards/5e7777d6cd7def249ee578fb/attachments/5e88bd7f54aec15117da9d95/previews/download?backingUrl=https%3A%2F%2Ftrello-attachments.s3.amazonaws.com%2F5b014dcaf4507eacfc1b4540%2F5e7777d6cd7def249ee578fb%2F06e6657e43cfa08ae3342c749965d212%2Fimage.png)
+![](https://trello.com/1/cards/5e7777d6cd7def249ee578fb/attachments/5e8889fa3c3d4c266c33f1f3/previews/download?backingUrl=https%3A%2F%2Ftrello-attachments.s3.amazonaws.com%2F5e7777d6cd7def249ee578fb%2F1034x93%2Fd5dc228352dd6ca01209c93ba862d712%2Fimage.png)
 
 ### [11. Configurar recurso y seguridad de User y tests funcionales 1 h 9 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451568#questions/9295602)
 - 
