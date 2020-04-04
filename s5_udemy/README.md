@@ -1480,7 +1480,9 @@ CORS_ALLOW_ORIGIN=^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$
 ```
 
 ### [11. Configurar recurso y seguridad de User y tests funcionales 1 h 9 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451568#questions/9295602)
-- 
+- [`git checkout -b section5/video2-functional-test-for-user`](https://bitbucket.org/juanwilde/sf5-expenses-api/src/11b29705a81ec66bc706f18c863e5ee6864551c1/?at=section5%2Fvideo2-functional-test-for-user)
+
+
 ### [12. Tests unitarios para Register y Validators 38 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451578#questions/9295602)
 - 
 
