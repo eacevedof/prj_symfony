@@ -1504,7 +1504,13 @@ CORS_ALLOW_ORIGIN=^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$
       - Liip\TestFixturesBundle\LiipTestFixturesBundle::class => ['dev' => true, 'test' => true],
   - **`composer require symfony/proxy-manager-bridge`**
     - Es para evitar que el **entityManager** nos de un error
-    
+- Hay dos formas de ejecución:
+  - Dentro del contenedor
+  - En nuestra maquina local
+- Juan usa su interprete local porque es mucho más rápido. En contenedor puede tardar casi un minuto en iniciar y otro minuto en devolver el resultado
+- **Config PHPSTORM con interprete local**
+
+
 ### [12. Tests unitarios para Register y Validators 38 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451578#questions/9295602)
 - 
 
