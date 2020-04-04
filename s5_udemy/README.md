@@ -1509,7 +1509,18 @@ CORS_ALLOW_ORIGIN=^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$
   - En nuestra maquina local
 - Juan usa su interprete local porque es mucho más rápido. En contenedor puede tardar casi un minuto en iniciar y otro minuto en devolver el resultado
 - **Config PHPSTORM con interprete local**
-
+- ![](https://trello.com/1/cards/5e7777d6cd7def249ee578fb/attachments/5e88ceac6b9e06143f4a80a6/previews/download?backingUrl=https%3A%2F%2Ftrello-attachments.s3.amazonaws.com%2F5e7777d6cd7def249ee578fb%2F973x219%2F5c1d94388183b8c2519cb8c5fd9e5ac4%2Fimage.png)
+- local: `vendor/bin/simple-phpunit` antes se hacia con **phpunit** ahora se recomienda este.
+  - Al instalar este comando da un error:
+  ```js
+  vendor/bin/simple-phpunit
+  sh: composer: command not found
+  ```
+  - ![](https://trello.com/1/cards/5e7777d6cd7def249ee578fb/attachments/5e88f723df69c051328b5241/previews/download?backingUrl=https%3A%2F%2Ftrello-attachments.s3.amazonaws.com%2F5b014dcaf4507eacfc1b4540%2F5e7777d6cd7def249ee578fb%2F19c44865b55108082d314804a6d009ee%2Fimage.png)
+  - El problema se da porque el script **/vendor/symfony/phpunit-bridge/bin/simple-phpunit.php** intenta ejecutar comandos con **composer.phar** y no lo encuentra ya que lo tengo instalado en mi carpeta projects (`/Users/<user>/projects/composer.phar`) y el alias esta en **.zshrc** mas no en **.bash_profile**. La solución rápida ha sido copiar el **.phar** dentro de la raíz del proyecto. Ha funcionado!.
+  - ![](https://trello.com/1/cards/5e7777d6cd7def249ee578fb/attachments/5e88f9a4c649cc541e09c2b0/previews/download?backingUrl=https%3A%2F%2Ftrello-attachments.s3.amazonaws.com%2F5e7777d6cd7def249ee578fb%2F769x239%2F83a5aa9311d4318daf2e4e9410dca397%2Fimage.png)
+  - He instalado la versión de phpunit-8.3 (se indica aqui: expenses_api/phpunit.xml.dist)
+- 
 
 ### [12. Tests unitarios para Register y Validators 38 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451578#questions/9295602)
 - 
