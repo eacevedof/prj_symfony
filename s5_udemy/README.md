@@ -1481,8 +1481,30 @@ CORS_ALLOW_ORIGIN=^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$
 
 ### [11. Configurar recurso y seguridad de User y tests funcionales 1 h 9 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451568#questions/9295602)
 - [`git checkout -b section5/video2-functional-test-for-user`](https://bitbucket.org/juanwilde/sf5-expenses-api/src/11b29705a81ec66bc706f18c863e5ee6864551c1/?at=section5%2Fvideo2-functional-test-for-user)
-
-
+- Dentro del container:
+  - **`composer require --dev symfony/phpunit-bridge`**
+  - crea ficheros:
+    - expenses_api/.env.test
+    - expenses_api/phpunit.xml.dist
+    - expenses_api/bin/phpunit
+    - expenses_api/tests/bootstrap.php
+  - **`composer require --dev symfony/browser-kit`**
+    - Nos proveera de un cliente http que nos permitirá hacer peticiones http
+  - **`composer require --dev doctrine/doctrine-fixtures-bundle`**
+    - Nos permitira crear datos falsos para hacer pruebas (Faker?)
+  - crea ficheros:
+    - src/DataFixtures/AppFixtures.php
+  - modifica:
+    - config/bundles.php
+      - Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true], 
+  - **`composer require --dev liip/test-fixtures-bundle:^1.0.0`**
+    - Nos dara cierta funcionalidad para carga de datos que podemos ejecutar antes lanzar los tests
+  - modifica
+    - config/bundles.php
+      - Liip\TestFixturesBundle\LiipTestFixturesBundle::class => ['dev' => true, 'test' => true],
+  - **`composer require symfony/proxy-manager-bridge`**
+    - Es para evitar que el **entityManager** nos de un error
+    
 ### [12. Tests unitarios para Register y Validators 38 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451578#questions/9295602)
 - 
 
