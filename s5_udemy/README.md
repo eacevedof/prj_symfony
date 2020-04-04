@@ -1171,7 +1171,7 @@ api_platform:
       return $this->accessDecisionManager->decide($token, [$attribute], $subject);
   }
   */
-  
+
   //Entity/User.php
   //para acceder desde voter a tus propios datos
   public function equals(User $user): bool
@@ -1376,6 +1376,9 @@ sf d:r
       "type": "",
       "function": "",
       "file": "/appdata/www/vendor/symfony/security-http/Firewall/ExceptionListener.php",
+
+solucion:
+  Tenía mal configurado el metodo de retorno voteOnAttribute en src/Security/Authorization/Voter/UserVoter.php
 ```
 
 ### [11. Configurar recurso y seguridad de User y tests funcionales 1 h 9 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451568#questions/9295602)
