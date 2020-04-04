@@ -1,23 +1,21 @@
 # config/api_platform/resources/User.yaml
 App\Entity\User:
   attributes:
-    # estos son como decoradores que identificarán que campos admiten lectura/escritura
     normalization_context:
-      groups: ["user_read"]
+      groups: ['user_read']
     denormalization_context:
-      groups: ["user_write"]
-  # para obtener todos los usuarios el usr que pide el recuros debe tener USER_READ
+      groups: ['user_write']
   collectionOperations:
     get:
-      method: "GET"
-      security: "is_granted('USER_READ')" #se configura como voter
+      method: 'GET'
+      security: 'is_granted("USER_READ")'
   itemOperations:
     get:
-      method: "GET"
-      security: "is_granted('USER_READ',object)"
+      method: 'GET'
+      security: 'is_granted("USER_READ", object)'
     put:
-      method: "PUT"
-      security: "is_granted('USER_UPDATE',object)"
+      method: 'PUT'
+      security: 'is_granted("USER_UPDATE", object)'
       swagger_context:
         parameters:
           - in: body
@@ -39,5 +37,5 @@ App\Entity\User:
                   items:
                     type: string
     delete:
-      method: "DELETE"
-      security: "is_granted('USER_DELETE',object)"
+      method: 'DELETE'
+      security: 'is_granted("USER_DELETE", object)'

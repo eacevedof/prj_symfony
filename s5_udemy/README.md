@@ -966,6 +966,20 @@ api_platform:
   - Denormalizacion = Escribir
   - [info serializaer](https://symfony.com/doc/current/components/serializer.html)
   ```yaml
+  # config/api_platform/serialization/User.yaml
+  App\Entity\User:
+    attributes:
+      id:
+        groups: ['user_read']
+      name:
+        groups: ['user_read', 'user_write']
+      email:
+        groups: ['user_read']
+      password:
+        groups: ['user_write']
+      roles:
+        groups: ['user_read', 'user_write']
+  
   # config/api_platform/resources/User.yaml
   App\Entity\User:
     attributes:
