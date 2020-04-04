@@ -30,9 +30,9 @@ class CanAddRoleAdmin implements RoleValidator
     {
         $roles = \array_unique(RequestTransformer::getRequiredField($request,"roles"));
 
-        if( \in_array(Role::ROLE_ADMIN, $roles, true))
+        if( \in_array(Roles::ROLE_ADMIN, $roles, true))
         {
-            if(!$this->security->isGranted(Role::ROLE_ADMIN))
+            if(!$this->security->isGranted(Roles::ROLE_ADMIN))
             {
                 throw RequiredRoleToAddRoleAdminNotFoundException::fromRole(Roles::ROLE_ADMIN);
             }
