@@ -6,7 +6,7 @@ api_platform:
     mapping:
         # repositorio de mappings
         # paths: ['%kernel.project_dir%/src/Entity']
-        paths: 
+        paths:
             - '%kernel.project_dir%/src/Doctrine/Mapping/Entity'
             # zona de los recursos, se encarga de habilitar endpoints y la seguridad 
             - '%kernel.project_dir%/config/api_platform/resources'
