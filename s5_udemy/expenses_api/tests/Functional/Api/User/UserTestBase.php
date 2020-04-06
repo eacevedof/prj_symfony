@@ -17,7 +17,7 @@ class UserTestBase extends TestBase
     {
         //crea los clientes y guarda los tokens
         parent::setUp();
-        $this->endpoint = "http://localhost:200/api/v1/users";
+        $this->endpoint = "/api/v1/users";
     }
 
 }

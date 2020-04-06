@@ -20,7 +20,7 @@ class TestBase extends WebTestCase
     //trait helper para hacer operaciones contra la bd
     use FixturesTrait;
 
-    protected const FORMAT = "jasonld";
+    protected const FORMAT = "jsonld";
     protected const IDS = [
         "admin_id" => "eeebd294-7737-11ea-bc55-0242ac130001",
         "user_id" => "eeebd294-7737-11ea-bc55-0242ac130002",
@@ -52,7 +52,7 @@ class TestBase extends WebTestCase
     {
         $client->request(
             "POST",
-            "http://localhost:200/api/v1/login_check",
+            "/api/v1/login_check",
             [
                 "_email" => $username,
                 "_password" => $password,
