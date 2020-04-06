@@ -7,24 +7,25 @@ use App\Api\Action\RequestTransformer;
 use App\Entity\User;
 use App\Api\Listener\PreWriteListener;
 use App\Security\Validator\Role\RoleValidator;
+use App\Service\Password\EncoderService;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 class UserPreWriteListener implements PreWriteListener
 {
     //ruta put sf d:r
     private const PUT_USER = "api_users_put_item";
-    private EncoderFactoryInterface $encoderFactory;
+
+    private EncoderService $encoderService;
 
     /**
      * @var iterable | RoleValidator[]
      */
     private iterable $roleValidators;
-
     //$roleValidators se configura en services.yaml
-    public function __construct(EncoderFactoryInterface $encoderFactory, iterable $roleValidators)
+
+    public function __construct(EncoderService $encoderService, iterable $roleValidators)
     {
-        $this->encoderFactory = $encoderFactory;
+        $this->encoderService = $encoderService;
         //aqui vendrian instancias de AreValidRoles y CanAddRoleAdmin
         $this->roleValidators = $roleValidators;
     }
@@ -52,13 +53,17 @@ class UserPreWriteListener implements PreWriteListener
             //si todo ha ido bien se aplica esos roles al usuario
             $user->setRoles($roles);
 
-            $plainTextPassword = RequestTransformer::getRequiredField($request,"password");
-
-            $encoder = $this->encoderFactory->getEncoder($user);
-            $user->setPassword($encoder->encodePassword($plainTextPassword,null));
+            $user->setPassword(
+                $this->encoderService->generateEncodedPasswordForUser(
+                    $user,
+                    RequestTransformer::getRequiredField($request,"password"),
+                    null
+                )
+            );
         }
     }
-}
+
+}//UserPreWriteListener
 
 /*
 sf d:r

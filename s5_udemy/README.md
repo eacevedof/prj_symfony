@@ -1521,7 +1521,370 @@ CORS_ALLOW_ORIGIN=^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$
   - ![](https://trello.com/1/cards/5e7777d6cd7def249ee578fb/attachments/5e88f9a4c649cc541e09c2b0/previews/download?backingUrl=https%3A%2F%2Ftrello-attachments.s3.amazonaws.com%2F5e7777d6cd7def249ee578fb%2F769x239%2F83a5aa9311d4318daf2e4e9410dca397%2Fimage.png)
   - He instalado la versión de phpunit-8.3 (se indica aqui: expenses_api/phpunit.xml.dist)
   - Se puede probar con: `bin/phpunit` puede que actualice algunas librerias
-- 
+- ![](https://trello.com/1/cards/5e7777d6cd7def249ee578fb/attachments/5e89014289b8ec5b3e880de7/previews/download?backingUrl=https%3A%2F%2Ftrello-attachments.s3.amazonaws.com%2F5e7777d6cd7def249ee578fb%2F931x311%2F9470e4b20adc152295f8ace84e9e41d4%2Fimage.png)
+- Vamos a proceder con los **tests funcionales**.  Estos consumirán la API y comprobaremos los resultados.
+- Se crean archivos:
+  - `tests/Functional/Api/TestBase.php`
+  - `tests/Functional/Api/User/UserTestBase.php`
+- Se ha creado el fichero `.env.test` variables necesarias para ejecutar nuestros tests, se crea una bd de pruebas **sf5-expenses-api_api-test**
+```js
+# s5_udemy/expenses_api/.env.test
+# define your env variables for the test env here
+KERNEL_CLASS='App\Kernel'
+APP_SECRET='$ecretf0rt3st'
+SYMFONY_DEPRECATIONS_HELPER=999999
+PANTHER_APP_ENV=panther
+
+###> doctrine/doctrine-bundle ###
+# estos datos se obtienen de docker-compose.macos.yml - sf5-expenses-api-db
+# DATABASE_URL=mysql://root:root@s127.0.0.1:3350/sf5-expenses-api_api-test?serverVersion=5.7 con esta ip no va
+DATABASE_URL=mysql://root:root@0.0.0.0:3350/sf5-expenses-api_api-test?serverVersion=5.7
+###< doctrine/doctrine-bundle ###
+```
+- Se retoca la conf de bd, se usa la ip de localhost pq se va a conectar desde la maquina local (como dijimos antes, por rendimiento los tests no se harán en el contenedor)
+- Hay que hacer un pequeño refactor llevando la lógica de alta y modificación a un **servicio**
+```php
+//servicio
+//src/Service/Password/EncoderService.php
+declare(strict_types=1);
+namespace App\Service\Password;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+
+class EncoderService
+{
+    private EncoderFactoryInterface $encoderFactory;
+
+    public function __construct(EncoderFactoryInterface $encoderFactory)
+    {
+        $this->encoderFactory = $encoderFactory;
+    }
+
+    public function generateEncodedPasswordForUser(UserInterface $user, string $password, string $salt = null): string
+    {
+        $encoder = $this->encoderFactory->getEncoder($user);
+        return $encoder->encodePassword($password,$salt);
+    }
+}
+//register
+//src/Api/Action/User/Register.php
+class Register
+{
+    private UserRepository $userRepository;
+    private JWTTokenManagerInterface $JWTTokenManager;
+    private EncoderService $encoderService;
+
+    public function __construct(UserRepository $userRepository, JWTTokenManagerInterface $JWTTokenManager, EncoderService $encoderService)
+    {
+        $this->userRepository = $userRepository;
+        $this->JWTTokenManager = $JWTTokenManager;
+        $this->encoderService = $encoderService;
+    }
+
+    /**
+     * @Route("/users/register", methods={"POST"})
+     *
+     * @throws \Exception
+     */
+    public function __invoke(Request $request): JsonResponse
+    {
+        $name = RequestTransformer::getRequiredField($request, 'name');
+        $email = RequestTransformer::getRequiredField($request, 'email');
+        $password = RequestTransformer::getRequiredField($request, 'password');
+
+        //hay que ver si existe el usuario
+        $existUser = $this->userRepository->findOneByEmail($email);
+        if (null !== $existUser) {
+            throw UserAlreadyExistException::fromUserEmail($email);
+            //throw new BadRequestHttpException(\sprintf("User with email % already exist",$email));
+        }
+
+        $user = new User($name, $email);
+        $user->setPassword($this->encoderService->generateEncodedPasswordForUser($user,$password));
+        $this->userRepository->save($user);
+        $jwt = $this->JWTTokenManager->create($user);
+        //se podría hacer un push en Rabbit MQ para que despues del alta se haga un envio al usuario
+        return new JsonResponse(['token' => $jwt]);
+    }
+}
+
+//listener
+//src/Api/Listener/User/UserPreWriteListener.php
+class UserPreWriteListener implements PreWriteListener
+{
+    //ruta put sf d:r
+    private const PUT_USER = "api_users_put_item";
+
+    private EncoderService $encoderService;
+
+    /**
+     * @var iterable | RoleValidator[]
+     */
+    private iterable $roleValidators;
+    //$roleValidators se configura en services.yaml
+
+    public function __construct(EncoderService $encoderService, iterable $roleValidators)
+    {
+        $this->encoderService = $encoderService;
+        //aqui vendrian instancias de AreValidRoles y CanAddRoleAdmin
+        $this->roleValidators = $roleValidators;
+    }
+
+    /**
+     * @param ViewEvent $event Tiene toda la información que tiene que ver con la actualización del usuario
+     */
+    public function onKernelView(ViewEvent $event): void
+    {
+        $request = $event->getRequest();
+
+        //si conincide la ruta, es PUT de user
+        if(self::PUT_USER === $request->get("_route")){
+            /**
+             * @var User $user  Usuario con la info ya actualizada (nuevos datos) todavia no está en bd
+             */
+            $user = $event->getControllerResult();
+
+            $roles = [];
+            foreach ($this->roleValidators as $roleValidator){
+                // validate lanzará una excepción si no cumple la validación
+                $roles = $roleValidator->validate($request);
+            }
+
+            //si todo ha ido bien se aplica esos roles al usuario
+            $user->setRoles($roles);
+
+            $user->setPassword(
+                $this->encoderService->generateEncodedPasswordForUser(
+                    $user,
+                    RequestTransformer::getRequiredField($request,"password"),
+                    null
+                )
+            );
+        }
+    }
+
+}//UserPreWriteListener
+```
+- Generamos ids de prueba en [uuidgenerator.net/](https://www.uuidgenerator.net/) 
+```js
+eeebd294-7737-11ea-bc55-0242ac130003
+eeebd5aa-7737-11ea-bc55-0242ac130003
+eeebd6a4-7737-11ea-bc55-0242ac130003
+eeebd776-7737-11ea-bc55-0242ac130003
+eeebd83e-7737-11ea-bc55-0242ac130003
+```
+- Tocamos `AppFixtures`
+```php
+<?php
+// src/DataFixtures/AppFixtures.php
+namespace App\DataFixtures;
+
+use App\Entity\User;
+use App\Service\Password\EncoderService;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Persistence\ObjectManager;
+use App\Security\Roles;
+
+/**
+ * Class AppFixtures
+ * @package App\DataFixtures
+ * Aqui se crearán los datos falsos para los tests de la app
+ */
+class AppFixtures extends Fixture
+{
+    private EncoderService $encoderService;
+
+    public function __construct(EncoderService $encoderService)
+    {
+        $this->encoderService = $encoderService;
+    }
+
+    public function load(ObjectManager $manager)
+    {
+        $users = $this->getUsers();
+        foreach ($users as $userData){
+            $user = new User($userData["name"],$userData["email"]);
+            $user->setPassword($this->encoderService->generateEncodedPasswordForUser($user,$userData["password"]));
+            $user->setRoles($userData["roles"]);
+            $manager->persist($user);
+        }
+
+        $manager->flush();
+    }
+
+    private function getUsers(): array
+    {
+        return [
+            [
+                "id" => "eeebd294-7737-11ea-bc55-0242ac130001",
+                "name" => "Admin",
+                "email" => "admin@api.com",
+                "password" => "password",
+                "roles" => [
+                    Roles::ROLE_ADMIN,
+                    Roles::ROLE_USER,
+                ]
+            ],
+            [
+                "id" => "eeebd294-7737-11ea-bc55-0242ac130002",
+                "name" => "User",
+                "email" => "user@api.com",
+                "password" => "password",
+                "roles" => [
+                    Roles::ROLE_USER,
+                ]
+            ],
+        ];
+    }
+}
+```
+- Ejecutamos las migraciones en la bd de test
+  - doctrine migrations migrate no preguntar usa fichero env.test
+  - `sf d:m:m -n --env=test`
+  - A mi no me encuentra el comando ^^
+  - `php bin/console d:m:m -n --env=test` con este ha ido ok
+- Ejecutamos el *faker*
+  - doctrine:fixtures:load 
+  - `php bin/console d:f:l -n --env=test`
+- **configuración de clases de test**
+```php
+// tests/Functional/Api/TestBase.php
+namespace App\Tests\Functional\Api;
+
+use App\DataFixtures\AppFixtures;
+use Doctrine\ORM\EntityManagerInterface;
+use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
+
+/**
+ * Aqui irá toda la lógica como ids, configuraciones, creación de usuarios
+ * que es lo necesario para ejecutar los tests
+ */
+class TestBase extends WebTestCase
+{
+    //trait helper para hacer operaciones contra la bd
+    use FixturesTrait;
+
+    protected const FORMAT = "jasonld";
+    protected const IDS = [
+        "admin_id" => "eeebd294-7737-11ea-bc55-0242ac130001",
+        "user_id" => "eeebd294-7737-11ea-bc55-0242ac130002",
+    ];
+
+    protected static ?KernelBrowser $client = null;
+    protected static ?KernelBrowser $admin = null;
+    protected static ?KernelBrowser $user = null;
+
+    public function setUp(): void
+    {
+        if(null === self::$client){
+            self::$client = static::createClient();
+        }
+
+        if(null === self::$admin){
+            self::$admin = clone self::$client;
+            $this->createAuthenticatedUser(self::$admin,"admin@api.com","password");
+        }
+
+        if(null === self::$user){
+            self::$user = clone self::$client;
+            $this->createAuthenticatedUser(self::$user, "user@api.com", "password");
+        }
+    }
+
+    private function createAuthenticatedUser(KernelBrowser &$client, string $username, string $password): void
+    {
+        $client->request(
+            "POST",
+            "http://localhost:200/api/v1/login_check",
+            [
+                "_email" => $username,
+                "_password" => $password,
+            ],
+        );
+
+        $data = json_decode($client->getResponse()->getContent(),true);
+        $client->setServerParameters([
+            "HTTP_Authorization" => sprintf("Bearer %s",$data["token"]),
+            "CONTENT_TYPE" => "application/json",
+        ]);
+    }
+
+    protected function getResponseData(Response $response): array
+    {
+        return \json_decode($response->getContent(), true);
+    }
+
+    private function resetDatabase():void
+    {
+        /**
+         * @var EntityManagerInterface
+         */
+        $em = $this->getContainer()->get("doctrine")->getManager();
+
+        if(!isset($metadata)){
+            $metadata = $em->getMetadataFactory()->getAllMetadata();
+        }
+
+        $schemaTool = new SchemaTool($em);
+        $schemaTool->dropDatabase();
+
+        if(!empty($metadata)){
+            $schemaTool->createSchema($metadata);
+        }
+
+        $this->postFixtureSetup();
+        $this->loadFixtures([AppFixtures::class]);
+    }
+}
+
+//tests/Functional/Api/User/UserTestBase.php
+namespace App\Tests\Functional\Api\User;
+use App\Tests\Functional\Api\TestBase;
+
+/**
+ * Aqui el test está orientado a casos de uso
+ * atributos con endponts por ejemplo
+ */
+class UserTestBase extends TestBase
+{
+    protected string $endpoint;
+
+    public function setUp(): void
+    {
+        //crea los clientes y guarda los tokens
+        parent::setUp();
+        $this->endpoint = "http://localhost:200/api/v1/users";
+    }
+}
+
+// tests/Functional/Api/User/GetUserTest.php
+namespace App\Tests\Functional\Api\User;
+
+use Symfony\Component\HttpFoundation\JsonResponse;
+
+class GetUserTest extends UserTestBase
+{
+    public function testGetUsersForAdmin(): void
+    {
+        // /api/v1/users.jasonld
+        $url = \sprintf("%s.%s",$this->endpoint,self::FORMAT);
+        $url = \sprintf("%s",$this->endpoint);
+        //print_r($url);//die;
+        self::$admin->request("GET", $url);
+        $response = self::$admin->getResponse();
+        //print_r($response);die;
+        $responseData = $this->getResponseData($response);
+        $this->assertEquals(JsonResponse::HTTP_OK, $response->getStatusCode());
+    }
+}
+```
+- **ERROR**
+  - El test va a medias, me indica que no se soporta ".ldjson" (forzando localhost:200)
+  - Cuando quito este formato, ya va, pero la respuesta es un HTML ¬¬!
+  - No me van los puntos de interrupción.
 
 ### [12. Tests unitarios para Register y Validators 38 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451578#questions/9295602)
 - 
