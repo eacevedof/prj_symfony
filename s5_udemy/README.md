@@ -1931,6 +1931,20 @@ PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
     Xdebug requires Zend Engine API version 320180731.
     The Zend Engine API version 320190902 which is installed, is newer.
     Contact Derick Rethans at https://xdebug.org/docs/faq#api for a later version of Xdebug.
+
+    solución:
+    He instalado xdebug en mac con: sudo pecl install xdebug
+    esto daba error porque no podía crear la carpeta "pecl" en /usr/local/Cellar/php/7.4.1/
+    la creé manualmente y volví a ejecutar la instalación, se realizo correctamente. 
+    Ahora xdebug va en phpstorm 
+
+    Cuando se lanza el test desde phpstorm este ejecuta esta linea:
+    Testing started at 22:12 ...
+    /usr/local/Cellar/php/7.4.1/bin/php -dxdebug.remote_enable=1 -dxdebug.remote_mode=req -dxdebug.
+    remote_port=9005 -dxdebug.remote_host=127.0.0.1
+
+    Es decir, configura xdebug en el momento de la ejecución, por eso no es necesario configurar
+    xdebug en php.ini (/usr/local/etc/php/7.4/php.ini)
     ```
   - **solución**
     - En **TestBase** estaba mal esto: ` protected const FORMAT = "jsonld";` Tenía: "jasonld".
