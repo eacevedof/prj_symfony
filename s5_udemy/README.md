@@ -1919,7 +1919,6 @@ class GetUserTest extends UserTestBase
   /Users/ioedu/projects/prj_symfony/s5_udemy/expenses_api/phpunit.xml.dist --filter "/(::testGetUsersForAdmin)( .*)?$/" App\Tests\Functional\Api\User\GetUserTest 
   /Users/ioedu/projects/prj_symfony/s5_udemy/expenses_api/tests/Functional/Api/User/GetUserTest.php 
   --teamcity --cache-result-file=/Users/ioedu/projects/prj_symfony/s5_udemy/expenses_api/.phpunit.result.cache
-PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
   ```
 - **ERROR**
   - El test va a medias, me indica que no se soporta ".ldjson" (forzando localhost:200)
