@@ -1490,7 +1490,7 @@ CORS_ALLOW_ORIGIN=^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$
     - expenses_api/tests/bootstrap.php
   - **`composer require --dev symfony/browser-kit`**
     - Nos proveera de un cliente http que nos permitirá hacer peticiones http
-  - **`composer require --dev doctrine/doctrine-fixtures-bundle`**
+  - **`composer require --dev doctrine/doctrine-fixtures-bundle` (faker)**
     - Nos permitira crear datos falsos para hacer pruebas (Faker?)
   - crea ficheros:
     - src/DataFixtures/AppFixtures.php
@@ -1503,7 +1503,7 @@ CORS_ALLOW_ORIGIN=^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$
     - config/bundles.php
       - Liip\TestFixturesBundle\LiipTestFixturesBundle::class => ['dev' => true, 'test' => true],
   - **`composer require symfony/proxy-manager-bridge`**
-    - Es para evitar que el **entityManager** nos de un error
+    - Es para evitar que el **entityManager** nos de un error "tu repositorio no está en modo lazy"
 - Hay dos formas de ejecución:
   - Dentro del contenedor
   - En nuestra maquina local
@@ -1520,7 +1520,42 @@ CORS_ALLOW_ORIGIN=^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$
   - El problema se da porque el script **/vendor/symfony/phpunit-bridge/bin/simple-phpunit.php** intenta ejecutar comandos con **composer.phar** y no lo encuentra ya que lo tengo instalado en mi carpeta projects (`/Users/<user>/projects/composer.phar`) y el alias esta en **.zshrc** mas no en **.bash_profile**. La solución rápida ha sido copiar el **.phar** dentro de la raíz del proyecto. Ha funcionado!.
   - ![](https://trello.com/1/cards/5e7777d6cd7def249ee578fb/attachments/5e88f9a4c649cc541e09c2b0/previews/download?backingUrl=https%3A%2F%2Ftrello-attachments.s3.amazonaws.com%2F5e7777d6cd7def249ee578fb%2F769x239%2F83a5aa9311d4318daf2e4e9410dca397%2Fimage.png)
   - He instalado la versión de phpunit-8.3 (se indica aqui: expenses_api/phpunit.xml.dist)
-  - Se puede probar con: `bin/phpunit` puede que actualice algunas librerias
+  - Se puede probar con: **`bin/phpunit`** puede que actualice algunas librerias
+  - Esto crea la estructura:
+  ```s
+  # tree -d -a  -L 4
+  expenses_api/bin/
+  └── .phpunit
+    └── phpunit-8.3-0
+        ├── .github
+        │   └── workflows
+        ├── .psalm
+        ├── bin
+        ├── src
+        │   ├── Framework
+        │   ├── Runner
+        │   ├── TextUI
+        │   └── Util
+        ├── tests
+        │   ├── _files
+        │   ├── basic
+        │   ├── end-to-end
+        │   ├── fail
+        │   ├── static-analysis
+        │   └── unit
+        └── vendor
+            ├── composer
+            ├── doctrine
+            ├── myclabs
+            ├── phar-io
+            ├── phpdocumentor
+            ├── phpspec
+            ├── phpunit
+            ├── sebastian
+            ├── symfony
+            ├── theseer
+            └── webmozart
+  ```
 - ![](https://trello.com/1/cards/5e7777d6cd7def249ee578fb/attachments/5e89014289b8ec5b3e880de7/previews/download?backingUrl=https%3A%2F%2Ftrello-attachments.s3.amazonaws.com%2F5e7777d6cd7def249ee578fb%2F931x311%2F9470e4b20adc152295f8ace84e9e41d4%2Fimage.png)
 - Vamos a proceder con los **tests funcionales**.  Estos consumirán la API y comprobaremos los resultados.
 - Se crean archivos:
@@ -1668,14 +1703,9 @@ class UserPreWriteListener implements PreWriteListener
 - Generamos ids de prueba en [uuidgenerator.net/](https://www.uuidgenerator.net/) 
 ```js
 eeebd294-7737-11ea-bc55-0242ac130003
-eeebd5aa-7737-11ea-bc55-0242ac130003
-eeebd6a4-7737-11ea-bc55-0242ac130003
-eeebd776-7737-11ea-bc55-0242ac130003
-eeebd83e-7737-11ea-bc55-0242ac130003
 ```
 - Tocamos `AppFixtures`
 ```php
-<?php
 // src/DataFixtures/AppFixtures.php
 namespace App\DataFixtures;
 
@@ -1881,10 +1911,23 @@ class GetUserTest extends UserTestBase
     }
 }
 ```
+- Ejecución del test:
+  - `bin/phpunit`
+  ```s
+  # lo que hace por detras
+  /usr/local/Cellar/php/7.4.1/bin/php /Users/ioedu/projects/prj_symfony/s5_udemy/expenses_api/vendor/symfony/phpunit-bridge/bin/simple-phpunit --configuration 
+  /Users/ioedu/projects/prj_symfony/s5_udemy/expenses_api/phpunit.xml.dist --filter "/(::testGetUsersForAdmin)( .*)?$/" App\Tests\Functional\Api\User\GetUserTest 
+  /Users/ioedu/projects/prj_symfony/s5_udemy/expenses_api/tests/Functional/Api/User/GetUserTest.php 
+  --teamcity --cache-result-file=/Users/ioedu/projects/prj_symfony/s5_udemy/expenses_api/.phpunit.result.cache
+PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
+  ```
 - **ERROR**
   - El test va a medias, me indica que no se soporta ".ldjson" (forzando localhost:200)
+  - symfony 404 Format jasonld is not supported
   - Cuando quito este formato, ya va, pero la respuesta es un HTML ¬¬!
   - No me van los puntos de interrupción.
+  - **solución**
+    - En **TestBase** estaba mal esto: ` protected const FORMAT = "jsonld";` Tenía: "jasonld".
 
 ### [12. Tests unitarios para Register y Validators 38 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451578#questions/9295602)
 - 
