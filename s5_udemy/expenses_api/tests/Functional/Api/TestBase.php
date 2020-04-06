@@ -60,7 +60,6 @@ class TestBase extends WebTestCase
         );
 
         $data = json_decode($client->getResponse()->getContent(),true);
-//print_r($data);die;
         $client->setServerParameters([
             "HTTP_Authorization" => sprintf("Bearer %s",$data["token"]),
             "CONTENT_TYPE" => "application/json",

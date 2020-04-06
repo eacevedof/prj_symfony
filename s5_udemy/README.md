@@ -1926,6 +1926,12 @@ PHPUnit 8.3.5 by Sebastian Bergmann and contributors.
   - symfony 404 Format jasonld is not supported
   - Cuando quito este formato, ya va, pero la respuesta es un HTML ¬¬!
   - No me van los puntos de interrupción.
+    ```s
+    php -i | grep "Xdebug"
+    Xdebug requires Zend Engine API version 320180731.
+    The Zend Engine API version 320190902 which is installed, is newer.
+    Contact Derick Rethans at https://xdebug.org/docs/faq#api for a later version of Xdebug.
+    ```
   - **solución**
     - En **TestBase** estaba mal esto: ` protected const FORMAT = "jsonld";` Tenía: "jasonld".
 
