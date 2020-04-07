@@ -18,8 +18,10 @@ use Symfony\Component\HttpFoundation\Response;
 class TestBase extends WebTestCase
 {
     //trait helper para hacer operaciones contra la bd
+    //getContainer,loadFixtures,
     use FixturesTrait;
 
+    protected const TRACE_ON = false;
     protected const FORMAT = "jsonld";
     protected const IDS = [
         "admin_id" => "eeebd294-7737-11ea-bc55-0242ac130001",
@@ -30,8 +32,14 @@ class TestBase extends WebTestCase
     protected static ?KernelBrowser $admin = null;
     protected static ?KernelBrowser $user = null;
 
+    /*
+     * Este método se ejecuta para cada test (clase individual de test) que se ejecute
+     * por lo tanto se crean clientes estaticos que se inicializen una sola vez, la primera
+     * es como una emulación singleton
+     */
     public function setUp(): void
     {
+        $this->t("setUp","TestBase.php");
         if(null === self::$client){
             self::$client = static::createClient();
         }
@@ -73,6 +81,7 @@ class TestBase extends WebTestCase
 
     private function resetDatabase():void
     {
+        $this->t("resetDatabase","TestBase.php");
         /**
          * @var EntityManagerInterface
          */
@@ -91,7 +100,29 @@ class TestBase extends WebTestCase
 
         $this->postFixtureSetup();
 
+        //trait
         $this->loadFixtures([AppFixtures::class]);
+    }
+
+    /**
+     * @param $mxvar mixed
+     */
+    protected function t($mxvar,string $title=""): void
+    {
+        if(!self::TRACE_ON) return;
+
+        $datetime = date("Ymd H:i:s");
+        $isconsole = defined("STDIN");
+        $content = ["\n"];
+        if(!$isconsole) $content[] = "<pre>";
+        $content[] = $datetime;
+        if($title) $content[] = $title.":";
+
+        $strvar = var_export($mxvar,true);
+        $content[] = $strvar;
+
+        if(!$isconsole) $content[] = "</pre>";
+        echo implode("\n",$content);
     }
 
 }
