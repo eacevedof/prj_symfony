@@ -1776,6 +1776,11 @@ class AppFixtures extends Fixture
 - Ejecutamos el *faker*
   - doctrine:fixtures:load 
   - `php bin/console d:f:l -n --env=test`
+  ```s
+  # ejecutamos el faker
+  > purging database
+  > loading App\DataFixtures\AppFixtures
+  ```
 - **configuración de clases de test**
 ```php
 // tests/Functional/Api/TestBase.php
@@ -1947,6 +1952,264 @@ class GetUserTest extends UserTestBase
     ```
   - **solución**
     - En **TestBase** estaba mal esto: ` protected const FORMAT = "jsonld";` Tenía: "jasonld".
+```php
+// tests/Functional/Api/TestBase.php
+protected static ?KernelBrowser $client = null;
+protected static ?KernelBrowser $admin = null;
+protected static ?KernelBrowser $user = null;
+
+/*
+  * Este método se ejecuta para cada test (clase individual de test) que se ejecute
+  * por lo tanto se crean clientes estaticos que se inicializen una sola vez, la primera
+  * es como una emulación singleton
+  */
+public function setUp(): void
+{
+    if(null === self::$client){
+        self::$client = static::createClient();
+    }
+
+    if(null === self::$admin){
+        self::$admin = clone self::$client;
+        $this->createAuthenticatedUser(self::$admin,"admin@api.com","password");
+    }
+
+    if(null === self::$user){
+        self::$user = clone self::$client;
+        $this->createAuthenticatedUser(self::$user, "user@api.com", "password");
+    }
+}
+```
+- Tengo un **error** con el test: **PutUserTest.testPutUserWithAdmin()**
+  - Bd purgada
+  - ![](https://trello.com/1/cards/5e7777d6cd7def249ee578fb/attachments/5e8c4c2fade01a67c475d280/previews/download?backingUrl=https%3A%2F%2Ftrello-attachments.s3.amazonaws.com%2F5e7777d6cd7def249ee578fb%2F1179x111%2Fd9510a39bc052931f6ceade24df8c2a2%2Fimage.png)
+  - Bd despues del test, que va OK
+  - ![](https://trello.com/1/cards/5e7777d6cd7def249ee578fb/attachments/5e8c4e27366a641c52991394/previews/download?backingUrl=https%3A%2F%2Ftrello-attachments.s3.amazonaws.com%2F5e7777d6cd7def249ee578fb%2F1200x96%2F39b6f2f9fbe48b9c5d5a64268d94d981%2Fimage.png)
+    - El usuario tiene "New name" y los dos roles
+  - Aqui está el error cuando ejecuto el test **PutUserTest.testPutAdminWithUser**
+  ```s
+  Testing App\Tests\Functional\Api\User\PutUserTest
+  Undefined index: token
+  /Users/ioedu/projects/prj_symfony/s5_udemy/expenses_api/tests/Functional/Api/TestBase.php:72
+  /Users/ioedu/projects/prj_symfony/s5_udemy/expenses_api/tests/Functional/Api/TestBase.php:54
+  /Users/ioedu/projects/prj_symfony/s5_udemy/expenses_api/tests/Functional/Api/User/UserTestBase.php:20
+
+  testPutAdminWithUser: uri: /api/v1/users/eeebd294-7737-11ea-bc55-0242ac130001.jsonld
+  
+  Failed asserting that 401 matches expected 403.
+  Expected :403
+  Actual   :401
+  /Users/ioedu/projects/prj_symfony/s5_udemy/expenses_api/tests/Functional/Api/User/PutUserTest.php:60
+  ```
+  - **solución** Faltaba `$this->resetDatabase() en este método`
+  ```php
+  //tests/Functional/Api/TestBase.php
+  public function setUp(): void
+  {
+      $this->resetDatabase();
+
+      if (null === self::$client) {
+          self::$client = static::createClient();
+      }
+  ```
+- Archivos php implicados:
+```php
+// src/DataFixtures/AppFixtures.php
+public function load(ObjectManager $manager)
+{
+    $users = $this->getUsers();
+    foreach ($users as $userData){
+        $user = new User($userData["name"],$userData["email"],$userData["id"]);
+        $user->setPassword($this->encoderService->generateEncodedPasswordForUser($user,$userData["password"]));
+        $user->setRoles($userData["roles"]);
+        $manager->persist($user);
+    }
+
+    $manager->flush();
+}
+
+//tests/Functional/Api/User/DeleteUserTest.php
+namespace App\Tests\Functional\Api\User;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
+class DeleteUserTest extends UserTestBase
+{
+    public function testDeleteUserWithAdmin(): void
+    {
+        $uri = \sprintf("%s/%s.%s",$this->endpoint,self::IDS["user_id"], self::FORMAT);
+        self::$admin->request("DELETE", $uri);
+        $response = self::$admin->getResponse();
+        $this->assertEquals(JsonResponse::HTTP_NO_CONTENT, $response->getStatusCode());
+    }
+
+    public function testDeleteAdminWithUser(): void
+    {
+        $uri = \sprintf("%s/%s.%s",$this->endpoint,self::IDS["admin_id"], self::FORMAT);
+        self::$user->request("DELETE", $uri);
+        $response = self::$user->getResponse();
+        $this->assertEquals(JsonResponse::HTTP_FORBIDDEN, $response->getStatusCode());
+    }
+}
+
+// tests/Functional/Api/User/GetUserTest.php
+class GetUserTest extends UserTestBase
+{
+    public function testGetUsersForAdmin(): void
+    {
+        $uri = \sprintf("%s.%s",$this->endpoint,self::FORMAT);
+        self::$admin->request("GET", $uri);
+        $response = self::$admin->getResponse();
+        $responseData = $this->getResponseData($response);
+        $this->assertEquals(JsonResponse::HTTP_OK, $response->getStatusCode());
+        $this->assertCount(2,$responseData["hydra:member"]);
+    }
+
+    /**
+     * Si el usuario (que no es admin) puede obtener a todos los usuarios
+     */
+    public function testGetUsersForUser(): void
+    {
+        $uri = \sprintf("%s.%s",$this->endpoint,self::FORMAT);
+        self::$user->request("GET", $uri);
+        $response = self::$user->getResponse();
+        $this->assertEquals(JsonResponse::HTTP_FORBIDDEN, $response->getStatusCode());
+    }
+
+    /**
+     * Endpoints para obtener un solo usuario
+     */
+    public function testGetUserWithAdmin():void
+    {
+        $uri = \sprintf("%s/%s.%s", $this->endpoint, self::IDS["user_id"], self::FORMAT);
+        self::$admin->request("GET", $uri);
+        $response = self::$admin->getResponse();
+        $responseData = $this->getResponseData($response);
+        $this->assertEquals(JsonResponse::HTTP_OK, $response->getStatusCode());
+        $this->assertEquals(self::IDS["user_id"],$responseData["id"]);
+    }
+
+    /**
+     * Endpoints para obtener el admin con un usuario común
+     */
+    public function testGetAdminWithUser():void
+    {
+        $uri = \sprintf("%s/%s.%s", $this->endpoint, self::IDS["admin_id"], self::FORMAT);
+        self::$user->request("GET", $uri);
+        $response = self::$user->getResponse();
+        $this->assertEquals(JsonResponse::HTTP_FORBIDDEN, $response->getStatusCode());
+    }
+}//GetUserTest
+
+//tests/Functional/Api/User/PutUserTest.php
+namespace App\Tests\Functional\Api\User;
+
+use App\Security\Roles;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
+class PutUserTest extends UserTestBase
+{
+    /**
+     * Al usuario simple se le actualiza el Rol a ADMIN con un Admin
+     */
+    public function testPutUserWithAdmin():void
+    {
+        $payload = [
+          "name" => "New name",
+          "password" => "password2",
+          "roles" => [
+              Roles::ROLE_ADMIN,
+              Roles::ROLE_USER,
+          ],
+        ];
+
+        $uri = \sprintf("%s/%s.%s",$this->endpoint,self::IDS["user_id"], self::FORMAT);
+        self::$admin->request(
+            "PUT",
+            $uri,
+            [],[],[], json_encode($payload)
+        );
+
+        $response = self::$admin->getResponse();
+        $responseData = $this->getResponseData($response);
+
+        $this->assertEquals(JsonResponse::HTTP_OK, $response->getStatusCode());
+        $this->assertEquals(self::IDS["user_id"], $responseData["id"]);
+        $this->assertEquals($payload["name"], $responseData["name"]);
+        $this->assertEquals($payload["roles"], $responseData["roles"]);
+    }
+
+    /**
+     * se intenta modificar un Admin con un User comun
+     */
+    public function testPutAdminWithUser():void
+    {
+
+        $payload = [
+            "name" => "New name",
+            "password" => "password2",
+            "roles" => [
+                Roles::ROLE_ADMIN,
+                Roles::ROLE_USER,
+            ],
+        ];
+
+        $uri = \sprintf("%s/%s.%s",$this->endpoint,self::IDS["admin_id"], self::FORMAT);
+        self::$user->request(
+            "PUT",
+            $uri,
+            [],[],[], json_encode($payload)
+        );
+
+        $response = self::$user->getResponse();
+        $this->assertEquals(JsonResponse::HTTP_FORBIDDEN, $response->getStatusCode());
+    }
+
+    public function testPutUserWithAdminAndFakeRole():void
+    {
+        $payload = [
+            "name" => "New name",
+            "password" => "password2",
+            "roles" => [
+                Roles::ROLE_ADMIN,
+                "ROLE_FAKE",
+            ],
+        ];
+
+        $uri = \sprintf("%s/%s.%s",$this->endpoint,self::IDS["user_id"], self::FORMAT);
+        self::$admin->request(
+            "PUT",
+            $uri,
+            [],[],[], json_encode($payload)
+        );
+
+        $response = self::$admin->getResponse();
+        $this->assertEquals(JsonResponse::HTTP_BAD_REQUEST, $response->getStatusCode());
+    }
+
+    public function testAddAdminRoleWithUser():void
+    {
+        $payload = [
+            "name" => "New name",
+            "password" => "password2",
+            "roles" => [
+                Roles::ROLE_ADMIN,
+                Roles::ROLE_USER,
+            ],
+        ];
+
+
+        $uri = \sprintf("%s/%s.%s",$this->endpoint,self::IDS["user_id"], self::FORMAT);
+        self::$user->request(
+            "PUT",
+            $uri,
+            [],[],[], json_encode($payload)
+        );
+
+        $response = self::$user->getResponse();
+        $this->assertEquals(JsonResponse::HTTP_BAD_REQUEST, $response->getStatusCode());
+    }
+}
+```
 
 ### [12. Tests unitarios para Register y Validators 38 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451578#questions/9295602)
 - 

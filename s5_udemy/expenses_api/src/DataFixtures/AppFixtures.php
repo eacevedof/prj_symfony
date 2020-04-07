@@ -5,7 +5,6 @@ namespace App\DataFixtures;
 use App\Entity\User;
 use App\Service\Password\EncoderService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-//use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Persistence\ObjectManager;
 use App\Security\Roles;
 
@@ -27,7 +26,7 @@ class AppFixtures extends Fixture
     {
         $users = $this->getUsers();
         foreach ($users as $userData){
-            $user = new User($userData["name"],$userData["email"]);
+            $user = new User($userData["name"],$userData["email"],$userData["id"]);
             $user->setPassword($this->encoderService->generateEncodedPasswordForUser($user,$userData["password"]));
             $user->setRoles($userData["roles"]);
             $manager->persist($user);
@@ -59,13 +58,6 @@ class AppFixtures extends Fixture
                 ]
             ],
         ];
-    }
-}
+    }//getUsers()
 
-/*
-eeebd294-7737-11ea-bc55-0242ac130003
-eeebd5aa-7737-11ea-bc55-0242ac130003
-eeebd6a4-7737-11ea-bc55-0242ac130003
-eeebd776-7737-11ea-bc55-0242ac130003
-eeebd83e-7737-11ea-bc55-0242ac130003
- * */
+}//AppFixtures
