@@ -15,8 +15,7 @@ class UserTestBase extends TestBase
 
     public function setUp(): void
     {
-        $this->t("setUp","UserTestBase.php");
-        //crea los clientes y guarda los tokens
+        //crea los clientes (user, admin) y guarda los tokens
         parent::setUp();
         $this->endpoint = "/api/v1/users";
     }

@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class UnsupportedRoleException extends BadRequestHttpException
 {
-    private const MESSAGE = "Unsupported role %s";
+    private const MESSAGE = 'Unsupported role %s';
 
     public static function fromRole(string $role): self
     {

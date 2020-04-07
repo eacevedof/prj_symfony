@@ -21,6 +21,6 @@
 .phpunit
 .phpunit.result.cache
 /phpunit.xml
+bin/.phpunit
 ###< symfony/phpunit-bridge ###
-
 composer.phar

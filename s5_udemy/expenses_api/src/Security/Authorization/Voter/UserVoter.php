@@ -5,6 +5,7 @@ namespace App\Security\Authorization\Voter;
 
 use App\Entity\User;
 use App\Security\Roles;
+use Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**

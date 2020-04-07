@@ -6,6 +6,7 @@ namespace App\Tests\Functional\Api;
 use App\DataFixtures\AppFixtures;
 use Doctrine\ORM\EntityManagerInterface;
 //use Doctrine\ORM\Tools\ToolsException;
+use Doctrine\ORM\Tools\SchemaTool;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -39,21 +40,21 @@ class TestBase extends WebTestCase
      */
     public function setUp(): void
     {
-        $this->t("setUp","TestBase.php");
-        if(null === self::$client){
+        $this->resetDatabase();
+
+        if (null === self::$client) {
             self::$client = static::createClient();
         }
 
-        if(null === self::$admin){
+        if (null === self::$admin) {
             self::$admin = clone self::$client;
             $this->createAuthenticatedUser(self::$admin,"admin@api.com","password");
         }
 
-        if(null === self::$user){
+        if (null === self::$user) {
             self::$user = clone self::$client;
             $this->createAuthenticatedUser(self::$user, "user@api.com", "password");
         }
-
     }
 
     private function createAuthenticatedUser(KernelBrowser &$client, string $username, string $password): void
@@ -68,8 +69,9 @@ class TestBase extends WebTestCase
         );
 
         $data = json_decode($client->getResponse()->getContent(),true);
+        $uri = sprintf("Bearer %s",$data["token"]);
         $client->setServerParameters([
-            "HTTP_Authorization" => sprintf("Bearer %s",$data["token"]),
+            "HTTP_Authorization" => $uri,
             "CONTENT_TYPE" => "application/json",
         ]);
     }
@@ -81,7 +83,6 @@ class TestBase extends WebTestCase
 
     private function resetDatabase():void
     {
-        $this->t("resetDatabase","TestBase.php");
         /**
          * @var EntityManagerInterface
          */
@@ -107,7 +108,7 @@ class TestBase extends WebTestCase
     /**
      * @param $mxvar mixed
      */
-    protected function t($mxvar,string $title=""): void
+    protected function t($mxvar, string $title=""): void
     {
         if(!self::TRACE_ON) return;
 
@@ -124,5 +125,6 @@ class TestBase extends WebTestCase
         if(!$isconsole) $content[] = "</pre>";
         echo implode("\n",$content);
     }
+
 
 }

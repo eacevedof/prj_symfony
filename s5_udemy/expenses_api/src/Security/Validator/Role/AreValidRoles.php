@@ -13,14 +13,13 @@ class AreValidRoles implements RoleValidator
 
     public function validate(Request $request): array
     {
-        $roles = \array_unique(RequestTransformer::getRequiredField($request,"roles"));
+        $roles = \array_unique(RequestTransformer::getRequiredField($request, 'roles'));
 
         \array_map(function (string $role): void {
-            if(!\in_array($role,Roles::getSupportedRoles(), true)){
-                //lanza una excepcion: BadRequestHttpException
+            if (!\in_array($role, Roles::getSupportedRoles(), true)) {
                 throw UnsupportedRoleException::fromRole($role);
             }
-        },$roles);
+        }, $roles);
 
         return $roles;
     }
