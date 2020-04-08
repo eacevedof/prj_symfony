@@ -2212,7 +2212,8 @@ class PutUserTest extends UserTestBase
 ```
 
 ### [12. Tests unitarios para Register y Validators 38 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451578#questions/9295602)
-- 
+- [`git checkout -b section5/video3-unit-testing`](https://bitbucket.org/juanwilde/sf5-expenses-api/src/975ba33f27c06b53ce2a27e6fa390edf7bc5d8de/tests/Unit/?at=section5%2Fvideo3-unit-testing)
+
 
 ### Sección 7: Grupos 0 / 5|3 h 20 min
 ### [13. Entidad para grupos y actualización de la configuración de API Platform 20 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451596#questions/9295602)
