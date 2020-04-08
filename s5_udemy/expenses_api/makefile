@@ -1,4 +1,5 @@
 #!/bin/bash
+# s5_udemy/expenses_api/makefile
 # https://bitbucket.org/juanwilde/sf5-expenses-api/src/b953a0090139df2d90c8eea1e7f8e11912315136/Makefile?at=section2%2Fvideo1-docker-config
 
 # en mac devuelve Darwin (código de la terminal de mac), ubuntu en linux y para windows hay 2
@@ -82,7 +83,7 @@ ssh-be: ## ssh's into the be container
 
 code-style: ## Runs php-cs to fix code styling following Symfony rules
 	php-cs-fixer fix src --rules=@Symfony
-#	php-cs-fixer fix tests --rules=@Symfony
+  php-cs-fixer fix tests --rules=@Symfony
 
 # https://github.com/lexik/LexikJWTAuthenticationBundle/blob/master/Resources/doc/index.md#generate-the-ssh-keys
 generate-ssh-keys: ## Generate ssh keys in the container
