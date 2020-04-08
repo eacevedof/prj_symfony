@@ -2686,7 +2686,8 @@ App\Entity\Group:
   UndefinedMethodError
   Attempted to call an undefined method named "getDescription" of class "phpDocumentor\Reflection\DocBlock\Tags\InvalidTag".
   ```
-
+  - **solución**
+  > Se estaba definiendo una variable con un comentario incompleto: `User[` `/** @var Collection|User[ */private Collection $users;` le falta el cierre del corchete
 
 ### [14. Configurar seguridad para grupos 52 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451602#questions/9295602)
 - 

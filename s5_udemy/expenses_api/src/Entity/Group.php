@@ -1,11 +1,11 @@
 <?php
-//src/Entity/Group.php
+
 declare(strict_types=1);
+
 namespace App\Entity;
 
-
 use Doctrine\Common\Collections\ArrayCollection;
-use phpDocumentor\Reflection\Types\Collection;
+use Doctrine\Common\Collections\Collection;
 use Ramsey\Uuid\Uuid;
 
 class Group
@@ -16,7 +16,7 @@ class Group
     protected \DateTime $createdAt;
     protected \DateTime $updatedAt;
 
-    /** @var Collection|User[  */
+    /** @var Collection|User[]  */
     private Collection $users;
 
     /**
@@ -29,36 +29,24 @@ class Group
         $this->owner = $owner;
         $this->createdAt = new \DateTime();
         $this->users = new ArrayCollection();
-
+        $this->markAsUpdated();
     }
 
-    /**
-     * @return string|null
-     */
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
     public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return User
-     */
     public function getOwner(): User
     {
         return $this->owner;
@@ -80,7 +68,7 @@ class Group
     }
 
     /**
-     * @return Collection|User[
+     * @return Collection|User[]
      */
     public function getUsers(): Collection
     {
@@ -89,9 +77,8 @@ class Group
 
     public function addUser(User $user): void
     {
-        //relación n:m
         $this->users->add($user);
+
         $user->addGroup($this);
     }
-
 }
