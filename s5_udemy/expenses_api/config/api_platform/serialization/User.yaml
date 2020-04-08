@@ -11,3 +11,7 @@ App\Entity\User:
       groups: ['user_write']
     roles:
       groups: ['user_read', 'user_write']
+    createdAt:
+      groups: ["user_read"]
+    updateedAt:
+      groups: ["user_read"]

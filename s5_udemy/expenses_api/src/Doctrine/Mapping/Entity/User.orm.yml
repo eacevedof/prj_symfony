@@ -1,4 +1,4 @@
-# Doctrine/Mapping/Entity/User.orm.yml
+  # Doctrine/Mapping/Entity/User.orm.yml
 App\Entity\User:
   type: entity
   table: user
@@ -6,7 +6,15 @@ App\Entity\User:
   id:
     id:
       type: string
-  
+
+  manyToMany:
+    groups:
+      targetEntity: Group
+      inversedBy: users
+      joinTable:
+        # si no pusieramos esto crearia la tabla users_groups
+        name: user_group_user 
+
   fields:
     name:
       type: string

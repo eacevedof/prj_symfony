@@ -2446,7 +2446,248 @@ class CanAddRoleAdminTest extends TestCase
 
 ### Sección 7: Grupos 0 / 5|3 h 20 min
 ### [13. Entidad para grupos y actualización de la configuración de API Platform 20 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451596#questions/9295602)
-- 
+- Un usuario puede estar en varios grupos
+- Un grupo puede contener varios usuarios
+- ![](https://trello.com/1/cards/5e7777d6cd7def249ee578fb/attachments/5e8df948454b1a6a6be29ec8/previews/download?backingUrl=https%3A%2F%2Ftrello-attachments.s3.amazonaws.com%2F5e7777d6cd7def249ee578fb%2F807x108%2F1636db981ac37b99c60db0bf0d3594b3%2Fimage.png)
+- **entidades**
+```php
+//src/Entity/User.php
+/**
+ * @return Group[]|Collection
+ */
+public function getGroups():Collection
+{
+    return $this->groups;
+}
+
+public function addGroup(Group $group): void
+{
+    $this->groups->add($group);
+}
+
+//src/Entity/Group.php
+namespace App\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
+use phpDocumentor\Reflection\Types\Collection;
+use Ramsey\Uuid\Uuid;
+
+class Group
+{
+    private ?string $id;
+    private string $name;
+    private User $owner;
+    protected \DateTime $createdAt;
+    protected \DateTime $updatedAt;
+
+    /** @var Collection|User[  */
+    private Collection $users;
+
+    /**
+     * @throws \Exception
+     */
+    public function __construct(string $name, User $owner, string $id = null)
+    {
+        $this->id = $id ?? Uuid::uuid4()->toString();
+        $this->name = $name;
+        $this->owner = $owner;
+        $this->createdAt = new \DateTime();
+        $this->users = new ArrayCollection();
+
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return User
+     */
+    public function getOwner(): User
+    {
+        return $this->owner;
+    }
+
+    public function getCreatedAt(): \Datetime
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): \Datetime
+    {
+        return $this->updatedAt;
+    }
+
+    public function markAsUpdated(): void
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * @return Collection|User[
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): void
+    {
+        //relación n:m
+        $this->users->add($user);
+        $user->addGroup($this);
+    }
+}
+```
+- **config/api_platform (nuevos)**
+```yaml
+# config/api_platform/resources/Group.yaml
+App\Entity\Group:
+  attributes:
+    normalization_context:
+      groups: ['group_read']
+
+  collectionOperations:
+    get:
+      method: 'GET'
+      security: 'is_granted("GROUP_READ")'
+    post:
+      method: "POST"
+      security: 'is_granted("GROUP_CREATE")'
+      denormalization_context:
+        groups: ['group_post']
+      swagger_context:
+        parameters:
+          - in: body
+            name: group
+            description: The group to create
+            schema:
+              type: object
+              required:
+                - name
+                - owner
+              properties:
+                name:
+                  type: string
+                owner:
+                  type: string
+
+  itemOperations:
+    get:
+      method: 'GET'
+      security: 'is_granted("GROUP_READ", object)'
+    put:
+      method: 'PUT'
+      security: 'is_granted("GROUP_UPDATE", object)'
+      denormalization_context:
+        groups: ['group_put']
+      swagger_context:
+        parameters:
+          - in: body
+            name: group
+            description: The group to update
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+
+    delete:
+      method: 'DELETE'
+      security: 'is_granted("GROUP_DELETE", object)'
+
+# config/api_platform/serialization/Group.yaml
+App\Entity\Group:
+  attributes:
+    id:
+      groups: ['group_read']
+    name:
+      groups: ['group_read', 'group_post',"group_put"]
+    owner:
+      groups: ['group_read',"group_post"]
+    createdAt:
+      groups: ["group_read"]
+    updateedAt:
+      groups: ["group_read"]
+
+# Doctrine/Mapping/Entity/Group.orm.yml
+App\Entity\Group:
+  type: entity
+  table: user_group #group está reservado (group by)
+
+  id:
+    id:
+      type: string
+
+  manyToOne:
+    owner:
+      targetEntity: User
+
+  manyToMany:
+    users:
+      targetEntity: User
+      mappedBy: groups
+
+  fields:
+    name:
+      type: string
+      nullable: false
+    createdAt:
+      type: datetime
+      nullable: false
+    updatedAt:
+      type: datetime
+      nullable: false
+
+  lifecycleCallbacks:
+    preUpdate: [markAsUpdated]
+```
+- **modificados**
+```yaml
+# Doctrine/Mapping/Entity/User.orm.yml
+  manyToMany:
+    groups:
+      targetEntity: Group
+      inversedBy: users
+      joinTable:
+        # si no pusieramos esto crearia la tabla users_groups
+        name: user_group_user 
+# config/api_platform/serialization/User.yaml
+    createdAt:
+      groups: ["user_read"]
+    updateedAt:
+      groups: ["user_read"]
+```
+
+- Error:
+  ```s
+  Symfony\Component\ErrorHandler\Error\
+  UndefinedMethodError
+  Attempted to call an undefined method named "getDescription" of class "phpDocumentor\Reflection\DocBlock\Tags\InvalidTag".
+  ```
+
+
 ### [14. Configurar seguridad para grupos 52 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451602#questions/9295602)
 - 
 ### [15. Crear endpoint para añadir usuarios a un grupo 1 h 8 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451610#questions/9295602)

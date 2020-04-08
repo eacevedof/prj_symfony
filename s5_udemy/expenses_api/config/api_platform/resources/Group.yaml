@@ -1,0 +1,56 @@
+# config/api_platform/resources/Group.yaml
+App\Entity\Group:
+  attributes:
+    normalization_context:
+      groups: ['group_read']
+
+  collectionOperations:
+    get:
+      method: 'GET'
+      security: 'is_granted("GROUP_READ")'
+    post:
+      method: "POST"
+      security: 'is_granted("GROUP_CREATE")'
+      denormalization_context:
+        groups: ['group_post']
+      swagger_context:
+        parameters:
+          - in: body
+            name: group
+            description: The group to create
+            schema:
+              type: object
+              required:
+                - name
+                - owner
+              properties:
+                name:
+                  type: string
+                owner:
+                  type: string
+
+  itemOperations:
+    get:
+      method: 'GET'
+      security: 'is_granted("GROUP_READ", object)'
+    put:
+      method: 'PUT'
+      security: 'is_granted("GROUP_UPDATE", object)'
+      denormalization_context:
+        groups: ['group_put']
+      swagger_context:
+        parameters:
+          - in: body
+            name: group
+            description: The group to update
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+
+    delete:
+      method: 'DELETE'
+      security: 'is_granted("GROUP_DELETE", object)'

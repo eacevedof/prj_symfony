@@ -1,0 +1,31 @@
+# Doctrine/Mapping/Entity/Group.orm.yml
+App\Entity\Group:
+  type: entity
+  table: user_group #group está reservado (group by)
+
+  id:
+    id:
+      type: string
+
+  manyToOne:
+    owner:
+      targetEntity: User
+
+  manyToMany:
+    users:
+      targetEntity: User
+      mappedBy: groups
+
+  fields:
+    name:
+      type: string
+      nullable: false
+    createdAt:
+      type: datetime
+      nullable: false
+    updatedAt:
+      type: datetime
+      nullable: false
+
+  lifecycleCallbacks:
+    preUpdate: [markAsUpdated]

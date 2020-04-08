@@ -1,10 +1,11 @@
 <?php
-
+//src/Entity/User.php
 declare(strict_types=1);
 
 namespace App\Entity;
 
 use App\Security\Roles;
+use phpDocumentor\Reflection\Types\Collection;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -17,6 +18,9 @@ class User implements UserInterface
     protected array $roles;
     protected \DateTime $createdAt;
     protected \DateTime $updatedAt;
+
+    /** @var Collection|Group[] */
+    protected Collection $groups;
 
     /**
      * @throws \Exception
@@ -108,6 +112,19 @@ class User implements UserInterface
     public function equals(User $user): bool
     {
         return $this->getId() == $user->getId();
+    }
+
+    /**
+     * @return Group[]|Collection
+     */
+    public function getGroups():Collection
+    {
+        return $this->groups;
+    }
+
+    public function addGroup(Group $group): void
+    {
+        $this->groups->add($group);
     }
 
 }

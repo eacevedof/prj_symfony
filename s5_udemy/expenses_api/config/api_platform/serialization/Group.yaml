@@ -1,0 +1,14 @@
+# config/api_platform/serialization/Group.yaml
+App\Entity\Group:
+  attributes:
+    id:
+      groups: ['group_read']
+    name:
+      groups: ['group_read', 'group_post',"group_put"]
+    owner:
+      groups: ['group_read',"group_post"]
+    createdAt:
+      groups: ["group_read"]
+    updateedAt:
+      groups: ["group_read"]
+
