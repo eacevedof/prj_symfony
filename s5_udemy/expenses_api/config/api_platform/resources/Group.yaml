@@ -3,7 +3,6 @@ App\Entity\Group:
   attributes:
     normalization_context:
       groups: ['group_read']
-
   collectionOperations:
     get:
       method: 'GET'
@@ -29,6 +28,7 @@ App\Entity\Group:
                 owner:
                   type: string
 
+
   itemOperations:
     get:
       method: 'GET'
@@ -50,7 +50,6 @@ App\Entity\Group:
               properties:
                 name:
                   type: string
-
     delete:
       method: 'DELETE'
       security: 'is_granted("GROUP_DELETE", object)'
