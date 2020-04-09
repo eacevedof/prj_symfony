@@ -2688,6 +2688,8 @@ App\Entity\Group:
   ```
   - **solución**
   > Se estaba definiendo una variable con un comentario incompleto: `User[` `/** @var Collection|User[ */private Collection $users;` le falta el cierre del corchete
+- Con todo esto configurado y swagger funcionando se ejecuta:
+  - [git checkout -b section6/video1-create-group-and-update-api-platform](https://bitbucket.org/juanwilde/sf5-expenses-api/src/ae46ecf5fd9172454cc2a678c8c205d057476adc/src/Entity/Group.php?at=section6%2Fvideo1-create-group-and-update-api-platform)
 
 ### [14. Configurar seguridad para grupos 52 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451602#questions/9295602)
 - 
