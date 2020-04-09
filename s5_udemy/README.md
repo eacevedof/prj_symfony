@@ -2692,7 +2692,8 @@ App\Entity\Group:
   - [git checkout -b section6/video1-create-group-and-update-api-platform](https://bitbucket.org/juanwilde/sf5-expenses-api/src/ae46ecf5fd9172454cc2a678c8c205d057476adc/src/Entity/Group.php?at=section6%2Fvideo1-create-group-and-update-api-platform)
 
 ### [14. Configurar seguridad para grupos 52 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451602#questions/9295602)
-- 
+- Grupos y su relación con usuarios
+- [`git checkout -b section/6/video2-configure-group-resource`](https://bitbucket.org/juanwilde/sf5-expenses-api/src/929512cf9a43cfa522a1ce90fe8a433714101df3/?at=section6%2Fvideo2-configure-group-resource)
 ### [15. Crear endpoint para añadir usuarios a un grupo 1 h 8 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451610#questions/9295602)
 - 
 ### [16. Crear endpoint para eliminar usuarios de un grupo 34 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451618#questions/9295602)
