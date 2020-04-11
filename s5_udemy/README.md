@@ -2694,6 +2694,15 @@ App\Entity\Group:
 ### [14. Configurar seguridad para grupos 52 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451602#questions/9295602)
 - Grupos y su relación con usuarios
 - [`git checkout -b section/6/video2-configure-group-resource`](https://bitbucket.org/juanwilde/sf5-expenses-api/src/929512cf9a43cfa522a1ce90fe8a433714101df3/?at=section6%2Fvideo2-configure-group-resource)
+- Hay que agregar una capa de seguridad para que un usuario solo pueda crear grupos para si mismo
+- Esto evitaría que un usuario con conocimiento del id de otro usuario pueda crear grupos para el segundo
+- Para esto hay que crear un listener de escritura. ***`src/Api/Listener/User/GroupPreWriteListener.php`**
+  - El listener depende de una URI con lo cual hay que revisar el rep de rutas: `sf d:r`
+  - Se selecciona: `api_users_get_collection  GET ANY ANY /api/v1/users.{_format}`
+- El listener necesita lanzar una excepción. Hay que crear esta: **`src/Exceptions/Group/CannotAddAnotherOwnerException.php`**
+- Con el listener configurado pasamos a lanzar las migraciones **ya contamos con la entidad Group y el mapping**
+  - `sf d:m:g` - doctrine:migrations:generate 
+
 ### [15. Crear endpoint para añadir usuarios a un grupo 1 h 8 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451610#questions/9295602)
 - 
 ### [16. Crear endpoint para eliminar usuarios de un grupo 34 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451618#questions/9295602)
