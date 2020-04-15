@@ -2762,7 +2762,34 @@ App\Entity\Group:
 - Cuando (Juan) intenta crear un usuario con postman le da un error: **Typed property App\Entity\User::$groups must not be accessed before initialization**
   - **solución**
     - En `App\Entity\User` hay que retocar esta linea `protected ?Collection $groups = null;` permitiendo inicialización con null
-    
+- Tambien habia otro error por el tipo de Collection ya que estaba usando otro namespace
+- **crear grupo**
+-![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/f8b7cd2f075b866593f075c2b70feb60/image.png)
+```js
+{
+  "name": "otro grupo de juan",
+  "owner": "/api/v1/users/3628ca48-ad5b-4bb1-9bfc-4a7aa95e1998"  //hay que pasar el endpoint que mapea la entidad usuario
+}
+
+//con esta llamada da error 400:
+{
+  "name": "prueba con error",
+  "owner": "3628ca48-ad5b-4bb1-9bfc-4a7aa95e1998"
+}
+{
+  "@context": "/api/v1/contexts/Error",
+  "@type": "hydra:Error",
+  "hydra:title": "An error occurred",
+  "hydra:description": "Invalid IRI \"3628ca48-ad5b-4bb1-9bfc-4a7aa95e1998\".",
+  ...
+}
+```
+- Si da este error:
+  - > Typed property App\Entity\Group::$updatedAt must not be accessed before initialization
+  - Se debe a que el valor inicial de `$createdAt` y `$updatedAt` puede ser null entonces hay que cambiar la definición con **elvis** 
+  - `private ?\Datetime $createdAt = null;`
+- Da otra excepción en insert, y es porque en la entidad Group faltaba ejecutar en el constructor **$this->markAsUpdated();**
+
 
 ### [15. Crear endpoint para añadir usuarios a un grupo 1 h 8 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451610#questions/9295602)
 - 
