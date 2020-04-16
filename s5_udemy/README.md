@@ -2789,9 +2789,14 @@ App\Entity\Group:
   - Se debe a que el valor inicial de `$createdAt` y `$updatedAt` puede ser null entonces hay que cambiar la definición con **elvis** 
   - `private ?\Datetime $createdAt = null;`
 - Da otra excepción en insert, y es porque en la entidad Group faltaba ejecutar en el constructor **$this->markAsUpdated();**
-- No me esta guardando en **user_group_user**
+- **Error:** No me esta guardando en **user_group_user**
   - He probado copiar todo del repo original y sigue sin funcionar.
   - He comprobado las relaciones **.orm.yml** y nada que destacar, tambien he aplicado los cambios de las migraciones y nada.
+  - El problema estaba en el listener **GroupPreWriteListener** que tenía mal puesta la ruta en `private const POST_GROUP=api_users_get_collection` y debía ser `api_groups_post_collection`.  Al no estar bien la ruta, no se agragaba el usuario en sesion a la relación y por lo tanto no se guardaba
+- Sigo sin entender para que es **inversedBy y mappedBy** en el caso **Usuarios - Grupos** el inverso es: `User inversed Group.users` y mapped en `Group mapped User.groups`
+  - `user_group_user(user_id,group_id)`
+  - **inversedBy** parece que inversedBy indica quien es el padre (pais inversedBy ciudad.paises)
+  - Más info sobre doctrine [nicio proyecto con Doctrine ORM by miw-upm](https://www.youtube.com/watch?v=ELIrOvAtiQY&t=1795s)
 
 
 ### [15. Crear endpoint para añadir usuarios a un grupo 1 h 8 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451610#questions/9295602)
