@@ -2790,6 +2790,8 @@ App\Entity\Group:
   - `private ?\Datetime $createdAt = null;`
 - Da otra excepción en insert, y es porque en la entidad Group faltaba ejecutar en el constructor **$this->markAsUpdated();**
 - No me esta guardando en **user_group_user**
+  - He probado copiar todo del repo original y sigue sin funcionar.
+  - He comprobado las relaciones **.orm.yml** y nada que destacar, tambien he aplicado los cambios de las migraciones y nada.
 
 
 ### [15. Crear endpoint para añadir usuarios a un grupo 1 h 8 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451610#questions/9295602)
