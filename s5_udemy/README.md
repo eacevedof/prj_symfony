@@ -2789,6 +2789,7 @@ App\Entity\Group:
   - Se debe a que el valor inicial de `$createdAt` y `$updatedAt` puede ser null entonces hay que cambiar la definición con **elvis** 
   - `private ?\Datetime $createdAt = null;`
 - Da otra excepción en insert, y es porque en la entidad Group faltaba ejecutar en el constructor **$this->markAsUpdated();**
+- No me esta guardando en **user_group_user**
 
 
 ### [15. Crear endpoint para añadir usuarios a un grupo 1 h 8 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451610#questions/9295602)
