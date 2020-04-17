@@ -2797,7 +2797,251 @@ App\Entity\Group:
   - `user_group_user(user_id,group_id)`
   - **inversedBy** parece que inversedBy indica quien es el padre (pais inversedBy ciudad.paises)
   - Más info sobre doctrine [nicio proyecto con Doctrine ORM by miw-upm](https://www.youtube.com/watch?v=ELIrOvAtiQY&t=1795s)
+- La excepción **403** se debe a que el id del owner no coincide con el del grupo
+  - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/1107x695/0aac1dfbb8a513f733eb6a7ab1c0e2b4/image.png)
+  - Registros en la tabla pivote:
+    - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/696x130/26957a4e71510e70f7aab78196cf6a1c/image.png)
+- Crear un endpoint para obtener todos los grupos de un usuario
+  - **config/api_platform/resources/User.yaml**
+  ```yaml
+  #definiiendo los subrecursos de cada entidad
+  properties:
+    groups:
+      subresource:
+        subresourceClass: 'App\Entity\User'
+        collection: true
+        maxDepth: 1
 
+  # si da este error es porque tenía esta linea: subresourceClass: "App\Entity\User" con dobles comillas
+  Found unknown escape character "\E" in config/api_platform/resources/User.yaml at line 47 (near "subresourceClass: "App\Entity\User"") in . 
+  (which is being imported from "/appdata/www/config/routes/api_platform.yaml"). Make sure there is a loader supporting the "api_platform" type.      
+  ```
+  - Crea este endpoint: **/api/v1/users/{id}/groups**
+  - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/9e5062a846456338cef23270c30f9f77/image.png)
+  - **doctrine extensions**
+  - [sobre extensiones: https://api-platform.com/docs/core/extensions](https://api-platform.com/docs/core/extensions/)
+  - Se presenta un fallo de seguridad en este endpoint. 
+    - Con Pepe en sesion se puede pedir todos los grupos de Juan. Como corregimos esto?. No se puede hacer en el GropuPreWriteListener y tampoco en el Voter
+  - Se crea una extensión que permitirá customizar la consulta generada por el endpoint
+  ```php
+  //src/Doctrine/Extension/DoctrineUserExtension.php
+  declare(strict_types=1);
+
+  namespace App\Doctrine\Extension;
+
+  use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryCollectionExtensionInterface;
+  use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+  use App\Entity\Group;
+  use App\Entity\User;
+  use App\Repository\GroupRepository;
+  use App\Security\Roles;
+  use Doctrine\ORM\QueryBuilder;
+  use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+  use Symfony\Component\Security\Core\Security;
+
+  class DoctrineUserExtension implements QueryCollectionExtensionInterface
+  {
+      private TokenStorageInterface $tokenStorage;
+
+      private Security $security;
+
+      private GroupRepository $groupRepository;
+
+      public function __construct(
+          TokenStorageInterface $tokenStorage,
+          Security $security,
+          GroupRepository $groupRepository
+      ) {
+          $this->tokenStorage = $tokenStorage;
+          $this->security = $security;
+          $this->groupRepository = $groupRepository;
+      }
+
+      public function applyToCollection(
+          QueryBuilder $queryBuilder,
+          QueryNameGeneratorInterface $queryNameGenerator,
+          string $resourceClass,
+          string $operationName = null
+      ) {
+          $this->addWhere($queryBuilder, $resourceClass);
+      }
+
+      private function addWhere(QueryBuilder $qb, string $resourceClass): void
+      {
+          if ($this->security->isGranted(Roles::ROLE_ADMIN)) {
+              return;
+          }
+
+          /** @var User $user */
+          $user = $this->tokenStorage->getToken()->getUser();
+
+          $rootAlias = $qb->getRootAliases()[0];
+
+          if (Group::class === $resourceClass) {
+              $qb->andWhere(\sprintf('%s.%s = :currentUser', $rootAlias, $this->getResources()[$resourceClass]));
+              $qb->setParameter(':currentUser', $user);
+          }
+      }
+
+      private function getResources(): array
+      {
+          return [Group::class => 'owner'];
+      }
+
+  }//DoctrineUserExtension
+  ```
+- Para filtrar una colección de un **subrecurso** se usa una extensión
+- Todo lo que tiene que ver con seguridad se puede resolver en estas tres estructuras:
+  - Listeners
+  - Voters
+  - Extensions
+- **Archivos tocados**
+```php
+//src/Entity/Group.php
+public function isOwnedBy(User $user): bool
+{
+    return $this->getOwner()->getId() === $user->getId();
+}
+
+//src/Exceptions/Group/CannotAddAnotherOwnerException.php
+declare(strict_types=1);
+namespace App\Exceptions\Group;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+
+class CannotAddAnotherOwnerException extends AccessDeniedHttpException
+{
+    private const MESSAGE = 'You cannot add another user as owner';
+
+    public static function create(): self
+    {
+        throw new self(self::MESSAGE);
+    }
+}
+
+//src/Repository/GroupRepository.php
+namespace App\Repository;
+use App\Entity\Group;
+use App\Entity\User;
+
+class GroupRepository extends BaseRepository
+{
+    protected static function entityClass(): string
+    {
+        return Group::class;
+    }
+
+    public function findOneById(string $id): ?Group
+    {
+        /** @var Group $group */
+        $group = $this->objectRepository->find($id);
+
+        return $group;
+    }
+
+    public function userIsMember(Group $group, User $user): bool
+    {
+        foreach ($group->getUsers() as $userGroup) {
+            if ($userGroup->getId() === $user->getId()) {
+                return  true;
+            }
+        }
+
+        return false;
+    }
+}
+//src/Security/Authorization/Voter/BaseVoter.php
+namespace App\Security\Authorization\Voter;
+use App\Repository\GroupRepository;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\Security;
+
+abstract class BaseVoter extends Voter
+{
+    protected Security $security;
+    protected GroupRepository $groupRepository;
+
+    public function __construct(Security $security, GroupRepository $groupRepository)
+    {
+        $this->security = $security;
+        $this->groupRepository = $groupRepository;
+    }
+}
+// src/Security/Authorization/Voter/GroupVoter.php
+namespace App\Security\Authorization\Voter;
+use App\Entity\Group;
+use App\Entity\User;
+use App\Security\Roles;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+
+class GroupVoter extends BaseVoter
+{
+    private const GROUP_READ = "GROUP_READ";
+    private const GROUP_CREATE = "GROUP_CREATE";
+    private const GROUP_UPDATE = "GROUP_UPDATE";
+    private const GROUP_DELETE = "GROUP_DELETE";
+
+    /**
+     * @inheritDoc
+     */
+    protected function supports(string $attribute, $subject):bool
+    {
+        return \in_array($attribute,$this->getSupportedAttributes(),true);
+    }
+
+    /**
+     * @param Group|null $subject
+     */
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token):bool
+    {
+        /** @var User $tokenUser  **/
+        $tokenUser = $token->getUser();
+
+        if(self::GROUP_READ === $attribute)
+        {
+            //si no hay grupo
+            if(null === $subject)
+            {
+                //comprueba si el usuario en sesion (token) es admin
+                return $this->security->isGranted(Roles::ROLE_ADMIN);
+            }
+
+            return $this->security->isGranted(Roles::ROLE_ADMIN) || $this->groupRepository->userIsMember($subject, $tokenUser);
+        }
+
+        //si llega a este punto de ejecución es porque el usuario tiene piermisos y puede crear un grupo
+        if( self::GROUP_CREATE === $attribute )
+        {
+            return true;
+        }
+
+        //cualquier administrador o cualquier miembro del grupo
+        if(self::GROUP_UPDATE === $attribute)
+        {
+            return $this->security->isGranted(Roles::ROLE_ADMIN) || $this->groupRepository->userIsMember($subject, $tokenUser);
+        }
+
+        //para eliminarlo solo lo puede hacer un ADMIN o el propietario (creador)
+        if(self::GROUP_DELETE === $attribute)
+        {
+            return $this->security->isGranted(Roles::ROLE_ADMIN) || $subject->isOwnerBy($tokenUser);
+        }
+
+        return false;
+
+    }//voteOnAttribute
+
+    private function getSupportedAttributes():array
+    {
+        return [
+            self::GROUP_READ,
+            self::GROUP_CREATE,
+            self::GROUP_UPDATE,
+            self::GROUP_DELETE
+        ];
+    }
+
+}// GroupVoter
+```
 
 ### [15. Crear endpoint para añadir usuarios a un grupo 1 h 8 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451610#questions/9295602)
 - 

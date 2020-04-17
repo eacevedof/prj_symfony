@@ -1,5 +1,5 @@
 <?php
-
+//src/Entity/Group.php
 declare(strict_types=1);
 
 namespace App\Entity;
@@ -11,12 +11,16 @@ use Ramsey\Uuid\Uuid;
 class Group
 {
     private ?string $id;
-    private string $name;
-    private User $owner;
-    protected \DateTime $createdAt;
-    protected \DateTime $updatedAt;
 
-    /** @var Collection|User[]  */
+    private string $name;
+
+    private User $owner;
+
+    private ?\DateTime $createdAt = null;
+
+    private ?\DateTime $updatedAt = null;
+
+    /** @var Collection|User[] */
     private Collection $users;
 
     /**
@@ -52,12 +56,12 @@ class Group
         return $this->owner;
     }
 
-    public function getCreatedAt(): \Datetime
+    public function getCreatedAt(): \DateTime
     {
         return $this->createdAt;
     }
 
-    public function getUpdatedAt(): \Datetime
+    public function getUpdatedAt(): \DateTime
     {
         return $this->updatedAt;
     }
@@ -80,5 +84,10 @@ class Group
         $this->users->add($user);
 
         $user->addGroup($this);
+    }
+
+    public function isOwnedBy(User $user): bool
+    {
+        return $this->getOwner()->getId() === $user->getId();
     }
 }

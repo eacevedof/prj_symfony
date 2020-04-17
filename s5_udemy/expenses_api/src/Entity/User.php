@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Security\Roles;
-use phpDocumentor\Reflection\Types\Collection;
+use Doctrine\Common\Collections\Collection;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -16,11 +16,11 @@ class User implements UserInterface
     protected string $email;
     protected string $password;
     protected array $roles;
-    protected \DateTime $createdAt;
-    protected \DateTime $updatedAt;
+    protected ?\DateTime $createdAt = null;
+    protected ?\DateTime $updatedAt = null;
 
     /** @var Collection|Group[] */
-    protected Collection $groups;
+    protected ?Collection $groups = null;
 
     /**
      * @throws \Exception
