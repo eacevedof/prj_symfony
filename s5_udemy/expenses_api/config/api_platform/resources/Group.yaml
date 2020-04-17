@@ -1,4 +1,3 @@
-# config/api_platform/resources/Group.yaml
 App\Entity\Group:
   attributes:
     normalization_context:
@@ -8,7 +7,7 @@ App\Entity\Group:
       method: 'GET'
       security: 'is_granted("GROUP_READ")'
     post:
-      method: "POST"
+      method: 'POST'
       security: 'is_granted("GROUP_CREATE")'
       denormalization_context:
         groups: ['group_post']
@@ -27,8 +26,6 @@ App\Entity\Group:
                   type: string
                 owner:
                   type: string
-
-
   itemOperations:
     get:
       method: 'GET'

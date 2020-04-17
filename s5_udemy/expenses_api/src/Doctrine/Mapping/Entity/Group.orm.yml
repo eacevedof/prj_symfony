@@ -7,14 +7,15 @@ App\Entity\Group:
     id:
       type: string
 
-  manyToOne:
+  # Usuario es padre de grupos
+  manyToOne: #[this N] -> #[User 1]
     owner:
-      targetEntity: User
+      targetEntity: User # un usuario (User) puede ser dueño de varios grupos (this)
 
   manyToMany:
     users:
       targetEntity: User
-      mappedBy: groups
+      mappedBy: groups # variable User->groups (Collection)
 
   fields:
     name:

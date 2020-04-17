@@ -1,4 +1,4 @@
-  # Doctrine/Mapping/Entity/User.orm.yml
+# Doctrine/Mapping/Entity/User.orm.yml
 App\Entity\User:
   type: entity
   table: user
@@ -10,7 +10,7 @@ App\Entity\User:
   manyToMany:
     groups:
       targetEntity: Group
-      inversedBy: users
+      inversedBy: users  # Group->users (Collection)
       joinTable:
         # si no pusieramos esto crearia la tabla users_groups
         name: user_group_user 
@@ -36,5 +36,4 @@ App\Entity\User:
       nullable: false
 
   lifecycleCallbacks:
-    # antes de actualizar un valor en la bd se ejecutara el metodo User.markAsUpdated
     preUpdate: [markAsUpdated]

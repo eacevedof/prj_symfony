@@ -4,11 +4,10 @@ App\Entity\Group:
     id:
       groups: ['group_read']
     name:
-      groups: ['group_read', 'group_post',"group_put"]
+      groups: ['group_read', 'group_post', 'group_put']
     owner:
-      groups: ['group_read',"group_post"]
+      groups: ['group_read', 'group_post']
     createdAt:
-      groups: ["group_read"]
-    updateedAt:
-      groups: ["group_read"]
-
+      groups: ['group_read']
+    updatedAt:
+      groups: ['group_read']
