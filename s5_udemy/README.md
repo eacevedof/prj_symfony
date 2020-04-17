@@ -2767,7 +2767,7 @@ App\Entity\Group:
 -![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/f8b7cd2f075b866593f075c2b70feb60/image.png)
 ```js
 {
-  "name": "otro grupo de juan",
+  "name": "Grupo de Juan",
   "owner": "/api/v1/users/3628ca48-ad5b-4bb1-9bfc-4a7aa95e1998"  //hay que pasar el endpoint que mapea la entidad usuario
 }
 
