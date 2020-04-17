@@ -39,3 +39,11 @@ App\Entity\User:
     delete:
       method: 'DELETE'
       security: 'is_granted("USER_DELETE", object)'
+
+  # definiiendo los subrecursos de cada entidad
+  properties:
+    groups:
+      subresource:
+        subresourceClass: 'App\Entity\User'
+        collection: true
+        maxDepth: 1

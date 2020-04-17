@@ -1,28 +1,24 @@
 <?php
 //src/Api/Listener/User/GroupPreWriteListener.php
 declare(strict_types=1);
+
 namespace App\Api\Listener\Group;
 
-use App\Api\Action\RequestTransformer;
-use App\Entity\User;
-use App\Entity\Group;
 use App\Api\Listener\PreWriteListener;
+use App\Entity\Group;
+use App\Entity\User;
 use App\Exceptions\Group\CannotAddAnotherOwnerException;
-use App\Repository\GroupRepository;
-use App\Security\Validator\Role\RoleValidator;
-use App\Service\Password\EncoderService;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-
 class GroupPreWriteListener implements PreWriteListener
 {
-    private const POST_GROUP = "api_users_get_collection";
+    private const POST_GROUP = 'api_groups_post_collection';
+
     private TokenStorageInterface $tokenStorage;
 
     public function __construct(TokenStorageInterface $tokenStorage)
     {
-
         $this->tokenStorage = $tokenStorage;
     }
 
@@ -32,21 +28,19 @@ class GroupPreWriteListener implements PreWriteListener
         $tokenUser = $this->tokenStorage->getToken()->getUser();
         $request = $event->getRequest();
 
-        if(self::POST_GROUP === $request->get("_route"))
-        {
-            //creado por mi
+        if (self::POST_GROUP === $request->get('_route')) {
             /** @var Group $group */
             $group = $event->getControllerResult();
             //si el usuario en sesion no es propietario del grupo
-            if(!$group->isOnwerBy($tokenUser))
-            {
+            if (!$group->isOwnedBy($tokenUser)) {
                 throw CannotAddAnotherOwnerException::create();
             }
 
             $group->addUser($tokenUser);
         }
-    }//onKernelView
-}
+    }
+
+}// GroupPreWriteListener
 
 /*
  appuser@d04baa6fe1d4:/appdata/www$ sf d:r
