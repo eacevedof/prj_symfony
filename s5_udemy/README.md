@@ -3046,6 +3046,11 @@ class GroupVoter extends BaseVoter
 ### [15. Crear endpoint para añadir usuarios a un grupo 1 h 8 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451610#questions/9295602)
 - Nos falta añadir y eliminar usuarios al grupo
 - Esto tiene que ver con Subrecursos de Api Platform [subresources](https://api-platform.com/docs/core/subresources/#subresources)
+  - Se puede definir endpoints tipo: `questions/<id>/<subrecurso>/<otro-subrecurso>`. Tiene relación con el maxdepth, en nuestro caso nos interesa acceder hasta el primer subrecurso
+- Esta caracteristica solo está disponible para **GET**
+- Si desearamos hacer algo como: `/api/v1/users/<id-user>/groups/<id-grupo>` usando **POST** no se podría por lo tanto habria que definir un **CUSTOM ACTION**
+- [`git checkout -b section6/video3-custom-actions-to-manage-users`](https://bitbucket.org/juanwilde/sf5-expenses-api/src/93106d6ec07ba5b587406577be677db59d16616f/src/Doctrine/Extension/DoctrineUserExtension.php?at=section6%2Fvideo3-custom-actions-to-manage-users)
+
 
 ### [16. Crear endpoint para eliminar usuarios de un grupo 34 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451618#questions/9295602)
 - 
