@@ -32,6 +32,10 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 100 }
 
+    App\Api\ArgumentResolver\UserValueResolver:
+        tags:
+            - {name:  controller.argument_value_resolver, priority: 50 }
+
     # https://api-platform.com/docs/core/events/#built-in-event-listeners
     # todas las clases que sean instancia de una determinada clase o interfaz tengan un comportamiento
     _instanceof:

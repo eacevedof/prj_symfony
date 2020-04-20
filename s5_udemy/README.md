@@ -3048,8 +3048,178 @@ class GroupVoter extends BaseVoter
 - Esto tiene que ver con Subrecursos de Api Platform [subresources](https://api-platform.com/docs/core/subresources/#subresources)
   - Se puede definir endpoints tipo: `questions/<id>/<subrecurso>/<otro-subrecurso>`. Tiene relación con el maxdepth, en nuestro caso nos interesa acceder hasta el primer subrecurso
 - Esta caracteristica solo está disponible para **GET**
-- Si desearamos hacer algo como: `/api/v1/users/<id-user>/groups/<id-grupo>` usando **POST** no se podría por lo tanto habria que definir un **CUSTOM ACTION**
+- Si desearamos hacer algo como: `/api/v1/users/<id-user>/groups/<id-grupo>` usando **POST** no se podría por lo tanto habria que definir un **CUSTOM ACTION** (src/api/action)
 - [`git checkout -b section6/video3-custom-actions-to-manage-users`](https://bitbucket.org/juanwilde/sf5-expenses-api/src/93106d6ec07ba5b587406577be677db59d16616f/src/Doctrine/Extension/DoctrineUserExtension.php?at=section6%2Fvideo3-custom-actions-to-manage-users)
+- Solo el administrador puede agregar usuarios al grupo
+- Para quitar usuarios de un grupo lo puede hacer el admin o el mismo usuario del grupo. Si me añaden yo me puedo salir
+- **crear** 
+  - ~`src/Api/Action/Group.php`~ no era un archivo sino una carpeta
+  - `src/Api/Action/Group/AddUser.php`
+- Tecnica:[Symfony argument value resolver](https://symfony.com/doc/current/controller/argument_value_resolver.html)
+  - Podemos pasar un recurso en concreto a un controller
+  - caso de uso: si deseo agregar un usuario a un grupo pero quiero saber que viene en el token si inyecto el **TokenStorageInterface** en un custom action va a dar un Error porque Symfony no permite hacer ese tipo de inyección de dependencias en este tipo de controllers. 
+  - Utilizando un **argument resolver** a partir del argumento id de la ruta vamos a obtener al usuario usando el repositorio. Una vez obtenido el usuario lo vamos a poder pasar dentro de **`SomeController->invoke($objResolved)`**
+- Para que symfony y su autowiring sea capaz de identificar que la clase es un Resolver hay que implementar **ArgumentValueResolverInterface**
+- Me da un error la anotación:
+  ```s
+  src/Api/Action/Group/AddUser.php
+  /**
+  * @Route("/groups/add_user", methods={"POST"})
+  */
+  sf d:r
+  [Semantical Error] The annotation "@Route" in method App\Api\Action\Group\AddUser::__invoke() was never imported. 
+  Did you maybe forget to add a "use" statement for this annotation? in /appdata/www/config/routes/../../src/Api/ 
+  (which is being imported from "/appdata/www/config/routes/annotations.yaml"). Make sure annotations are installed and enabled.
+  **solución**
+  Faltaba importar: use Symfony\Component\Routing\Annotation\Route;
+
+  appuser@daf72e73a8a5:/appdata/www$ sf d:r
+  -------------------------------------- -------- -------- ------ ---------------------------------------- 
+    Name                                   Method   Scheme   Host   Path                                    
+  -------------------------------------- -------- -------- ------ ---------------------------------------- 
+  _preview_error                         ANY      ANY      ANY    /_error/{code}.{_format}                
+  app_api_action_group_adduser__invoke   POST     ANY      ANY    /api/v1/groups/add_user     -->nueva
+  app_api_action_user_register__invoke   POST     ANY      ANY    /api/v1/users/register                  
+  ...                   
+  -------------------------------------- -------- -------- ------ ----------------------------------------
+  ```
+- Siempre que se quiera atacar a un endpoint que esté protegido tras el firewall se necesita un usuario autenticado y para esto se necesita el argument resolver
+- Una vez configurado **AddUser.invoke** todo va bien, excepto que se permite guardar duplicados en **user_group_user** esto debería de validarse o controlarlo por bd.  En este caso se hará por definición de bd, aplicando unique en el archivo de migración.
+  ```sql
+  -- expenses_api/src/Migrations/Version20200414192436.php
+  -- archivo de migración
+  CREATE TABLE user_group_user (
+  user_id CHAR(36) NOT NULL,
+  group_id CHAR(36) NOT NULL,
+  UNIQUE (user_id, group_id), -- Linea agregada
+  INDEX idx_user_group_user_user_id (user_id),
+  INDEX idx_user_group_user_group_id (group_id),
+  ```
+  - Se ejecuta **`sf d:m:e 20200414192436 -n --down`** 
+  ```s
+  appuser@daf72e73a8a5:/appdata/www$ sf d:m:e 20200414192436 -n --down
+  -- reverting 20200414192436 (Creates `user_group` and `user_group_user` tables)
+  -> DROP TABLE user_group_user
+  -> DROP TABLE user_group
+  -- reverted (took 352.7ms, used 26M memory)
+
+  appuser@daf72e73a8a5:/appdata/www$ sf d:m:m -n
+  Migrating up to 20200414192436 from 20200330212754
+  ++ migrating 20200414192436 (Creates `user_group` and `user_group_user` tables)
+  ++ migrated (took 338.5ms, used 26M memory)
+  ------------------------
+  ++ finished in 357.3ms
+  ++ used 26M memory
+  ++ 1 migrations executed
+  ++ 2 sql queries
+  ```
+  - **antes migracion**
+    - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/387x169/9a5d87df5873d467f0d3a7928ad2b0a6/image.png)
+  - **despues migracion**
+    - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/376x183/bb448dfad842cba67a7af6ef3e5326c8/image.png)
+  - Ahora da este error en caso de duplicados
+  ```s
+  An exception occurred while executing 'INSERT INTO user_group_user (user_id, group_id) VALUES (?, ?)' 
+  with params ["3628ca48-ad5b-4bb1-9bfc-4a7aa95e1998", "d9640aea-6b2c-4d5e-a4ab-37be525e377f"]:
+  SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '3628ca48-ad5b-4bb1-9bfc-4a7aa95e1998-d9640aea-6b2c-4d5e-a4ab-37b' for key 'user_id'
+  ```
+```php
+// src/Api/Action/Group/AddUser.php
+
+/**
+ * @Route("/groups/add_user", methods={"POST"})
+ */
+public function __invoke(Request $request, User $user): JsonResponse
+{
+    $groupId = RequestTransformer::getRequiredField($request, 'group_id');
+    $userId = RequestTransformer::getRequiredField($request, 'user_id');
+
+    $group = $this->groupRepository->findOneById($groupId);
+    if(null === $group){
+        throw new BadRequestHttpException("Group not found");
+    }
+
+    if(!$this->groupRepository->userIsMember($group,$user))
+    {
+        throw new BadRequestHttpException("You cannot add users to this group");
+    }
+
+    $newUser = $this->userRepository->findOneById($userId);
+    if(null === $newUser){
+        throw new BadRequestHttpException("User not found");
+    }
+
+    if($this->groupRepository->userIsMember($group,$newUser)) {
+        throw new ConflictHttpException("This user is already member of this group");
+    }
+
+    $group->addUser($newUser);
+    //aqui ya se guarda la relacion usuario:grupo
+    $this->groupRepository->save($group);
+
+    return new JsonResponse([
+        "message"=>\sprintf(
+            "User with id %s has been added to group with id %s",
+            $newUser->getId(),
+            $group->getId()),
+    ], JsonResponse::HTTP_CREATED);
+}// __invoke
+
+//src/Api/ArgumentResolver/UserValueResolver.php
+class UserValueResolver implements ArgumentValueResolverInterface
+{
+    private TokenStorageInterface $tokenStorage;
+
+    private UserRepository $userRepository;
+
+    public function __construct(TokenStorageInterface $tokenStorage, UserRepository $userRepository)
+    {
+        $this->tokenStorage = $tokenStorage;
+        $this->userRepository = $userRepository;
+    }
+
+    public function supports(Request $request, ArgumentMetadata $argument): bool
+    {
+        if (User::class !== $argument->getType()) {
+            return false;
+        }
+
+        $token = $this->tokenStorage->getToken();
+        if (!$token instanceof TokenInterface) {
+            return false;
+        }
+
+        return $token->getUser() instanceof User;
+    }
+
+    public function resolve(Request $request, ArgumentMetadata $argument): \Generator
+    {
+        yield $this->userRepository->findOneByEmail($this->tokenStorage->getToken()->getUser()->getEmail());
+    }
+}//UserValueResolver
+
+//src/Repository/GroupRepository.php
+public function save(Group $group)
+{
+    $this->saveEntity($group);
+}
+
+// src/Repository/UserRepository.php
+public function findOneById(string $id): ?User
+{
+    /**
+     * @var User $user
+     */
+    $user = $this->objectRepository->find($id);
+    return $user;
+}
+```
+```yaml
+# services.yaml
+App\Api\ArgumentResolver\UserValueResolver:
+    tags:
+        - {name:  controller.argument_value_resolver, priority: 50 }
+```
 
 
 ### [16. Crear endpoint para eliminar usuarios de un grupo 34 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451618#questions/9295602)

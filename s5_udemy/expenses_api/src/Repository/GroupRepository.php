@@ -32,5 +32,12 @@ class GroupRepository extends BaseRepository
 
         return false;
     }
-}
+
+    public function save(Group $group)
+    {
+        $this->saveEntity($group);
+    }
+
+}//GroupRepository
+
 

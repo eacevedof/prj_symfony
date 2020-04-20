@@ -1,5 +1,5 @@
 <?php
-
+// src/Repository/UserRepository.php
 declare(strict_types=1);
 
 namespace App\Repository;
@@ -11,6 +11,15 @@ class UserRepository extends BaseRepository
     protected static function entityClass(): string
     {
         return User::class;
+    }
+
+    public function findOneById(string $id): ?User
+    {
+        /**
+         * @var User $user
+         */
+        $user = $this->objectRepository->find($id);
+        return $user;
     }
 
     public function findOneByEmail(string $email): ?User
@@ -25,4 +34,6 @@ class UserRepository extends BaseRepository
     {
         $this->saveEntity($user);
     }
+
+
 }
