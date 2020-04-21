@@ -3309,8 +3309,107 @@ public function testCanAddUserToGroup(): void
   $this->assertEquals(JsonResponse::HTTP_OK, $response->getStatusCode());
 }
 ```
+- Sobre los **tests** una vez que se tiene definido el método **accion._invoke()** hay que tratar todas las excepciones por separado en los tests. Ejemplo `AddUser.php->invoke() => AddUserTest.php->test<Métodos>`
+```php
+//src/Api/Action/Group/AddUser.php
+use App\Exceptions\Group\CannotAddUsersToGroupException;
+use App\Exceptions\Group\GroupDoesNotExistException;
+use App\Exceptions\User\UserDoesNotExistException;
+use App\Exceptions\User\UserAlredyMemberOfGroupException;
+...
+  if(null === $group = $this->groupRepository->findOneById($groupId)){
+      throw GroupDoesNotExistException::fromGroupId($groupId);
+  }
 
+  if(!$this->groupRepository->userIsMember($group,$user)){
+      throw CannotAddUsersToGroupException::create();
+  }
 
+  if(null === $newUser = $this->userRepository->findOneById($userId)){
+      throw UserDoesNotExistException::fromUserId($userId);
+  }
+
+  if($this->groupRepository->userIsMember($group,$newUser)) {
+      throw UserAlredyMemberOfGroupException::fromUserId($userId);
+  }
+...
+
+// src/Exceptions/Group/CannotAddUsersToGroupException.php
+// src/Exceptions/Group/GroupDoesNotExist.php
+// src/Exceptions/User/UserAlredyMemberOfGroupException.php
+// src/Exceptions/User/UserDoesNotExistException.php
+
+//tests/Unit/Api/Action/Group/AddUserTest.php
+class AddUserTest extends TestBase
+{
+  private User $user;
+  private User $newUser;
+
+  private array $payload;
+  private Request $request;
+
+  private AddUser $action;
+  
+  public function setUp(): void
+  {
+      parent::setUp();
+      $this->payload = [
+          "group_id" => "group_id_123",
+          "user_id" => "user_id_456",
+      ];
+      $this->request = new Request([],[],[],[],[],[], \json_encode($this->payload));
+      $this->user = new User("name","name@api.com");
+      $this->newUser = new User("new","new.user@api.com");
+      $this->action = new AddUser($this->userRepository,$this->groupRepository);
+  }  
+
+  public function testForNonExistingGroup(): void
+  {
+      $this->groupRepositoryProphecy->findOneById($this->payload["group_id"])->willReturn(null);
+      $this->expectException(GroupDoesNotExistException::class);
+      $this->action->__invoke($this->request, $this->user);
+  }//testForNonExistingGroup
+
+  /**
+   * @throws \Exception
+   */
+  public function testAddUserToAnotherGroup(): void
+  {
+      $group = new Group("group",$this->user);
+      $this->groupRepositoryProphecy->findOneById($this->payload["group_id"])->willReturn($group);
+      $this->groupRepositoryProphecy->userIsMember($group,$this->user)->willReturn(false);
+      $this->expectException(CannotAddUsersToGroupException::class);
+      $this->action->__invoke($this->request, $this->user);
+  }//testAddUserToAnotherGroup
+
+  /**
+   * @throws \Exception
+   */
+  public function testNewUserDoesNotExist(): void
+  {
+      $group = new Group("group",$this->user);
+      $this->groupRepositoryProphecy->findOneById($this->payload["group_id"])->willReturn($group);
+      $this->groupRepositoryProphecy->userIsMember($group,$this->user)->willReturn(true);
+      $this->userRepositoryProphecy->findOneById($this->payload["user_id"])->willReturn(null);
+      $this->expectException(UserDoesNotExistException::class);
+      $this->action->__invoke($this->request, $this->user);
+  }//testAddUserToAnotherGroup
+
+  /**
+   * @throws \Exception
+   */
+  public function testNewUserAlreadyMemberOfGroup(): void
+  {
+      $group = new Group("group",$this->user);
+      $this->groupRepositoryProphecy->findOneById($this->payload["group_id"])->willReturn($group);
+      $this->groupRepositoryProphecy->userIsMember($group,$this->user)->willReturn(true);
+      $this->userRepositoryProphecy->findOneById($this->payload["user_id"])->willReturn($this->newUser);
+      $this->groupRepositoryProphecy->userIsMember($group,$this->newUser)->willReturn(true);
+
+      $this->expectException(UserAlredyMemberOfGroupException::class);
+      $this->action->__invoke($this->request, $this->user);
+  }//testAddUserToAnotherGroup
+```
 
 ### [16. Crear endpoint para eliminar usuarios de un grupo 34 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451618#questions/9295602)
 - 

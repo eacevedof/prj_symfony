@@ -6,6 +6,10 @@ namespace App\Api\Action\Group;
 
 use App\Api\Action\RequestTransformer;
 use App\Entity\User;
+use App\Exceptions\Group\CannotAddUsersToGroupException;
+use App\Exceptions\Group\GroupDoesNotExistException;
+use App\Exceptions\User\UserDoesNotExistException;
+use App\Exceptions\User\UserAlredyMemberOfGroupException;
 use App\Repository\GroupRepository;
 use App\Repository\UserRepository;
 use App\Service\Group\GroupService;
@@ -37,21 +41,19 @@ class AddUser
         $userId = RequestTransformer::getRequiredField($request, 'user_id');
 
         if(null === $group = $this->groupRepository->findOneById($groupId)){
-            throw new BadRequestHttpException("Group not found");
+            throw GroupDoesNotExistException::fromGroupId($groupId);
         }
 
-        if(!$this->groupRepository->userIsMember($group,$user))
-        {
-            throw new BadRequestHttpException("You cannot add users to this group");
+        if(!$this->groupRepository->userIsMember($group,$user)){
+            throw CannotAddUsersToGroupException::create();
         }
 
-        $newUser = $this->userRepository->findOneById($userId);
-        if(null === $newUser){
-            throw new BadRequestHttpException("User not found");
+        if(null === $newUser = $this->userRepository->findOneById($userId)){
+            throw UserDoesNotExistException::fromUserId($userId);
         }
 
         if($this->groupRepository->userIsMember($group,$newUser)) {
-            throw new ConflictHttpException("This user is already member of this group");
+            throw UserAlredyMemberOfGroupException::fromUserId($userId);
         }
 
         $group->addUser($newUser);
