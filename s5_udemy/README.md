@@ -3042,6 +3042,7 @@ class GroupVoter extends BaseVoter
 
 }// GroupVoter
 ```
+- [Como inyecta symfony las extensiones](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451610#questions/10185068/)
 
 ### [15. Crear endpoint para añadir usuarios a un grupo 1 h 8 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451610#questions/9295602)
 - Nos falta añadir y eliminar usuarios al grupo
@@ -3220,6 +3221,95 @@ App\Api\ArgumentResolver\UserValueResolver:
     tags:
         - {name:  controller.argument_value_resolver, priority: 50 }
 ```
+- Con el test **AddUserTest.php** configurado, lanzamos la prueba y salta el **error**:
+  - No se encuentra el método add() de un null
+  - `Error: call to a member function add() on null`
+  - Faltaba inicializar en el constructor de User.php la variable `$this->groups = new ArrayCollection()`
+- Corregido lo anterior a mi me da error y a Juan no:
+  ```s
+  # min  1:07:45
+  Testing App\Tests\Unit\Api\Action\Group\AddUserTest
+  Failed asserting that 201 matches expected 200.
+  Expected :200
+  Actual   :201
+  
+  solución:
+  Tenía la respuesta en la accion (AddUser) con 201 y Juan no aplica este código
+  ```
+- Ya pasa el test:
+```php
+//src/Api/Action/Group/AddUser.php
+if(null === $group = $this->groupRepository->findOneById($groupId)){
+    throw new BadRequestHttpException("Group not found");
+}
+
+//src/Entity/User.php
+...
+use Doctrine\Common\Collections\ArrayCollection;
+public function __construct(string $name, string $email, string $id = null)
+{
+    ...
+    $this->groups = new ArrayCollection();
+    ...
+}
+
+//tests/Unit/Api/Action/TestBase.php
+class TestBase extends TestCase
+{
+    /** @var ObjectProphecy|UserRepository */
+    protected $userRepositoryProphecy;
+    protected UserRepository $userRepository;
+
+    /** @var ObjectProphecy|GroupRepository */
+    protected $groupRepositoryProphecy;
+    protected GroupRepository $groupRepository;
+
+    public function setUp(): void
+    {
+        $this->userRepositoryProphecy = $this->prophesize(UserRepository::class);
+        $this->userRepository = $this->userRepositoryProphecy->reveal();
+
+        $this->groupRepositoryProphecy = $this->prophesize(GroupRepository::class);
+        $this->groupRepository = $this->groupRepositoryProphecy->reveal();
+    }
+}
+
+//tests/Unit/Api/Action/Group/AddUserTest.php
+public function testCanAddUserToGroup(): void
+{
+  $payload = [
+      "group_id" => "group_id_123",
+      "user_id" => "user_id_456",
+  ];
+
+  $request = new Request([],[],[],[],[],[], \json_encode($payload));
+
+  $user = new User("name","name@api.com");
+  $newUser = new User("new","new@api.com");
+  $group = new Group("group",$user);
+
+  $this->groupRepositoryProphecy->findOneById($payload["group_id"])->willReturn($group);
+  $this->groupRepositoryProphecy->userIsMember($group,$user)->willReturn(true);
+  $this->userRepositoryProphecy->findOneById($payload["user_id"])->willReturn($newUser);
+  $this->groupRepositoryProphecy->userIsMember($group,$newUser)->willReturn(false);
+
+  //se llama al método save una sola vez con una instancia de grupo
+  $this->groupRepositoryProphecy->save(
+      Argument::that(
+          function(Group $group): bool {
+              return true;
+          }
+      )
+  )->shouldBeCalledOnce();
+
+  //Todo lo anterior son los requisitos necesarios para lanzar AddUser.invoke()
+  // /groups/add_user  methods=POST
+  $response = $this->action->__invoke($request, $user);
+
+  $this->assertEquals(JsonResponse::HTTP_OK, $response->getStatusCode());
+}
+```
+
 
 
 ### [16. Crear endpoint para eliminar usuarios de un grupo 34 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451618#questions/9295602)

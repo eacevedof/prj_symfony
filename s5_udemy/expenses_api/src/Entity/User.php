@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Security\Roles;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -32,6 +33,7 @@ class User implements UserInterface
         $this->email = $email;
         $this->roles[] = Roles::ROLE_USER;
         $this->createdAt = new \DateTime();
+        $this->groups = new ArrayCollection();
         $this->markAsUpdated();
     }
 

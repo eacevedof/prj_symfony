@@ -36,8 +36,7 @@ class AddUser
         $groupId = RequestTransformer::getRequiredField($request, 'group_id');
         $userId = RequestTransformer::getRequiredField($request, 'user_id');
 
-        $group = $this->groupRepository->findOneById($groupId);
-        if(null === $group){
+        if(null === $group = $this->groupRepository->findOneById($groupId)){
             throw new BadRequestHttpException("Group not found");
         }
 
@@ -64,7 +63,7 @@ class AddUser
                 "User with id %s has been added to group with id %s",
                 $newUser->getId(),
                 $group->getId()),
-        ], JsonResponse::HTTP_CREATED);
+        ]);
     }// __invoke
 
 }//AddUser
