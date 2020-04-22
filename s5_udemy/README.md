@@ -3567,6 +3567,19 @@ class GroupService
 	"user_id": "3628ca48-ad5b-4bb1-9bfc-4a7aa95e1998"
 }
 ```
+- Se elimina correctamente el usuario siempre y cuando el usuario en sesion este en el grupo
+```js
+{
+	"group_id": "2836395b-55b3-4f4f-94c4-df8403967f56",
+	"user_id": "50a51782-4f7f-4534-b319-396d6cdb4d4d"
+}
+//respuesta:
+{
+    "class": "App\\Exceptions\\Group\\CannotManageGroupException",
+    "code": 400,
+    "message": "You cannot manage this group"
+}
+```
 
 ### [17. Tests funcionales para grupo 26 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451626#questions/9295602)
 - 

@@ -7,7 +7,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class CannotManageGroupException extends BadRequestHttpException
 {
-    private const MESSAGE = 'You cannot manage users to this group';
+    private const MESSAGE = 'You cannot manage this group';
 
     public static function create(): self
     {
