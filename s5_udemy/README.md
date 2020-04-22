@@ -3661,7 +3661,8 @@ class GroupService
   ```
 
 ### [17. Tests funcionales para grupo 26 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451626#questions/9295602)
-- 
+- [`git checkout -b section6/video5-create-functional-tests-for-group`](https://bitbucket.org/juanwilde/sf5-expenses-api/src/89febb12d442eec2476ac3b837b27e9b6613bbe4/tests/Unit/Service/Group/GroupServiceTest.php?at=section6%2Fvideo5-create-functional-tests-for-group)
+
 
 ### Sección 8: Categorías 0 / 2|49 min
 ### [18. Crear Categorías y migración 15 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451640#questions/9295602)
