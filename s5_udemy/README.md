@@ -3412,7 +3412,8 @@ class AddUserTest extends TestBase
 ```
 
 ### [16. Crear endpoint para eliminar usuarios de un grupo 34 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451618#questions/9295602)
-- 
+- [`git checkout -b section6/video4-custom-action-to-remove-users-from-group`](https://bitbucket.org/juanwilde/sf5-expenses-api/src/89febb12d442eec2476ac3b837b27e9b6613bbe4/?at=section6%2Fvideo5-create-functional-tests-for-group)
+
 
 ### [17. Tests funcionales para grupo 26 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451626#questions/9295602)
 - 
