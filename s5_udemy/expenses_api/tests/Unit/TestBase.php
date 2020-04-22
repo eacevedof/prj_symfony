@@ -1,7 +1,7 @@
 <?php
-//tests/Unit/Api/Action/TestBase.php
+//tests/Unit/TestBase.php
 declare(strict_types=1);
-namespace App\Tests\Unit\Api\Action;
+namespace App\Tests\Unit;
 
 use App\Repository\GroupRepository;
 use App\Repository\UserRepository;
@@ -25,7 +25,6 @@ class TestBase extends TestCase
 
         $this->groupRepositoryProphecy = $this->prophesize(GroupRepository::class);
         $this->groupRepository = $this->groupRepositoryProphecy->reveal();
-
     }
 
-}
+}// tests/Unit/TestBase.php
