@@ -3662,7 +3662,110 @@ class GroupService
 
 ### [17. Tests funcionales para grupo 26 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451626#questions/9295602)
 - [`git checkout -b section6/video5-create-functional-tests-for-group`](https://bitbucket.org/juanwilde/sf5-expenses-api/src/89febb12d442eec2476ac3b837b27e9b6613bbe4/tests/Unit/Service/Group/GroupServiceTest.php?at=section6%2Fvideo5-create-functional-tests-for-group)
+- Actualización de **fixtures** (fake data):
+```php
+// src/DataFixtures/AppFixtures.php
+public function load(ObjectManager $manager)
+{
+    $users = $this->getUsers();
+    foreach ($users as $userData){
+        $user = new User($userData["name"],$userData["email"],$userData["id"]);
+        $user->setPassword($this->encoderService->generateEncodedPasswordForUser($user,$userData["password"]));
+        $user->setRoles($userData["roles"]);
+        $manager->persist($user);
 
+        foreach ($userData["groups"] as $groupData){
+            $group = new Group($groupData["name"],$user,$groupData["id"]);
+            $group->addUser($user);
+            $manager->persist($group);
+        }
+    }
+
+    $manager->flush();
+}
+
+private function getUsers(): array
+{
+    return [
+        [
+            "id" => "eeebd294-7737-11ea-bc55-0242ac130001",
+            "name" => "Admin",
+            "email" => "admin@api.com",
+            "password" => "password",
+            "roles" => [
+                Roles::ROLE_ADMIN,
+                Roles::ROLE_USER,
+            ],
+            "groups" => [
+                [
+                    "id" => "eeebd294-7737-11ea-bc55-0242ac130003",
+                    "name" => "Admin\'s Group"
+                ]
+            ],
+            
+        ],
+        [
+            "id" => "eeebd294-7737-11ea-bc55-0242ac130002",
+            "name" => "User",
+            "email" => "user@api.com",
+            "password" => "password",
+            "roles" => [
+                Roles::ROLE_USER,
+            ],
+            "groups" => [
+                [
+                    "id" => "eeebd294-7737-11ea-bc55-0242ac130004",
+                    "name" => "User\'s Group"
+                ]
+            ],
+        ],
+    ];
+}//getUsers()
+```
+- Ejecutamos: 
+```js
+appuser@6cb41baaf32c:/appdata/www$ sf d:f:l -n --env=test
+//error:
+An exception occurred in driver: SQLSTATE[HY000] [2002] Connection refused
+//solución:
+Hay que ejecutarlo desde la maquina host y no desde el contendor:
+php bin/console d:f:l -n --env=test
+
+//resultado:
+> purging database
+> loading App\DataFixtures\AppFixtures
+```
+- ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/1b9970e8ee29f947e5b0c8a09e8e194e/image.png)
+- En la bd de pruebas se insertan correctamente los datos fake.
+- **tests/Functional/Api/TestBase.php** 
+  - Se configuran los nuevos ids: Grupo Admin y Grupo User
+```php
+// tests/Functional/Api/Group/GroupTestBase.php
+class GroupTestBase extends TestBase
+{
+    protected string $endpoint;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->endpoint = "/api/v1/groups";
+    }
+}
+
+//tests/Functional/Api/Group/GetGroupTest.php
+class GetGroupTest extends GroupTestBase
+{
+    public function testGetGroupsForAdmin():void
+    {
+        self::$admin->request("GET", \sprintf("%s.%s",$this->endpoint,self::FORMAT));
+        $response = self::$admin->getResponse();
+        $responseData = $this->getResponseData($response);
+
+        $this->assertEquals(JsonResponse::HTTP_OK, $response->getStatusCode());
+        $this->assertCount(2, $responseData["hydra:member"]);
+    }
+}
+```
 
 ### Sección 8: Categorías 0 / 2|49 min
 ### [18. Crear Categorías y migración 15 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451640#questions/9295602)

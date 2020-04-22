@@ -2,6 +2,7 @@
 // src/DataFixtures/AppFixtures.php
 namespace App\DataFixtures;
 
+use App\Entity\Group;
 use App\Entity\User;
 use App\Service\Password\EncoderService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -30,6 +31,12 @@ class AppFixtures extends Fixture
             $user->setPassword($this->encoderService->generateEncodedPasswordForUser($user,$userData["password"]));
             $user->setRoles($userData["roles"]);
             $manager->persist($user);
+
+            foreach ($userData["groups"] as $groupData){
+                $group = new Group($groupData["name"],$user,$groupData["id"]);
+                $group->addUser($user);
+                $manager->persist($group);
+            }
         }
 
         $manager->flush();
@@ -46,7 +53,14 @@ class AppFixtures extends Fixture
                 "roles" => [
                     Roles::ROLE_ADMIN,
                     Roles::ROLE_USER,
-                ]
+                ],
+                "groups" => [
+                    [
+                        "id" => "eeebd294-7737-11ea-bc55-0242ac130003",
+                        "name" => "Admin's Group"
+                    ]
+                ],
+                
             ],
             [
                 "id" => "eeebd294-7737-11ea-bc55-0242ac130002",
@@ -55,7 +69,13 @@ class AppFixtures extends Fixture
                 "password" => "password",
                 "roles" => [
                     Roles::ROLE_USER,
-                ]
+                ],
+                "groups" => [
+                    [
+                        "id" => "eeebd294-7737-11ea-bc55-0242ac130004",
+                        "name" => "User's Group"
+                    ]
+                ],
             ],
         ];
     }//getUsers()
