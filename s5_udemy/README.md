@@ -3764,8 +3764,14 @@ class GetGroupTest extends GroupTestBase
         $this->assertEquals(JsonResponse::HTTP_OK, $response->getStatusCode());
         $this->assertCount(2, $responseData["hydra:member"]);
     }
+
+    ... se crea resto de metodos test
 }
+
+//estos test van ok
 ```
+- Se crea clase de tests para POST: **tests/Functional/Api/Group/PostGroupTest.php**
+  - Este test va ok.
 
 ### Sección 8: Categorías 0 / 2|49 min
 ### [18. Crear Categorías y migración 15 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451640#questions/9295602)
