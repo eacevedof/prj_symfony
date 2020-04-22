@@ -3413,7 +3413,160 @@ class AddUserTest extends TestBase
 
 ### [16. Crear endpoint para eliminar usuarios de un grupo 34 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451618#questions/9295602)
 - [`git checkout -b section6/video4-custom-action-to-remove-users-from-group`](https://bitbucket.org/juanwilde/sf5-expenses-api/src/89febb12d442eec2476ac3b837b27e9b6613bbe4/?at=section6%2Fvideo5-create-functional-tests-for-group)
+- Refactor endpoint en AddUser.php se pasará a un servicio
+- Creacion de servicio: `GroupService`
+```php
+//src/Api/Action/Group/AddUser.php
+class AddUser
+{
+    private GroupService $groupService;
 
+    public function __construct(GroupService $groupService)
+    {
+        $this->groupService = $groupService;
+    }
+
+    /**
+     * @Route("/groups/add_user", methods={"POST"})
+     */
+    public function __invoke(Request $request, User $user): JsonResponse
+    {
+        $this->groupService->addUserToGroup(
+            RequestTransformer::getRequiredField($request, "group_id"),
+            RequestTransformer::getRequiredField($request, "user_id"),
+            $user
+        );
+
+        //404 sin contenido pero que se ha borrado el recurso
+        return new JsonResponse(null,JsonResponse::HTTP_NO_CONTENT);
+    }// __invoke
+
+}//AddUser
+
+//src/Api/Action/Group/RemoveUser.php
+class RemoveUser
+{
+    private GroupService $groupService;
+
+    public function __construct(GroupService $groupService)
+    {
+        $this->groupService = $groupService;
+    }
+
+    /**
+     * @Route("/groups/remove_user", methods={"POST"})
+     */
+    public function __invoke(Request $request, User $user): JsonResponse
+    {
+        $this->groupService->removeUserFromGroup(
+            RequestTransformer::getRequiredField($request, 'group_id'),
+            RequestTransformer::getRequiredField($request, 'user_id'),
+            $user
+        );
+
+        return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
+    }//__invoke
+
+}//RemoveUser
+
+//Entity/Group.php
+public function removeUser(User $user):void
+{
+    $this->users->removeElement($user);
+    $user->removeGroup($this);
+}
+
+//Entity/User.php
+public function removeGroup(Group $group): void
+{
+    $this->groups->removeElement($group);
+}
+
+//RefactorExcepcion:  CannotAddUsersToGroupException a CannotManageGroupException
+//nuevo: // src/Exceptions/Group/UserNotMemberOfGroupException.php
+
+// src/Service/Group/GroupService.php
+class GroupService
+{
+    private GroupRepository $groupRepository;
+    private UserRepository $userRepository;
+
+    public function __construct(GroupRepository $groupRepository, UserRepository $userRepository)
+    {
+
+        $this->groupRepository = $groupRepository;
+        $this->userRepository = $userRepository;
+    }
+
+    public function addUserToGroup(string $groupId, string $userId, User $user): void
+    {
+        $group = $this->getGroupFromId($groupId);
+
+        $this->userCanManageGroup($user, $group);
+
+        $userToAdd = $this->getUserFromId($userId);
+
+        if ($this->groupRepository->userIsMember($group, $userToAdd)) {
+            throw UserAlreadyMemberOfGroupException::fromUserId($userId);
+        }
+
+        $group->addUser($userToAdd);
+
+        $this->groupRepository->save($group);
+    }
+
+    public function removeUserFromGroup(string $groupId, string $userId, User $user): void
+    {
+        $group = $this->getGroupFromId($groupId);
+
+        $this->userCanManageGroup($user, $group);
+
+        $userToRemove = $this->getUserFromId($userId);
+
+        if (!$this->groupRepository->userIsMember($group, $userToRemove)) {
+            throw UserNotMemberOfGroupException::create();
+        }
+
+        $group->removeUser($userToRemove);
+
+        $this->groupRepository->save($group);
+    }
+
+    private function getGroupFromId(string $groupId): Group
+    {
+        if( null !== $group = $this->groupRepository->findOneById($groupId))
+        {
+            return $group;
+        }
+
+        throw GroupDoesNotExistException::fromGroupId($groupId);
+    }
+
+    private function userCanManageGroup(User $user, Group $group): void
+    {
+        if(!$this->groupRepository->userIsMember($group, $user)){
+            throw CannotManageGroupException::create();
+        }
+    }
+
+    private function getUserFromId(string $userId): User
+    {
+        if(null !== $user = $this->userRepository->findOneById($userId))
+        {
+            return $user;
+        }
+        throw UserDoesNotExistException::fromUserId($userId);
+    }
+
+}// GroupService
+```
+- Prueba de endpoint borrado: **POST** [http://localhost:200/api/v1/groups/remove_user](localhost:200/api/v1/groups/remove_user)
+```js
+{
+	"group_id": "d9640aea-6b2c-4d5e-a4ab-37be525e377f",
+	"user_id": "3628ca48-ad5b-4bb1-9bfc-4a7aa95e1998"
+}
+```
 
 ### [17. Tests funcionales para grupo 26 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451626#questions/9295602)
 - 

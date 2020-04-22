@@ -1,5 +1,5 @@
 <?php
-// src/Exceptions/Group/GroupDoesNotExist.php
+// src/Exceptions/Group/GroupDoesNotExistException.php
 declare(strict_types=1);
 namespace App\Exceptions\Group;
 
@@ -14,4 +14,4 @@ class GroupDoesNotExistException extends  BadRequestHttpException
         throw new self(\sprintf(self::MESSAGE,$id));
     }
 
-}//GroupDoesNotExist
+}//GroupDoesNotExistException
