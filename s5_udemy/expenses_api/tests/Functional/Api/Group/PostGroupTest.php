@@ -30,7 +30,7 @@ class PostGroupTest extends GroupTestBase
     }//testCreateGroup
 
     //intentar crear un grupo para otro usuario
-    public function textCreateGroupForAnotherUser():void
+    public function testCreateGroupForAnotherUser():void
     {
         $payload = [
             "name" => "Admin's Group 2",
