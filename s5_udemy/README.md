@@ -1202,6 +1202,7 @@ Download
 
 Faltaba aplicar los literales a las constantes en UserVoter
 ```
+- Sobre **hydra** [Estandard para creación de APIS](http://www.hydra-cg.com/#specifications)
 - Otros:
 ```
 "@context": "/api/v1/contexts/Error",
