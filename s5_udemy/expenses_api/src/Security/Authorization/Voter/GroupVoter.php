@@ -28,7 +28,7 @@ class GroupVoter extends BaseVoter
      */
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token):bool
     {
-        /** @var User $tokenUser  **/
+        /** @var User $tokenUser */
         $tokenUser = $token->getUser();
 
         if(self::GROUP_READ === $attribute)
@@ -55,14 +55,12 @@ class GroupVoter extends BaseVoter
             return $this->security->isGranted(Roles::ROLE_ADMIN) || $this->groupRepository->userIsMember($subject, $tokenUser);
         }
 
-        //para eliminarlo solo lo puede hacer un ADMIN o el propietario (creador)
-        if(self::GROUP_DELETE === $attribute)
-        {
-            return $this->security->isGranted(Roles::ROLE_ADMIN) || $subject->isOwnerBy($tokenUser);
+        if (self::GROUP_DELETE === $attribute) {
+            return $this->security->isGranted(Roles::ROLE_ADMIN)
+                || $subject->isOwnedBy($tokenUser);
         }
 
         return false;
-
     }//voteOnAttribute
 
     private function getSupportedAttributes():array

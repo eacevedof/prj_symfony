@@ -3774,7 +3774,13 @@ class GetGroupTest extends GroupTestBase
   - Este test va ok.
 - Se crea clase de tests para PUT: **tests/Functional/Api/Group/PutGroupTest.php**
   - Este test va ok.  
-
+- Se crea test DELETE: **tests/Functional/Api/Group/DeleteGroupTest.php**
+  - Me da un error ^^
+    - `Error : Call to undefined method App\Entity\Group::isOwnerBy()`
+  - En **GroupVoter** habia que cambiar a **$subject->isOwnedBy**
+  - Test ahora ok
+- Queda cubrir los tests que tratan los casos de uso de obtener los grupos para un usuario
+- Se crea clase GET: ****
 
 ### Sección 8: Categorías 0 / 2|49 min
 ### [18. Crear Categorías y migración 15 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451640#questions/9295602)
