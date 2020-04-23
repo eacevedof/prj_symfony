@@ -3772,6 +3772,9 @@ class GetGroupTest extends GroupTestBase
 ```
 - Se crea clase de tests para POST: **tests/Functional/Api/Group/PostGroupTest.php**
   - Este test va ok.
+- Se crea clase de tests para PUT: **tests/Functional/Api/Group/PutGroupTest.php**
+  - Este test va ok.  
+
 
 ### Sección 8: Categorías 0 / 2|49 min
 ### [18. Crear Categorías y migración 15 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451640#questions/9295602)
