@@ -42,6 +42,4 @@ class GetGroupTest extends GroupTestBase
         $response = self::$user->getResponse();
         $this->assertEquals(JsonResponse::HTTP_FORBIDDEN, $response->getStatusCode());
     }
-
-
 }// GetGroupTest
