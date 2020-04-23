@@ -27,7 +27,7 @@ class PostGroupTest extends GroupTestBase
         $this->assertEquals(JsonResponse::HTTP_CREATED, $response->getStatusCode());
         $this->assertEquals($payload["name"], $responseData["name"]);
 
-    }//testGetGroupsForAdmin
+    }//testCreateGroup
 
     //intentar crear un grupo para otro usuario
     public function textCreateGroupForAnotherUser():void
@@ -46,6 +46,6 @@ class PostGroupTest extends GroupTestBase
 
         $response = self::$admin->getResponse();
         $this->assertEquals(JsonResponse::HTTP_FORBIDDEN, $response->getStatusCode());
-    }
-    
+    }//textCreateGroupForAnotherUser
+
 }// PostGroupTest
