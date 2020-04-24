@@ -1,0 +1,30 @@
+# Doctrine/Mapping/Entity/Category.orm.yml
+App\Entity\Category:
+  type: entity
+  table: category
+
+  id:
+    id:
+      type: string
+
+  manyToOne:
+    user:
+      targetEntity: User
+      inversedBy: categories
+    group:
+      targetEntity: Group
+      inversedBy: categories
+
+  fields:
+    name:
+      type: string
+      nullable: false
+    createdAt:
+      type: datetime
+      nullable: false
+    updatedAt:
+      type: datetime
+      nullable: false
+
+  lifecycleCallbacks:
+    preUpdate: [markAsUpdated]

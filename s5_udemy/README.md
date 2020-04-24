@@ -3811,8 +3811,224 @@ class GetGroupTest extends GroupTestBase
 ### [18. Crear Categorías y migración 15 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451640#questions/9295602)
 - Entidad categorias. (tabla array)
 - [`git checkout -b section7/video1-create-category`](https://bitbucket.org/juanwilde/sf5-expenses-api/src/05f81192b083f986c5daa0b192a69f031a23d81e/?at=section7%2Fvideo1-create-category)
-- 
+- Crear nueva entidad:
+  - `src/Entity/Category.php`
+  ```php
+  //src/Entity/Category.php
+  declare(strict_types=1);
+  namespace App\Entity;
+  use Ramsey\Uuid\Uuid;
 
+  class Category
+  {
+      private string $id;
+      private string $name;
+      private ?User $user;
+      private ?Group $group;
+      private ?\DateTime $createdAt = null;
+      private ?\DateTime $updatedAt = null;
+
+      /**
+      * @throws \Exception
+      */
+      public function __construct(string $name, User $user, Group $group = null, string $id = null)
+      {
+          $this->id = $id ?? Uuid::uuid4()->toString();
+          $this->name = $name;
+          $this->user = $user;
+          $this->group = $group;
+          $this->createdAt = new \DateTime();
+          $this->markAsUpdated();
+      }
+
+      public function getId(): string
+      {
+          return $this->id;
+      }
+
+      public function getName(): string
+      {
+          return $this->name;
+      }
+
+      public function setName(string $name): void
+      {
+          $this->name = $name;
+      }
+
+      public function getUser(): ?User
+      {
+          return $this->user;
+      }
+
+      public function getGroup(): ?Group
+      {
+          return $this->group;
+      }
+
+      public function getCreatedAt(): ?\DateTime
+      {
+          return $this->createdAt;
+      }
+
+      public function getUpdatedAt(): ?\DateTime
+      {
+          return $this->updatedAt;
+      }
+
+      public function markAsUpdated(): void
+      {
+          $this->updatedAt = new \DateTime();
+      }
+
+      public function isOwnedBy(User $user): bool
+      {
+          if (null !== $this->getUser()) {
+              return $this->getUser()->getId() === $user->getId();
+          }
+          return false;
+      }
+  } // Category
+
+  //src/Entity/Group.php
+    /** @var Collection|Category[] */
+    protected ?Collection $categories = null;
+    ...
+    $this->categories = new ArrayCollection();
+    ...
+    /**
+     * @return Collection|Category[]
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }    
+  
+  //src/Entity/User.php
+    /** @var Collection|Category[] */
+    protected ?Collection $categories = null;
+    ...
+    $this->categories = new ArrayCollection();
+    ...
+    /**
+     * @return Collection|Category[]
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }  
+  ```
+  - `Category.orm.yml`
+  ```yaml
+  # Doctrine/Mapping/Entity/Category.orm.yml
+  App\Entity\Category:
+    type: entity
+    table: category
+
+    id:
+      id:
+        type: string
+
+    manyToOne:
+      user:
+        targetEntity: User
+        inversedBy: categories
+      group:
+        targetEntity: Group
+        inversedBy: categories
+
+    fields:
+      name:
+        type: string
+        nullable: false
+      createdAt:
+        type: datetime
+        nullable: false
+      updatedAt:
+        type: datetime
+        nullable: false
+
+    lifecycleCallbacks:
+      preUpdate: [markAsUpdated]
+
+  # Doctrine/Mapping/Entity/Group.orm.yml
+  #group.categories = category.group
+  oneToMany:
+    categories:
+      targetEntity: Category
+      mappedBy: group
+
+  # Doctrine/Mapping/Entity/User.orm.yml
+  oneToMany:
+    categories:
+      targetEntity: Category
+      mappedBy: user
+  ```
+- Comprobar que detecta la nueva entidad
+  - **`sf d:m:info`** doctrine mapping info
+  ```s
+  appuser@36ea755861c2:/appdata/www$ sf d:m:info
+  Found 3 mapped entities:
+  [OK]   App\Entity\Group
+  [OK]   App\Entity\User
+  [OK]   App\Entity\Category
+  ```
+- Crear la migración
+  - **`sf d:m:g`** doctrine migrations generate
+  ```s
+  appuser@36ea755861c2:/appdata/www$ sf d:m:g
+  Generated new migration class to "/appdata/www/src/Migrations/Version20200424122452.php"
+  To run just this migration for testing purposes, you can use migrations:execute --up 20200424122452
+  To revert the migration you can use migrations:execute --down 20200424122452
+  ```
+  - configurar el archivo de migración
+  ```sql
+  -- src/Migrations/Version20200424122452.php
+  public function up(Schema $schema): void
+  {
+    CREATE TABLE category (
+      id CHAR(36) NOT NULL PRIMARY KEY,
+      name VARCHAR(100) NOT NULL,
+      user_id CHAR(36) DEFAULT NULL,
+      group_id CHAR(36) DEFAULT NULL,
+      created_at DATETIME NOT NULL,
+      updated_at DATETIME NOT NULL,
+      INDEX idx_category_user_id (user_id),
+      INDEX idx_category_group_id (group_id),
+      CONSTRAINT fk_category_user_id FOREIGN KEY (user_id) REFERENCES user (id) ON UPDATE CASCADE ON DELETE CASCADE,
+      CONSTRAINT fk_category_group_id FOREIGN KEY (group_id) REFERENCES user_group (id) ON UPDATE CASCADE ON DELETE CASCADE
+    ) 
+    DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci ENGINE = InnoDB
+  }
+  ```
+  - ejecutar la migración: **`sf d:m:m -n`**
+  ```s
+  appuser@36ea755861c2:/appdata/www$ sf d:m:m -n
+  Application Migrations                    
+  Migrating up to 20200424122452 from 20200414192436
+  ++ migrating 20200424122452 (Creates `category` table and its relationships)
+  -> 
+  CREATE TABLE category (
+  id CHAR(36) NOT NULL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  user_id CHAR(36) DEFAULT NULL,
+  group_id CHAR(36) DEFAULT NULL,
+  created_at DATETIME NOT NULL,
+  updated_at DATETIME NOT NULL,
+  INDEX idx_category_user_id (user_id),
+  INDEX idx_category_group_id (group_id),
+  CONSTRAINT fk_category_user_id FOREIGN KEY (user_id) REFERENCES user (id) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT fk_category_group_id FOREIGN KEY (group_id) REFERENCES user_group (id) ON UPDATE CASCADE ON DELETE CASCADE
+  ) 
+  DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci ENGINE = InnoDB
+  ++ migrated (took 254.3ms, used 26M memory)
+  ------------------------
+  ++ finished in 270.6ms
+  ++ used 26M memory
+  ++ 1 migrations executed
+  ++ 1 sql queries
+  ```
+  - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/424x686/09f33d9e61228d3a5561b345672171a5/image.png)
 
 ### [19. Seguridad y tests para categorías 34 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451648#questions/9295602)
 - 

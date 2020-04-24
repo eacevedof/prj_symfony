@@ -7,6 +7,12 @@ App\Entity\Group:
     id:
       type: string
 
+  #group.categories = category.group
+  oneToMany:
+    categories:
+      targetEntity: Category
+      mappedBy: group
+
   # Usuario es padre de grupos
   manyToOne: #[this N] -> #[User 1]
     owner:

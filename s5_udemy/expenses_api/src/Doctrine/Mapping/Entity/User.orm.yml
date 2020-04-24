@@ -7,6 +7,11 @@ App\Entity\User:
     id:
       type: string
 
+  oneToMany:
+    categories:
+      targetEntity: Category
+      mappedBy: user
+
   manyToMany:
     groups:
       targetEntity: Group
