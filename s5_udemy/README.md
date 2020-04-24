@@ -3809,7 +3809,11 @@ class GetGroupTest extends GroupTestBase
 
 ### Sección 8: Categorías 0 / 2|49 min
 ### [18. Crear Categorías y migración 15 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451640#questions/9295602)
+- Entidad categorias. (tabla array)
+- [`git checkout -b section7/video1-create-category`](https://bitbucket.org/juanwilde/sf5-expenses-api/src/05f81192b083f986c5daa0b192a69f031a23d81e/?at=section7%2Fvideo1-create-category)
 - 
+
+
 ### [19. Seguridad y tests para categorías 34 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451648#questions/9295602)
 - 
 
