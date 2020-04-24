@@ -3802,7 +3802,9 @@ class GetGroupTest extends GroupTestBase
       cascade: [remove]  -> faltaba esta config
   ```
   - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/1194x253/543f3ba53600d5037818ccca60512a39/image.png)
-
+  - Este error se resuelve más adelante en el video. Min: 24:39
+- Hay que corregir el `parent::setUp()` en **tests/Unit/Api/Action/User/RegisterTest.php**
+- Todos los tests **OK**
 
 
 ### Sección 8: Categorías 0 / 2|49 min
