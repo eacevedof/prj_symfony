@@ -10,7 +10,8 @@ App\Entity\User:
   manyToMany:
     groups:
       targetEntity: Group
-      inversedBy: users  # Group->users (Collection)
+      inversedBy: users
+      cascade: [remove]
       joinTable:
         # si no pusieramos esto crearia la tabla users_groups
         name: user_group_user 
