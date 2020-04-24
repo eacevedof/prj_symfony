@@ -3781,7 +3781,28 @@ class GetGroupTest extends GroupTestBase
   - En **GroupVoter** habia que cambiar a **$subject->isOwnedBy**
   - Test ahora ok
 - Queda cubrir los tests que tratan los casos de uso de obtener los grupos para un usuario
-- Se crea clase GET: ****
+- Se crea clase GET: **tests/Functional/Api/User/GetUserGroupsTest.php**
+  - Test ok
+- Lanzo el test general y me da error:
+  ```s
+  Testing App\Tests\Functional\Api\User\DeleteUserTest
+  Failed asserting that 500 matches expected 204.
+  "An exception occurred while executing 'DELETE FROM user WHERE id = ?' with params ["eeebd294-7737-11ea-bc55-0242ac130002"]: 
+  SQLSTATE[23000]: Integrity constraint violation: 1451 Cannot delete or update a parent row: a foreign key constraint fails 
+  (`sf5-expenses-api_api-test`.`user_group`, CONSTRAINT `FK_8F02BF9D7E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`)
+  ```
+  - Revisando este error veía que la bd de pruebas cambiaba su estructura al ejecutar el test. Creaba indices extraños y los tipos tampoco eran los originales.
+  - **corregido**
+  ```yaml
+  # Doctrine/Mapping/Entity/User.orm.yml
+    manyToMany:
+    groups:
+      targetEntity: Group
+      inversedBy: users
+      cascade: [remove]  -> faltaba esta config
+  ```
+
+
 
 ### Sección 8: Categorías 0 / 2|49 min
 ### [18. Crear Categorías y migración 15 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451640#questions/9295602)
