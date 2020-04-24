@@ -4031,7 +4031,8 @@ class GetGroupTest extends GroupTestBase
   - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/424x686/09f33d9e61228d3a5561b345672171a5/image.png)
 
 ### [19. Seguridad y tests para categorías 34 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451648#questions/9295602)
-- 
+- [`git checkout -b section7/video2-update-category-resource-and-security`](shttps://bitbucket.org/juanwilde/sf5-expenses-api/src/365ac4a20c476693aa6d3e6531c2641b37e80e2a/?at=section7%2Fvideo2-update-category-resource-and-security)
+- Ahora toca 
 
 ### Sección 9: Gastos 0 / 3|1 h 14 min
 ### [20. Crear entidades para gastos y migración 19 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451664#questions/9295602)
@@ -4052,4 +4053,8 @@ class GetGroupTest extends GroupTestBase
 - 
 ### Sección 12: Personalizar respuestas de la API 0 / 1|9 min
 ### [26. Personalizar respuestas de la API 9 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451718#questions/9295602)
+- 
+
+### Preguntas:
+- [duda ruta: @Route("/groups/remove_user", methods={"POST"})](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451626#questions/10271268)
 - 
