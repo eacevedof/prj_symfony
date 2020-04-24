@@ -3801,6 +3801,7 @@ class GetGroupTest extends GroupTestBase
       inversedBy: users
       cascade: [remove]  -> faltaba esta config
   ```
+  - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/1194x253/543f3ba53600d5037818ccca60512a39/image.png)
 
 
 
