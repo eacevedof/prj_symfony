@@ -84,11 +84,6 @@ class DoctrineUserExtension implements QueryCollectionExtensionInterface
         ];
     }
 
-    /**
-     * @param string $parameterId podria ser el identificador de un grupo
-     * @param User $user
-     * @return bool
-     */
     private function isGroupAndUserIsMember(string $parameterId, User $user): bool
     {
         if (null !== $group = $this->groupRepository->findOneById($parameterId)) {

@@ -24,6 +24,7 @@ services:
       args:
         UID: $U_ID
     environment:
+      # variables necesarias para xdebug
       PHP_IDE_CONFIG: serverName=Docker
       PHP_XDEBUG_ENABLED: 1
       XDEBUG_CONFIG: remote_host=host.docker.internal remote_port=9005

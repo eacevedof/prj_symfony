@@ -4142,7 +4142,7 @@ class GetGroupTest extends GroupTestBase
       }
       else{
           $qb->andWhere(\sprintf('%s.%s = :currentUser', $rootAlias, $this->getResources()[$resourceClass]));
-          $qb->andHaving(\sprintf("%s.group IS NULL",$rootAlias));
+          $qb->andWhere(\sprintf("%s.group IS NULL",$rootAlias));
           $qb->setParameter(':currentUser', $user);
       }
     }
@@ -4162,8 +4162,20 @@ class GetGroupTest extends GroupTestBase
   //habia un error en la url de user. Había un espacio
   ```
   - El alta de la categoría va bien
-- En swagger pruebo leer las categorias de Pepe con Juan. No debería devolver nada. A mi me devuelve todo :S
-  - **error**
+- En swagger pruebo leer las categorias de Pepe con Juan. 
+  - **errores**  
+  ```s
+  (1) PHPSTORM Y XDEBUG
+  It may be caused by path mappings misconfiguration or not synchronized local and remote projects.  
+  To figure out the problem check path mappings configuration for 'Docker' server at PHP|Servers 
+  or enable Break at first line in PHP scripts option (from Run menu). Do not show again
+  ```
+    - El debug ya vuelve a funcionar. La verdad que no se como lo he arregaldo. He vuelto a levantar el contenedor: **phpstorm_helpers_PS-193.6911.26**
+    - Funcionaba nuevamente pero dejó de hacerlo. Tuve que reconfigurar desde 0 phpstorm con xdebug según el video de Juan. Ya funciona.
+  - (2) No debería devolver nada. A mi me devuelve todo :S
+    - He comprobado con xdebug que no llega a la linea de comprobación de clase `Category::class === $resourceClass)` ya que tiene permisos de admin.
+    - He cambiado el role a user únicamente y ya funciona
+  
 
 ### Sección 9: Gastos 0 / 3|1 h 14 min
 ### [20. Crear entidades para gastos y migración 19 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451664#questions/9295602)
