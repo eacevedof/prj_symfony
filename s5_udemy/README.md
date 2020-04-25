@@ -4057,4 +4057,5 @@ class GetGroupTest extends GroupTestBase
 
 ### Preguntas:
 - [duda ruta: @Route("/groups/remove_user", methods={"POST"})](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451626#questions/10271268)
-- 
+- [Log de queries](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451648#questions/10313958)
+  - [https://symfony.com/doc/current/logging.html](https://symfony.com/doc/current/logging.html)
