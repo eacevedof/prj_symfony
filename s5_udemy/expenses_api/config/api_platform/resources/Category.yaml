@@ -1,0 +1,60 @@
+# config/api_platform/resources/Category.yaml
+App\Entity\Category:
+  attributes:
+    normalization_context:
+      groups: ['category_read']
+
+  # operaciones a nivel de colecciones de registros
+  collectionOperations:
+    get:
+      method: 'GET'
+      security: 'is_granted("CATEGORY_READ")'
+    post:
+      method: 'POST'
+      security: 'is_granted("CATEGORY_CREATE")'
+      denormalization_context:
+        groups: ['category_post']
+      swagger_context:
+        parameters:
+          - in: body
+            name: category
+            description: The category to create
+            schema:
+              type: object
+              required:
+                - name
+                - user
+                - group
+              properties:
+                name:
+                  type: string
+                user:
+                  type: string
+                group:
+                  type: string
+
+  # operaciones a nivel de registro
+  itemOperations:
+    get:
+      method: 'GET'
+      security: 'is_granted("CATEGORY_READ", object)'
+    put:
+      method: 'PUT'
+      security: 'is_granted("CATEGORY_UPDATE", object)'
+      denormalization_context:
+        groups: ['category_put']
+      swagger_context:
+        parameters:
+          - in: body
+            name: category
+            description: The category to update
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+    delete:
+      method: 'DELETE'
+      security: 'is_granted("CATEGORY_DELETE", object)'

@@ -1,3 +1,4 @@
+# config/api_platform/resources/Group.yaml
 App\Entity\Group:
   attributes:
     normalization_context:
@@ -50,3 +51,12 @@ App\Entity\Group:
     delete:
       method: 'DELETE'
       security: 'is_granted("GROUP_DELETE", object)'
+
+  # endpoint para obtener las categorias de un usuario
+  # crea: /api/v1/groups/{id}/categories
+  properties:
+    categories:
+      subresource:
+        subresourceClass: 'App\Entity\Category'
+        collection: true
+        maxDepth: 1

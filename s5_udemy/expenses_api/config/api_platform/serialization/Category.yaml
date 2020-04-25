@@ -1,0 +1,15 @@
+# config/api_platform/serialization/Category.yaml
+App\Entity\Category:
+  attributes:
+    id:
+      groups: ['category_read']
+    name:
+      groups: ['category_read', 'category_post', 'category_put']
+    user:
+      groups: ['category_read', 'category_post']
+    group:
+      groups: ['category_read', 'category_post']
+    createdAt:
+      groups: ['category_read']
+    updatedAt:
+      groups: ['category_read']

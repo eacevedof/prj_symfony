@@ -4032,7 +4032,138 @@ class GetGroupTest extends GroupTestBase
 
 ### [19. Seguridad y tests para categorías 34 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451648#questions/9295602)
 - [`git checkout -b section7/video2-update-category-resource-and-security`](shttps://bitbucket.org/juanwilde/sf5-expenses-api/src/365ac4a20c476693aa6d3e6531c2641b37e80e2a/?at=section7%2Fvideo2-update-category-resource-and-security)
-- Ahora toca 
+- Ahora toca **definir el recurso** en la api. **config/api_platform/resources/Category.yaml**
+  - Se indica que *verbos* admite bajo determinados permisos *normalization_context.group* como obtendra los resultados y el formato de la llamada (que campos)
+  ```yaml
+  App\Entity\Category:
+    attributes:
+      normalization_context:
+        groups: ['category_read']
+      ...
+    get:
+      method: 'GET'
+        security: 'is_granted("CATEGORY_READ")'
+
+    post:
+      method: 'POST'
+      security: 'is_granted("CATEGORY_CREATE")'
+      denormalization_context:
+        groups: ['category_post']
+  ...
+  ```
+- Definición de la **serialización**:  **config/api_platform/serialization/Category.yaml**
+  - Se define los permisos (permisos que se definieron en los recursos. *normalization_context.group*) a nivel de campo.
+  ```yaml
+  App\Entity\Category:
+  attributes:
+    id:
+      groups: ['category_read']
+    name:
+      groups: ['category_read', 'category_post', 'category_put']
+  ```
+- **Seguridad.** Definición del **voter**: **src/Security/Authorization/Voter/CategoryVoter.php**
+  ```php
+  // api_platform/resource yaml: security: 'is_granted("CATEGORY_READ")'
+  private const CATEGORY_READ = 'CATEGORY_READ';
+  private const CATEGORY_CREATE = 'CATEGORY_CREATE';
+  private const CATEGORY_UPDATE = 'CATEGORY_UPDATE';
+  private const CATEGORY_DELETE = 'CATEGORY_DELETE';
+
+  protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
+  {
+      /** @var User $tokenUser */
+      $tokenUser = $token->getUser();
+
+      if (self::CATEGORY_READ === $attribute) {
+          if (null === $subject) {
+              return $this->security->isGranted(Roles::ROLE_ADMIN);
+          }
+
+          if (null !== $subject->getGroup()) {
+              return $this->security->isGranted(Roles::ROLE_ADMIN)
+                  || $this->groupRepository->userIsMember($subject->getGroup(), $tokenUser);
+          }
+
+          return $this->security->isGranted(Roles::ROLE_ADMIN)
+              || $subject->isOwnedBy($tokenUser);
+      }
+      ...
+      return false;
+  }
+  ...
+  ```
+- Configurar endpoints de **subrecurso** en **api_platform**
+  - Endpont para obtener las categorias de un usuario X
+  ```yaml
+  # config/api_platform/resources/Group.yaml
+  # endpoint para obtener las categorias de un usuario
+  # crea: /api/v1/groups/{id}/categories
+  properties:
+    categories:
+      subresource:
+        subresourceClass: 'App\Entity\Category'
+        collection: true
+        maxDepth: 1
+
+  # config/api_platform/resources/User.yaml
+  properties:
+    groups:
+      subresource:
+        subresourceClass: 'App\Entity\User'
+        collection: true
+        maxDepth: 1
+
+    # endpoint para obtener las categorias de un usuario
+    # crea: /api/v1/users/{id}/categories
+    categories:
+      subresource:
+        subresourceClass: 'App\Entity\Category'
+        collection: true
+        maxDepth: 1
+  ```
+  - Con esto ya tenemos los endpoints con recursos de segundo nivel
+    - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/803x151/b7d73c1bac2eb3d608d63f77ebc69745/image.png)
+- Configurar **doctrine extension**. Inyectar SQL en **src/Doctrine/Extension/DoctrineUserExtension.php**
+  - Tenemos que controlar que solo nos devuelva las categorías del grupo que estamos solicitando en caso que seamos miembros o las categorías de usuario en caso de que no sea un grupo
+  ```php
+  public function addWhere(...)
+  {
+    ...
+    if(Category::class === $resourceClass){
+      $parameterId = "";
+
+      if(null !== $qb->getParameters()[0]) {
+          $parameterId = $qb->getParameters()[0]->getValue();
+      }
+
+      if($this->isGroupAndUserIsMember($parameterId, $user)) {
+          $qb->andWhere(\sprintf('%s.group = :parameterId', $rootAlias));
+          $qb->setParameter(':parameterId', $parameterId);
+      }
+      else{
+          $qb->andWhere(\sprintf('%s.%s = :currentUser', $rootAlias, $this->getResources()[$resourceClass]));
+          $qb->andHaving(\sprintf("%s.group IS NULL",$rootAlias));
+          $qb->setParameter(':currentUser', $user);
+      }
+    }
+  }
+  ```
+- En swagger intento un alta de una categoria para Juan:
+  ```js
+  {
+    "name": "Categoria Juan",
+    "user": "/api/v1/users/3628ca48-ad5b-4bb1-9bfc-4a7aa95e1998"
+  }
+  //devuelve un 404 
+  "@context": "/api/v1/contexts/Error",
+  "@type": "hydra:Error",
+  "hydra:title": "An error occurred",
+  "hydra:description": "Syntax error",
+  //habia un error en la url de user. Había un espacio
+  ```
+  - El alta de la categoría va bien
+- En swagger pruebo leer las categorias de Pepe con Juan. No debería devolver nada. A mi me devuelve todo :S
+  - **error**
 
 ### Sección 9: Gastos 0 / 3|1 h 14 min
 ### [20. Crear entidades para gastos y migración 19 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451664#questions/9295602)

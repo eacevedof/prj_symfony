@@ -47,3 +47,11 @@ App\Entity\User:
         subresourceClass: 'App\Entity\User'
         collection: true
         maxDepth: 1
+
+    # endpoint para obtener las categorias de un usuario
+    # crea: /api/v1/users/{id}/categories
+    categories:
+      subresource:
+        subresourceClass: 'App\Entity\Category'
+        collection: true
+        maxDepth: 1
