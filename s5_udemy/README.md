@@ -4240,9 +4240,6 @@ class GetGroupTest extends GroupTestBase
       cascade: [remove]
   ```
 
-
-
-
 ### Sección 9: Gastos 0 / 3|1 h 14 min
 ### [20. Crear entidades para gastos y migración 19 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451664#questions/9295602)
 - 
