@@ -4253,6 +4253,25 @@ class GetGroupTest extends GroupTestBase
     Doctrine\DBAL\Exception\ConnectionException : 
     An exception occurred in driver: SQLSTATE[HY000] [2002] Connection refused
     ```
+    - Despues de re-crear el xdebug en docker en phpstorm ya no me da el error de sql sino este:
+    ```s
+    Testing started at 14:28 ...
+    [docker://expenses_api_sf5-expenses-api-be:latest/]:
+    php /opt/.phpstorm_helpers/phpunit.php 
+      --configuration /opt/project/phpunit.xml.dist 
+      --filter "/(::testGetCategoriesForAdmin)( .*)?$/" App\Tests\Functional\Api\Category\GetCategoryTest /opt/project/tests/Functional/Api/Category/GetCategoryTest.php
+
+    Fatal error: Uncaught UnexpectedValueException: Cannot create phar '/opt/project/vendor/symfony/phpunit-bridge/bin/simple-phpunit', file extension (or combination) not recognised or the directory does not exist in /opt/.phpstorm_helpers/phpunit.php on line 181
+
+    UnexpectedValueException: Cannot create phar '/opt/project/vendor/symfony/phpunit-bridge/bin/simple-phpunit', file extension (or combination) not recognised or the directory does not exist in /opt/.phpstorm_helpers/phpunit.php on line 181
+
+    Call Stack:
+    0.0007     472344   1. {main}() /opt/.phpstorm_helpers/phpunit.php:0
+    0.0008     472344   2. IDE_PHPUnit_Loader::init() /opt/.phpstorm_helpers/phpunit.php:228
+    0.0059     480632   3. Phar->__construct() /opt/.phpstorm_helpers/phpunit.php:181
+
+    Process finished with exit code 255    
+    ```
 
 ### Sección 9: Gastos 0 / 3|1 h 14 min
 ### [20. Crear entidades para gastos y migración 19 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451664#questions/9295602)
