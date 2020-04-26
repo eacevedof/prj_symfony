@@ -4164,18 +4164,19 @@ class GetGroupTest extends GroupTestBase
   - El alta de la categoría va bien
 - En swagger pruebo leer las categorias de Pepe con Juan. 
   - **errores**  
+  - **(1)** PHPSTORM Y XDEBUG
   ```s
-  (1) PHPSTORM Y XDEBUG
   It may be caused by path mappings misconfiguration or not synchronized local and remote projects.  
   To figure out the problem check path mappings configuration for 'Docker' server at PHP|Servers 
   or enable Break at first line in PHP scripts option (from Run menu). Do not show again
   ```
     - El debug ya vuelve a funcionar. La verdad que no se como lo he arregaldo. He vuelto a levantar el contenedor: **phpstorm_helpers_PS-193.6911.26**
     - Funcionaba nuevamente pero dejó de hacerlo. Tuve que reconfigurar desde 0 phpstorm con xdebug según el video de Juan. Ya funciona.
-  - (2) No debería devolver nada. A mi me devuelve todo :S
+  - **(2)** No debería devolver nada. A mi me devuelve todo :S
     - He comprobado con xdebug que no llega a la linea de comprobación de clase `Category::class === $resourceClass)` ya que tiene permisos de admin.
+    - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/983b0818f57e272145a960998bcdfe27/image.png)
     - He cambiado el role a user únicamente y ya funciona
-  
+
 
 ### Sección 9: Gastos 0 / 3|1 h 14 min
 ### [20. Crear entidades para gastos y migración 19 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451664#questions/9295602)
