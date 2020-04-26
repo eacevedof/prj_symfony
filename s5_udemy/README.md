@@ -4276,7 +4276,10 @@ class GetGroupTest extends GroupTestBase
       - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/87ee6632e538a2c4732d7ce74efd714d/image.png)
       - Al terminar los tests se destruye ^^
     - He revisado los archivos **`.env.*`** y mi duda surge sobre como hace symfony para cargar un archivo .env. Yo tengo 3 y el .test se usa explicitamente para las pruebas con phpunit desde la maquina host. 
+    - Los *.env* se importan en: `config/bootstrap.php`
     - Probaré desmontar todos los contenedores y reconfigurar phpstorm
+    - He replicado AppFixtures del repo y he actualizado los archivos modificados en el [commit](https://bitbucket.org/juanwilde/sf5-expenses-api/commits/c95ed23dd3a4a1373fe463f3ac724e358d6701aa)
+    - Los tests unitarios pasan. Los funcionales no!.
 ### Sección 9: Gastos 0 / 3|1 h 14 min
 ### [20. Crear entidades para gastos y migración 19 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451664#questions/9295602)
 - 
@@ -4307,3 +4310,4 @@ class GetGroupTest extends GroupTestBase
 ### Phpstorm
 - Version 2020.1
 - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/632x295/12a06e7b89468a5f8799870bda83b7da/image.png)
+- Logs sql: `/Users/<user>/Library/Caches/JetBrains/PhpStorm2020.1/database-log/database.log`
