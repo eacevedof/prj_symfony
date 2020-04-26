@@ -4176,6 +4176,9 @@ class GetGroupTest extends GroupTestBase
     - He comprobado con xdebug que no llega a la linea de comprobación de clase `Category::class === $resourceClass)` ya que tiene permisos de admin.
     - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/983b0818f57e272145a960998bcdfe27/image.png)
     - He cambiado el role a user únicamente y ya funciona
+  - Prueba: Autenticado como *Pepe* y quiero ver todas las categorías:
+    - Devuelve un **403** que es lo que se espera ya que no es **ADMIN**
+
 
 
 ### Sección 9: Gastos 0 / 3|1 h 14 min
