@@ -4301,4 +4301,5 @@ class GetGroupTest extends GroupTestBase
 - [Problemas con los tests y phpstorm contenedor detenido: phpstorm_helpers_PS-193.6911.26](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451648#questions/10351222)
 
 ### Phpstorm
+- Version 2020.1
 - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/632x295/12a06e7b89468a5f8799870bda83b7da/image.png)
