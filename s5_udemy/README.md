@@ -4272,7 +4272,11 @@ class GetGroupTest extends GroupTestBase
 
     Process finished with exit code 255    
     ```
-
+    - Al ejecutar xdebug se crea un contenedor:
+      - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/87ee6632e538a2c4732d7ce74efd714d/image.png)
+      - Al terminar los tests se destruye ^^
+    - He revisado los archivos **`.env.*`** y mi duda surge sobre como hace symfony para cargar un archivo .env. Yo tengo 3 y el .test se usa explicitamente para las pruebas con phpunit desde la maquina host. 
+    - Probaré desmontar todos los contenedores y reconfigurar phpstorm
 ### Sección 9: Gastos 0 / 3|1 h 14 min
 ### [20. Crear entidades para gastos y migración 19 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451664#questions/9295602)
 - 
