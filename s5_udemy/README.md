@@ -4178,6 +4178,68 @@ class GetGroupTest extends GroupTestBase
     - He cambiado el role a user únicamente y ya funciona
   - Prueba: Autenticado como *Pepe* y quiero ver todas las categorías:
     - Devuelve un **403** que es lo que se espera ya que no es **ADMIN**
+- Configurar el **listener** para casos de escritura de categorias
+  - Hay que crear otro **prewritelistener:  src/Api/Listener/User/CategoryWriteListener.php** implementa `PreWriteListener->onKernelView`
+  - Hay que limitar que el usuario solo pueda crear categorias para él mismo y no para otros usuarios.
+  - En este archivo se lanzan excepciones en caso de que no se cumpliera alguna lógica de negocio para el endpoint solicitado
+  - Creamos una excepción faltante: **src/Exceptions/Common/CannotAddAnotherUserAsOwnerException.php** se crea en common porque se utilizará en otros recursos
+  ```php
+  public function onKernelView(ViewEvent $event): void
+  {
+      /** @var User $tokenUser */
+      $tokenUser = $this->tokenStorage->getToken()->getUser();
+      $request = $event->getRequest();
+
+      if (self::POST_CATEGORY === $request->get('_route')) {
+          //comprobamos que el usuario que viene es el mismo que hace la petición
+          /** @var Group $group */
+          $category = $event->getControllerResult();
+          if (null !== $category->getGroup()){
+              if(!$this->groupRepository->userIsMember($category->getGroup(),$tokenUser)) {
+                  throw UserNotMemberOfGroupException::create();
+              }//!category no es grupo de userSess
+
+              //si intento agregar un usuario que no soy yo
+              if($category->getUser()->getId()!==$tokenUser->getId()){
+                  throw CannotAddAnotherUserAsOwnerException::create();
+              }
+
+              return;
+          }//if(haygrupo)
+
+          if($category->getUser()->getId() !== $tokenUser->getId()){
+              throw CannotAddAnotherUserAsOwnerException::create();
+          }
+
+      }//if(uricategory)
+  }// onKernelView  
+  ```
+  - Con el listener configurado ahora toca aplicar el *cascade: [remove]* en los ficheros relacionados. Group.orm.yml y User.orm.yml
+  ```yaml
+  # Doctrine/Mapping/Entity/Group.orm.yml
+  # group.categories = category.group
+  oneToMany:
+    categories:
+      targetEntity: Category
+      mappedBy: group
+      # cuando eliminemos un grupo que se eliminen las categorias
+      cascade: [remove]
+  ...
+  manyToMany:
+    users:
+      targetEntity: User
+      mappedBy: groups # variable User->groups (Collection)
+      cascade: [remove]
+
+  # Doctrine/Mapping/Entity/User.orm.yml
+  oneToMany:
+    categories:
+      targetEntity: Category
+      mappedBy: user
+      # cuando se elimine un usuario se borraran todas las categorias de este
+      cascade: [remove]
+  ```
+
 
 
 

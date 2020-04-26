@@ -12,6 +12,8 @@ App\Entity\Group:
     categories:
       targetEntity: Category
       mappedBy: group
+      # cuando eliminemos un grupo que se eliminen las categorias
+      cascade: [remove]
 
   # Usuario es padre de grupos
   manyToOne: #[this N] -> #[User 1]
@@ -22,6 +24,7 @@ App\Entity\Group:
     users:
       targetEntity: User
       mappedBy: groups # variable User->groups (Collection)
+      cascade: [remove]
 
   fields:
     name:

@@ -11,6 +11,8 @@ App\Entity\User:
     categories:
       targetEntity: Category
       mappedBy: user
+      # cuando se elimine un usuario se borraran todas las categorias de este
+      cascade: [remove]
 
   manyToMany:
     groups:
