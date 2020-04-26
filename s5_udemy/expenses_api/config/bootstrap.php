@@ -1,5 +1,5 @@
 <?php
-
+// config/bootstrap.php
 use Symfony\Component\Dotenv\Dotenv;
 
 //print_r(dirname(__DIR__).'/vendor/autoload.php');die;
