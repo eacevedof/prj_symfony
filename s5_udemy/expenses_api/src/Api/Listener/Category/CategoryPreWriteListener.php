@@ -1,5 +1,5 @@
 <?php
-//src/Api/Listener/User/CategoryWriteListener.php
+//src/Api/Listener/User/CategoryPreWriteListener.php
 declare(strict_types=1);
 
 namespace App\Api\Listener\Group;
@@ -14,7 +14,7 @@ use App\Repository\GroupRepository;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class CategoryWriteListener implements PreWriteListener
+class CategoryPreWriteListener implements PreWriteListener
 {
     private const POST_CATEGORY = 'api_groups_post_collection';
 
