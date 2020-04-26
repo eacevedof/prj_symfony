@@ -4299,3 +4299,6 @@ class GetGroupTest extends GroupTestBase
 - [Log de queries](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451648#questions/10313958)
   - [https://symfony.com/doc/current/logging.html](https://symfony.com/doc/current/logging.html)
 - [Problemas con los tests y phpstorm contenedor detenido: phpstorm_helpers_PS-193.6911.26](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451648#questions/10351222)
+
+### Phpstorm
+- ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/508x266/03652dd1226cbb6d5d786bb20ef02848/image.png)
