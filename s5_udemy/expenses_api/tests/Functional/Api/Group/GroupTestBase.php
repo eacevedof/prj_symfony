@@ -2,7 +2,7 @@
 // tests/Functional/Api/Group/GroupTestBase.php
 declare(strict_types=1);
 namespace App\Tests\Functional\Api\Group;
-use App\Tests\Functional\Api\TestBase;
+use App\Tests\Functional\TestBase;
 
 class GroupTestBase extends TestBase
 {

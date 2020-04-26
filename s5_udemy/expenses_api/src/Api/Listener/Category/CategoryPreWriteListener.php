@@ -8,7 +8,7 @@ use App\Api\Listener\PreWriteListener;
 use App\Entity\Category;
 use App\Entity\User;
 use App\Exception\Common\CannotAddAnotherUserAsOwnerException;
-use App\Exception\Group\UserNotMemberOfGroupException;
+use App\Exceptions\Group\UserNotMemberOfGroupException;
 use App\Repository\GroupRepository;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;

@@ -52,5 +52,4 @@ class GetUserTest extends UserTestBase
         $this->assertEquals(JsonResponse::HTTP_FORBIDDEN, $response->getStatusCode());
     }
 
-
 }//GetUserTest

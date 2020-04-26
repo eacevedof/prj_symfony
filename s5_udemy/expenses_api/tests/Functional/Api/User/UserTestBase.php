@@ -3,7 +3,7 @@
 declare(strict_types=1);
 namespace App\Tests\Functional\Api\User;
 
-use App\Tests\Functional\Api\TestBase;
+use App\Tests\Functional\TestBase;
 
 /**
  * Aqui el test está orientado a casos de uso

@@ -5,7 +5,7 @@ namespace App\Exceptions\Group;
 
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-class UserNotMemberOfGroupException extends  BadRequestHttpException
+class UserNotMemberOfGroupException extends BadRequestHttpException
 {
     private const MESSAGE = 'User not member of this group';
 
@@ -13,5 +13,4 @@ class UserNotMemberOfGroupException extends  BadRequestHttpException
     {
         throw new self(self::MESSAGE);
     }
-
 }//UserNotMemberOfGroupException

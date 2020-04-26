@@ -20,14 +20,15 @@ class TestBase extends WebTestCase
     protected const FORMAT = 'jsonld';
 
     protected const IDS = [
-        'admin_id' => '0c9a412e-2f5a-41f8-b449-6f6bcd25e001',
-        'user_id' => '0c9a412e-2f5a-41f8-b449-6f6bcd25e002',
-        'admin_group_id' => '0c9a412e-2f5a-41f8-b449-6f6bcd25e003',
-        'user_group_id' => '0c9a412e-2f5a-41f8-b449-6f6bcd25e004',
-        'admin_category_id' => '0c9a412e-2f5a-41f8-b449-6f6bcd25e005',
-        'user_category_id' => '0c9a412e-2f5a-41f8-b449-6f6bcd25e007',
-        'admin_group_category_id' => '0c9a412e-2f5a-41f8-b449-6f6bcd25e006',
-        'user_group_category_id' => '0c9a412e-2f5a-41f8-b449-6f6bcd25e008',
+        //deben existir en src/DataFixtures/AppFixtures.php -> getUsers
+        'admin_id' => 'eeebd294-7737-11ea-bc55-0242ac130001',
+        'user_id' => 'eeebd294-7737-11ea-bc55-0242ac130002',
+        'admin_group_id' => 'eeebd294-7737-11ea-bc55-0242ac130003',
+        'user_group_id' => 'eeebd294-7737-11ea-bc55-0242ac130004',
+        'admin_category_id' => 'eeebd294-7737-11ea-bc55-0242ac130005',
+        'user_category_id' => 'eeebd294-7737-11ea-bc55-0242ac130006',
+        'admin_group_category_id' => 'eeebd294-7737-11ea-bc55-0242ac130007',
+        'user_group_category_id' => 'eeebd294-7737-11ea-bc55-0242ac130008',
     ];
 
     protected static ?KernelBrowser $client = null;
@@ -89,7 +90,6 @@ class TestBase extends WebTestCase
     {
         /** @var EntityManagerInterface $em */
         $em = $this->getContainer()->get('doctrine')->getManager();
-
         if (!isset($metadata)) {
             $metadata = $em->getMetadataFactory()->getAllMetadata();
         }

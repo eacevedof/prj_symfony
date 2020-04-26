@@ -4280,6 +4280,12 @@ class GetGroupTest extends GroupTestBase
     - Probaré desmontar todos los contenedores y reconfigurar phpstorm
     - He replicado AppFixtures del repo y he actualizado los archivos modificados en el [commit](https://bitbucket.org/juanwilde/sf5-expenses-api/commits/c95ed23dd3a4a1373fe463f3ac724e358d6701aa)
     - Los tests unitarios pasan. Los funcionales no!.
+    - Cambio `.env.test` a `DATABASE_URL=mysql://root:root@127.0.0.1:3350/sf5-expenses-api_api-test?serverVersion=5.7`
+    - Si lanzo las pruebas por consola se ejecutan y no da error de conexión.
+      - `~/projects/prj_symfony/s5_udemy/expenses_api> bin/phpunit`
+    - Para que PHPSTORM se comporte igual debo elegir como interprete el **PHP Local**
+
+
 ### Sección 9: Gastos 0 / 3|1 h 14 min
 ### [20. Crear entidades para gastos y migración 19 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451664#questions/9295602)
 - 
@@ -4311,3 +4317,7 @@ class GetGroupTest extends GroupTestBase
 - Version 2020.1
 - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/632x295/12a06e7b89468a5f8799870bda83b7da/image.png)
 - Logs sql: `/Users/<user>/Library/Caches/JetBrains/PhpStorm2020.1/database-log/database.log`
+
+### Trazas
+- Traza de conexión que no va en los tests:
+  - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5e7777d6cd7def249ee578fb/e78045f4ccec7fe1731fbeea0f86479c/image.png)
