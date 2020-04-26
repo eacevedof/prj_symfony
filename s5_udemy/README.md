@@ -4239,6 +4239,20 @@ class GetGroupTest extends GroupTestBase
       # cuando se elimine un usuario se borraran todas las categorias de este
       cascade: [remove]
   ```
+- Juan dejará los tests en esta rama: [**`section7/video2-update-category-resource-and-security`**](https://bitbucket.org/juanwilde/sf5-expenses-api/src/365ac4a20c476693aa6d3e6531c2641b37e80e2a/tests/Functional/Api/Category/?at=section7%2Fvideo2-update-category-resource-and-security)
+  - ![](https://trello-attachments.s3.amazonaws.com/5e7777d6cd7def249ee578fb/929x404/220656b7f4dc52636a9fa835a98d8665/image.png)
+  - Con los tests ya en mi repo lanzo su ejecución y fallan todos ^^!
+    ```s
+    eflectionException : The autoloader expected class "App\Api\Listener\Category\CategoryPreWriteListener" to be defined 
+    in file "/appdata/www/vendor/composer/../../src/Api/Listener/Category/CategoryPreWriteListener.php". 
+    The file was found but the class was not in it, the class name or namespace probably has a typo.
+    /appdata/www/vendor/symfony/config/Resource/ClassExistenceResource.php:74
+    
+    # con lo anterior corregido ahora me salta esto:
+    Testing App\Tests\Functional\Api\Category\GetCategoryTest
+    Doctrine\DBAL\Exception\ConnectionException : 
+    An exception occurred in driver: SQLSTATE[HY000] [2002] Connection refused
+    ```
 
 ### Sección 9: Gastos 0 / 3|1 h 14 min
 ### [20. Crear entidades para gastos y migración 19 min](https://www.udemy.com/course/crear-api-con-symfony-4-y-api-platform/learn/lecture/17451664#questions/9295602)
